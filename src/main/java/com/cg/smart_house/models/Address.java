@@ -15,5 +15,10 @@ public class Address {
 
     @ManyToOne
     @JoinColumn(name = "province_id")
-    private Province province;
+    private Province provinces;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "apartment_id", referencedColumnName = "id")
+    private Apartment apartment;
+
 }

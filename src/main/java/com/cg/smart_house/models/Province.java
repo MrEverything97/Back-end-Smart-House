@@ -3,6 +3,7 @@ package com.cg.smart_house.models;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "province")
@@ -13,6 +14,8 @@ public class Province {
     private Long id;
     private String name;
 
-//    @OneToMany(targetEntity = Address.class, fetch = FetchType.EAGER)
+    //    @OneToMany(targetEntity = Address.class, fetch = FetchType.EAGER)
 //    private List<Address> addresses;
+    @OneToMany(mappedBy = "provinces")
+    private Set<Address> addresses;
 }

@@ -30,6 +30,9 @@ public class Apartment {
     @OneToMany(mappedBy = "apartment")
     private Set<Orders> orders;
 
+    @OneToOne(mappedBy = "apartment")
+    private Address address;
+
     @ManyToOne
     @JoinColumn(name = "host_id")
     private Host hosts;
