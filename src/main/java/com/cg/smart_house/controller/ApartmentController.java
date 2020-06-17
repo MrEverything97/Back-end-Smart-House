@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api")
 public class ApartmentController {
@@ -16,7 +18,7 @@ public class ApartmentController {
 
     /* ---------------- CREATE Apartment ------------------------ */
     @PostMapping("/createApartment")
-    public ResponseEntity<ServiceResult> createApartment(@RequestBody Apartment apartment){
+    public ResponseEntity<ServiceResult> createApartment(@Valid @RequestBody Apartment apartment){
         return new ResponseEntity<>(apartmentService.createApartment(apartment), HttpStatus.OK);
     }
 

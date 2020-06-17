@@ -3,6 +3,7 @@ package com.cg.smart_house.models;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 @Entity
@@ -12,7 +13,9 @@ public class Apartment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotBlank(message = "Please not null name")
     private String name;
+
     private int bathroom;
     private int bedroom;
     private int priceByDate;
