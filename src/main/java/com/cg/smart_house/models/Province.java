@@ -14,8 +14,6 @@ public class Province {
     private Long id;
     private String name;
 
-    //    @OneToMany(targetEntity = Address.class, fetch = FetchType.EAGER)
-//    private List<Address> addresses;
     @OneToMany(mappedBy = "provinces")
     private Set<Address> addresses;
 }
