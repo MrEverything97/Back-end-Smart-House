@@ -16,6 +16,7 @@ public class Apartment {
     private String name;
     private int bathroom;
     private int bedroom;
+    private int priceByDate;
     private String description;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -32,4 +33,7 @@ public class Apartment {
 
     @OneToMany(targetEntity = Category.class, fetch = FetchType.EAGER)
     private List<Category> categories;
+
+    @OneToMany(targetEntity = Orders.class, fetch = FetchType.EAGER)
+    private List<Orders> orders;
 }

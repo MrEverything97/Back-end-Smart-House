@@ -1,10 +1,13 @@
 package com.cg.smart_house.models;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "host")
+@Data
 public class Host {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
