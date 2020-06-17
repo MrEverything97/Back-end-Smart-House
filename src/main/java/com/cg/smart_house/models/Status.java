@@ -15,4 +15,9 @@ public class Status {
     private Boolean status;
     private Date startTime;
     private Date endTime;
+
+    @ManyToOne
+    @JoinColumn(name = "apartment_id")
+    private Apartment apartment;
+
 }

@@ -3,6 +3,7 @@ package com.cg.smart_house.models;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "room_type")
@@ -13,6 +14,6 @@ public class RoomType {
     private Long id;
     private String name;
 
-//    @ManyToMany(mappedBy = "roomTypes")
-//    private List<Apartment> apartments;
+    @ManyToMany(mappedBy = "roomTypes")
+    private Set<Apartment> apartments;
 }

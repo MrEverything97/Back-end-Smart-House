@@ -22,7 +22,17 @@ public class Apartment {
     private Set<Picture> pictures;
 
     @OneToMany(mappedBy = "apartment")
+    private Set<Status> statuses;
+
+    @OneToMany(mappedBy = "apartment")
     private Set<Category> categories;
+
+    @ManyToMany
+    @JoinTable(
+            name = "apartment_room_type",
+            joinColumns = @JoinColumn(name = "apartment_id"),
+            inverseJoinColumns = @JoinColumn(name = "room_type_id"))
+    Set<RoomType> roomTypes;
 
     public Apartment() {
     }
