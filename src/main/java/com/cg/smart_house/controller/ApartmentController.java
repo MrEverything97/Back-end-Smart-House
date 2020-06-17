@@ -32,5 +32,9 @@ public class ApartmentController {
         return new ResponseEntity<>(apartmentService.findAll(),HttpStatus.OK);
     }
 
-
+    /* ---------------- DELETE Apartment ------------------------ */
+    @PostMapping("/deleteApartment/{id}")
+    public ResponseEntity<ServiceResult> deleteApartment(@PathVariable Long id){
+        return new ResponseEntity<>(apartmentService.deleteApartment(id), HttpStatus.OK);
+    }
 }
