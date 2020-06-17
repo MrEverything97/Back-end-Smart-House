@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
@@ -22,5 +19,10 @@ public class AddressController {
     @PostMapping("/createAddress")
     public ResponseEntity<ServiceResult> createAddress(@RequestBody Address address){
         return new ResponseEntity<>(addressService.createAddress(address), HttpStatus.OK);
+    }
+
+    @GetMapping("/listAddress")
+    public ResponseEntity<ServiceResult> listAddress(){
+        return new ResponseEntity<>(addressService.findAll(),HttpStatus.OK);
     }
 }

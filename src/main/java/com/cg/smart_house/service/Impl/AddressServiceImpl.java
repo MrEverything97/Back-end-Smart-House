@@ -18,4 +18,11 @@ public class AddressServiceImpl implements AddressService {
         serviceResult.setData(addressRepository.save(address));
         return serviceResult;
     }
+
+    @Override
+    public ServiceResult findAll() {
+        ServiceResult serviceResult = new ServiceResult();
+        serviceResult.setData(addressRepository.findAll());
+        return serviceResult;
+    }
 }

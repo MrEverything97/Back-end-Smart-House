@@ -4,4 +4,5 @@ import com.cg.smart_house.models.Address;
 
 public interface AddressService {
     ServiceResult createAddress(Address address);
+    ServiceResult findAll();
 }
