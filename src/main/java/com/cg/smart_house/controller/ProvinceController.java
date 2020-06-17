@@ -1,7 +1,6 @@
 package com.cg.smart_house.controller;
 
 import com.cg.smart_house.models.Province;
-import com.cg.smart_house.models.RoomType;
 import com.cg.smart_house.service.ProvinceService;
 import com.cg.smart_house.service.ServiceResult;
 import org.springframework.beans.factory.annotation.Autowired;
