@@ -19,6 +19,11 @@ public class ApartmentController {
         return new ResponseEntity<>(apartmentService.findAll(), HttpStatus.OK);
     }
 
+    @GetMapping("/listApartment/{id}")
+    public ResponseEntity<ServiceResult> getApartmentById(@PathVariable Long id){
+        return new ResponseEntity<>(apartmentService.findById(id), HttpStatus.OK);
+    }
+
     @PostMapping("/createApartment")
     public ResponseEntity<ServiceResult> createApartment(@RequestBody Apartment apartment){
         return new ResponseEntity<>(apartmentService.createApartment(apartment), HttpStatus.OK);
