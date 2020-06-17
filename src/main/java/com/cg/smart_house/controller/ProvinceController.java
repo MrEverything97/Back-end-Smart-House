@@ -34,7 +34,7 @@ public class ProvinceController {
         return new ResponseEntity<>(provinceService.deleteProvince(id), HttpStatus.OK);
     }
 
-    @PutMapping("/updateprovince/{id}")
+    @PutMapping("/updateProvince/{id}")
     public ResponseEntity<ServiceResult> updateProvince(@RequestBody Province province){
         return new ResponseEntity<>(provinceService.updateProvince(province),HttpStatus.OK);
     }
