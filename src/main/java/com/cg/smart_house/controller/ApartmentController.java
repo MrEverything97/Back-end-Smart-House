@@ -38,6 +38,4 @@ public class ApartmentController {
     public ResponseEntity<ServiceResult> updateApartment(@RequestBody Apartment apartment){
         return new ResponseEntity<>(apartmentService.updateApartment(apartment),HttpStatus.OK);
     }
-
-
 }
