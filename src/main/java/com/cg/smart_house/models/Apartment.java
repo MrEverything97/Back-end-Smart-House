@@ -25,6 +25,17 @@ public class Apartment {
     @OneToMany(targetEntity = Picture.class, fetch = FetchType.EAGER)
     private List<Picture> pictures;
 
+    @OneToMany(targetEntity = Category.class, fetch = FetchType.EAGER)
+    private List<Category> categories;
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
+
     public List<Picture> getPictures() {
         return pictures;
     }
