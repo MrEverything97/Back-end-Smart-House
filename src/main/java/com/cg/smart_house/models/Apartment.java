@@ -5,7 +5,6 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "apartment")
 @Data
 public class Apartment {
     @Id
@@ -13,18 +12,9 @@ public class Apartment {
     private Long id;
     private String name;
     private int bathroom;
-
     private int bedroom;
     private int priceByDate;
     private String description;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     @OneToMany(mappedBy = "apartment")
     private Set<Picture> pictures;
@@ -39,7 +29,7 @@ public class Apartment {
     private Set<Orders> orders;
 
     @ManyToOne
-    @JoinColumn(name = "host_id")
+    @JoinColumn
     private Host hosts;
 
     @OneToOne(mappedBy = "apartment")

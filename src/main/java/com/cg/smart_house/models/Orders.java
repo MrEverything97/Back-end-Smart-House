@@ -7,7 +7,6 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "orders")
 @Data
 public class Orders implements Serializable {
     @Id
@@ -18,10 +17,10 @@ public class Orders implements Serializable {
     private int totalMoney;
 
     @ManyToOne
-    @JoinColumn(name = "apartment_id")
+    @JoinColumn
     private Apartment apartment;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @JoinColumn
     private Customer customers;
 }

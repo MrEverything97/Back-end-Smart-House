@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "host")
 @Data
 public class Host {
     @Id

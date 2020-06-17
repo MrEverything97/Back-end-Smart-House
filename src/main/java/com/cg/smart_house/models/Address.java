@@ -5,7 +5,6 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "address")
 @Data
 public class Address {
     @Id
@@ -14,10 +13,10 @@ public class Address {
     private String name;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "apartment_id", referencedColumnName = "id")
+    @JoinColumn
     private Apartment apartment;
 
     @ManyToOne
-    @JoinColumn(name = "province_id")
+    @JoinColumn
     private Province provinces;
 }

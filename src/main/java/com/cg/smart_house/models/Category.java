@@ -5,7 +5,6 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "category")
 @Data
 public class Category {
     @Id
@@ -13,15 +12,7 @@ public class Category {
     private Long id;
     private String name;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     @ManyToOne
-    @JoinColumn(name = "apartment_id")
+    @JoinColumn
     private Apartment apartment;
 }
