@@ -18,4 +18,11 @@ public class ApartmentServiceImpl implements ApartmentService {
         serviceResult.setData(apartmentRepository.save(apartment));
         return serviceResult;
     }
+
+    @Override
+    public ServiceResult findAll() {
+        ServiceResult serviceResult = new ServiceResult();
+        serviceResult.setData(apartmentRepository.findAll());
+        return serviceResult;
+    }
 }

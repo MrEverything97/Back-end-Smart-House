@@ -6,4 +6,5 @@ import org.springframework.stereotype.Service;
 
 public interface ApartmentService {
     ServiceResult createApartment(Apartment apartment);
+    ServiceResult findAll();
 }
