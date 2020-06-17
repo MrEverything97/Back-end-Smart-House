@@ -6,4 +6,9 @@ public interface ApartmentService {
     ServiceResult createApartment(Apartment apartment);
 
     ServiceResult findAll();
+
+    ServiceResult findById(Long id);
+
+//    ServiceResult deleteApartment(Long id);
+
 }
