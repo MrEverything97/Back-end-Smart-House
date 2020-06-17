@@ -59,6 +59,7 @@ public class ApartmentServiceImpl implements ApartmentService {
             serviceResult.setMessage("Apartment Not Found");
         } else {
             apartmentRepository.delete(apartment);
+            serviceResult.setMessage("Done delete apartment");
         }
         return serviceResult;
     }

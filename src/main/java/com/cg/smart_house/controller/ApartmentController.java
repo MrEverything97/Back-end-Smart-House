@@ -26,15 +26,22 @@ public class ApartmentController {
         return new ResponseEntity<>(apartmentService.updateApartment(apartment),HttpStatus.OK);
     }
 
+    /* ---------------- DELETE Apartment ------------------------ */
+    @PostMapping("/deleteApartment/{id}")
+    public ResponseEntity<ServiceResult> deleteApartment(@PathVariable Long id){
+        return new ResponseEntity<>(apartmentService.deleteApartment(id), HttpStatus.OK);
+    }
+
+    /* ---------------- VIEWS Apartment ------------------------ */
+    @GetMapping("/listApartment/{id}")
+    public ResponseEntity<ServiceResult> getApartmentById(@PathVariable Long id){
+        return new ResponseEntity<>(apartmentService.findById(id), HttpStatus.OK);
+    }
+
     /* ---------------- LIST Apartment ------------------------ */
     @GetMapping("/listApartment")
     public ResponseEntity<ServiceResult> listApartment(){
         return new ResponseEntity<>(apartmentService.findAll(),HttpStatus.OK);
     }
 
-    /* ---------------- DELETE Apartment ------------------------ */
-    @PostMapping("/deleteApartment/{id}")
-    public ResponseEntity<ServiceResult> deleteApartment(@PathVariable Long id){
-        return new ResponseEntity<>(apartmentService.deleteApartment(id), HttpStatus.OK);
-    }
 }
