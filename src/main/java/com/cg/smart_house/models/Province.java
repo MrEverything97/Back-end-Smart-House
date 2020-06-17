@@ -3,17 +3,17 @@ package com.cg.smart_house.models;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Table(name = "category")
+@Table(name = "province")
 @Data
-public class Category {
+public class Province {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "apartment_id")
-    private Apartment apartment;
+    @OneToMany(targetEntity = Address.class, fetch = FetchType.EAGER)
+    private List<Address> addresses;
 }

@@ -1,12 +1,14 @@
 package com.cg.smart_house.models;
 
+import lombok.Data;
+
 import javax.persistence.*;
-import javax.xml.crypto.Data;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "apartment")
+@Data
 public class Apartment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,68 +29,4 @@ public class Apartment {
 
     @OneToMany(targetEntity = Category.class, fetch = FetchType.EAGER)
     private List<Category> categories;
-
-    public List<Category> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
-    }
-
-    public List<Picture> getPictures() {
-        return pictures;
-    }
-
-    public void setPictures(List<Picture> pictures) {
-        this.pictures = pictures;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getBathroom() {
-        return bathroom;
-    }
-
-    public void setBathroom(int bathroom) {
-        this.bathroom = bathroom;
-    }
-
-    public int getBedroom() {
-        return bedroom;
-    }
-
-    public void setBedroom(int bedroom) {
-        this.bedroom = bedroom;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public List<RoomType> getRoomTypes() {
-        return roomTypes;
-    }
-
-    public void setRoomTypes(List<RoomType> roomTypes) {
-        this.roomTypes = roomTypes;
-    }
 }

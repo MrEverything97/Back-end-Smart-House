@@ -5,15 +5,16 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "category")
+@Table(name = "address")
 @Data
-public class Category {
+public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "apartment_id")
-    private Apartment apartment;
+    @JoinColumn(name = "province_id")
+    private Province province;
+
 }
