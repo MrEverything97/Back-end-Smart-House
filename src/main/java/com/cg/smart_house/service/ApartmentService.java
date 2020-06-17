@@ -6,5 +6,8 @@ import org.springframework.stereotype.Service;
 
 public interface ApartmentService {
     ServiceResult createApartment(Apartment apartment);
+    ServiceResult updateApartment(Apartment apartment);
     ServiceResult findAll();
+    ServiceResult findById(Long id);
+
 }

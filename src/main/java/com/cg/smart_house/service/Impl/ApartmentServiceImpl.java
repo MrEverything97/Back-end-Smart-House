@@ -20,9 +20,32 @@ public class ApartmentServiceImpl implements ApartmentService {
     }
 
     @Override
+    public ServiceResult updateApartment(Apartment apartment) {
+        ServiceResult serviceResult = new ServiceResult();
+        if (apartmentRepository.findById(apartment.getId()).isPresent()){
+            serviceResult.setMessage("Apartment not found");
+        } else{
+            serviceResult.setData(apartmentRepository.save(apartment));
+        }
+        return serviceResult;
+    }
+
+    @Override
     public ServiceResult findAll() {
         ServiceResult serviceResult = new ServiceResult();
         serviceResult.setData(apartmentRepository.findAll());
+        return serviceResult;
+    }
+
+    @Override
+    public ServiceResult findById(Long id) {
+        ServiceResult serviceResult = new ServiceResult();
+        Apartment apartment = apartmentRepository.findById(id).orElse(null);
+        if(apartment == null)
+        {
+            serviceResult.setMessage("Apartment not found");
+        }
+        serviceResult.setData(apartment);
         return serviceResult;
     }
 }

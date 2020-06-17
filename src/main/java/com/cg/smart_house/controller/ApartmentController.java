@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 public class ApartmentController {
     @Autowired
-    ApartmentService apartmentService;
+    private ApartmentService apartmentService;
 
     /* ---------------- CREATE Apartment ------------------------ */
     @PostMapping("/createApartment")
@@ -20,10 +20,17 @@ public class ApartmentController {
         return new ResponseEntity<>(apartmentService.createApartment(apartment), HttpStatus.OK);
     }
 
-    /* ---------------- LIST Apartment ------------------------ */
+    /* ---------------- UPDATE Apartment ------------------------ */
+    @PutMapping("/updateApartment/{id}")
+    public ResponseEntity<ServiceResult> updateApartment(@RequestBody Apartment apartment){
+        return new ResponseEntity<>(apartmentService.updateApartment(apartment),HttpStatus.OK);
+    }
 
-    @GetMapping("apartments")
+    /* ---------------- LIST Apartment ------------------------ */
+    @GetMapping("/listApartment")
     public ResponseEntity<ServiceResult> listApartment(){
         return new ResponseEntity<>(apartmentService.findAll(),HttpStatus.OK);
     }
+
+
 }
