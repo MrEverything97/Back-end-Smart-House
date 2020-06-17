@@ -4,6 +4,7 @@ import com.cg.smart_house.models.Apartment;
 import com.cg.smart_house.models.Customer;
 
 public interface CustomerService {
+
     ServiceResult createCustomer(Customer customer);
 
     ServiceResult findAll();
