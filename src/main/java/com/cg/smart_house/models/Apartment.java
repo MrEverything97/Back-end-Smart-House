@@ -27,6 +27,9 @@ public class Apartment {
     @OneToMany(mappedBy = "apartment")
     private Set<Category> categories;
 
+    @OneToMany(mappedBy = "apartment")
+    private Set<Orders> orders;
+
     @ManyToMany
     @JoinTable(
             name = "apartment_room_type",
