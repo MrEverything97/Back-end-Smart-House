@@ -21,6 +21,8 @@ public class Apartment {
     @OneToMany(mappedBy = "apartment")
     private Set<Picture> pictures;
 
+    @OneToMany(mappedBy = "apartment")
+    private Set<Category> categories;
 
     public Apartment() {
     }
