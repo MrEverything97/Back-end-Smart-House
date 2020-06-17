@@ -9,6 +9,6 @@ public interface ApartmentService {
 
     ServiceResult findById(Long id);
 
-//    ServiceResult deleteApartment(Long id);
+    ServiceResult deleteApartment(Long id);
 
 }

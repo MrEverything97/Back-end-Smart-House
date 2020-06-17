@@ -37,4 +37,17 @@ public class ApartmentServiceImpl implements ApartmentService {
         serviceResult.setData(apartment);
         return serviceResult;
     }
+
+    @Override
+    public ServiceResult deleteApartment(Long id) {
+        ServiceResult serviceResult = new ServiceResult();
+        Apartment apartment = apartmentRepository.findById(id).orElse(null);
+        if (apartment == null) {
+            serviceResult.setStatus(ServiceStatus.FAILED);
+            serviceResult.setMessage("Apartment Not Found");
+        } else {
+            apartmentRepository.delete(apartment);
+        }
+        return serviceResult;
+    }
 }
