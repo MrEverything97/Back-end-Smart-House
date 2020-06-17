@@ -9,5 +9,6 @@ public class SmartHouseApplication {
     public static void main(String[] args) {
         SpringApplication.run(SmartHouseApplication.class, args);
     }
+
 // Hoangf ddong
 }
