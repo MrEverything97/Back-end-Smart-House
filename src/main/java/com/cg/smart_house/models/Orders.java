@@ -22,8 +22,8 @@ public class Orders implements Serializable {
     private Apartment apartment;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private Users user;
+    @JoinColumn(name = "customer_id")
+    private Customers customers;
 
 
 
