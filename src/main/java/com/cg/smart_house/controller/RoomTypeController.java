@@ -38,6 +38,4 @@ public class RoomTypeController {
     public ResponseEntity<ServiceResult> updateRoomType(@RequestBody RoomType roomType){
         return new ResponseEntity<>(roomTypeService.updateRoomType(roomType),HttpStatus.OK);
     }
-
-
 }
