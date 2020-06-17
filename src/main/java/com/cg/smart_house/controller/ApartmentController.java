@@ -23,4 +23,11 @@ public class ApartmentController {
     public ResponseEntity<ServiceResult> createApartment(@RequestBody Apartment apartment){
         return new ResponseEntity<>(apartmentService.createApartment(apartment), HttpStatus.OK);
     }
+
+    @PostMapping("/deleteApartment/{id}")
+    public ResponseEntity<ServiceResult> deleteApartment(@PathVariable Long id){
+        return new ResponseEntity<>(apartmentService.deleteApartment(id), HttpStatus.OK);
+    }
+
+
 }
