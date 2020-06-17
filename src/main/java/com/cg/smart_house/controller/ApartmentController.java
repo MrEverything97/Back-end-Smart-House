@@ -34,5 +34,10 @@ public class ApartmentController {
         return new ResponseEntity<>(apartmentService.deleteApartment(id), HttpStatus.OK);
     }
 
+    @PutMapping("/updateApartment/{id}")
+    public ResponseEntity<ServiceResult> updateApartment(@RequestBody Apartment apartment){
+        return new ResponseEntity<>(apartmentService.updateApartment(apartment),HttpStatus.OK);
+    }
+
 
 }

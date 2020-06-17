@@ -11,4 +11,6 @@ public interface ApartmentService {
 
     ServiceResult deleteApartment(Long id);
 
+    ServiceResult updateApartment(Apartment apartment);
+
 }

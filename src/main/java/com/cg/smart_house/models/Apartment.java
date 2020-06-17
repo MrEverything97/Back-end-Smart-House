@@ -1,7 +1,6 @@
 package com.cg.smart_house.models;
 
 import lombok.Data;
-
 import javax.persistence.*;
 import java.util.Set;
 
@@ -14,9 +13,18 @@ public class Apartment {
     private Long id;
     private String name;
     private int bathroom;
+
     private int bedroom;
     private int priceByDate;
     private String description;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     @OneToMany(mappedBy = "apartment")
     private Set<Picture> pictures;
