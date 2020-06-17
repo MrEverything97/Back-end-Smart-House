@@ -1,16 +1,26 @@
 package com.cg.smart_house.controller;
 
+import com.cg.smart_house.models.Apartment;
+import com.cg.smart_house.service.ApartmentService;
 import com.cg.smart_house.service.ServiceResult;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin
-@RequestMapping("/api/house")
+@RequestMapping("/api")
 public class ApartmentController {
-//    @GetMapping
-//    public ResponseEntity<ServiceResult>
+    @Autowired
+    private ApartmentService apartmentService;
+
+    @GetMapping("/listApartment")
+    public ResponseEntity<ServiceResult> listApartment() {
+        return new ResponseEntity<>(apartmentService.findAll(), HttpStatus.OK);
+    }
+
+    @PostMapping("/createApartment")
+    public ResponseEntity<ServiceResult> createApartment(@RequestBody Apartment apartment){
+        return new ResponseEntity<>(apartmentService.createApartment(apartment), HttpStatus.OK);
+    }
 }

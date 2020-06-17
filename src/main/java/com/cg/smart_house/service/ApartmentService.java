@@ -4,4 +4,6 @@ import com.cg.smart_house.models.Apartment;
 
 public interface ApartmentService {
     ServiceResult createApartment(Apartment apartment);
+
+    ServiceResult findAll();
 }
