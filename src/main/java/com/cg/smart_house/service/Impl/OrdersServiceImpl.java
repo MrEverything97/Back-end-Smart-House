@@ -43,44 +43,49 @@ public class OrdersServiceImpl implements OrdersService {
     @Override
     public ServiceResult createOrders(Orders orders) {
         ServiceResult serviceResult = new ServiceResult();
-
-        Long idApartment = orders.getApartment().getId();
-
-        Optional<Apartment> apartment = apartmentRepository.findById(idApartment);
-
         serviceResult.setStatus(ServiceStatus.FAILED);
 
+        Long idApartment = orders.getApartment().getId();
+        Optional<Apartment> apartment = apartmentRepository.findById(idApartment);
+
+        // Không có nhà để cho thuê
         if (!apartment.isPresent()) {
             serviceResult.setMessage("No apartment have been orders");
-            return serviceResult;
-        }
-        List<Orders> listOrders = ordersRepository.findAllByApartment(apartment.get());
-        if (listOrders.isEmpty()) {
-            serviceResult.setMessage("No apartment orders by customer, order success");
-            serviceResult.setData(ordersRepository.save(orders));
-            serviceResult.setStatus(ServiceStatus.SUCCESS);
             return serviceResult;
         }
 
         Date startTimeOrders = orders.getStartTime();
         Date endTimeOrders = orders.getEndTime();
 
-        Collections.sort(listOrders);
-        int size = listOrders.size() - 1;
+        Calendar c1 = Calendar.getInstance();
+        Calendar c2 = Calendar.getInstance();
+        c1.setTime(startTimeOrders);
+        c2.setTime(endTimeOrders);
+        long countDayOrders = (c2.getTime().getTime() - c1.getTime().getTime()) / (24 * 3600 * 1000);
+        Long priceApartment = apartment.get().getPriceByDate() + countDayOrders;
 
-        if (endTimeOrders.before(listOrders.get(0).getStartTime()) || startTimeOrders.after(listOrders.get(size).getEndTime())) {
-            serviceResult.setMessage("Success orders apartment");
+
+        // Nhà cho thuê chưa ai thuê
+        List<Orders> listOrders = ordersRepository.findAllByApartment(apartment.get());
+        if (listOrders.isEmpty()) {
+            serviceResult.setMessage("No apartment orders by customer, order success");
+            orders.setTotalMoney(priceApartment);
             serviceResult.setData(ordersRepository.save(orders));
             serviceResult.setStatus(ServiceStatus.SUCCESS);
             return serviceResult;
-        } else {
-            for (int i = 0; i <= listOrders.size() - 1; i++) {
-                if (startTimeOrders.after(listOrders.get(i).getEndTime()) && endTimeOrders.before(listOrders.get(i + 1).getStartTime())) {
-                    serviceResult.setMessage("Success orders apartment");
-                    serviceResult.setData(ordersRepository.save(orders));
-                    serviceResult.setStatus(ServiceStatus.SUCCESS);
-                    return serviceResult;
-                }
+        }
+
+        //Nhà đã có thời gian thuê
+        Collections.sort(listOrders);
+        int sizeList = listOrders.size() - 1;
+        for (int i = 0; i <= sizeList; i++) {
+            if (endTimeOrders.before(listOrders.get(0).getStartTime()) || startTimeOrders.after(listOrders.get(sizeList).getEndTime()) ||
+                    (startTimeOrders.after(listOrders.get(i).getEndTime()) && endTimeOrders.before(listOrders.get(i + 1).getStartTime()))) {
+                serviceResult.setMessage("Success orders apartment");
+                orders.setTotalMoney(priceApartment);
+                serviceResult.setData(ordersRepository.save(orders));
+                serviceResult.setStatus(ServiceStatus.SUCCESS);
+                return serviceResult;
             }
         }
         return serviceResult;
