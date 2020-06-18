@@ -1,20 +1,21 @@
-package com.cg.smart_house.models;
+package com.cg.smart_house.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 @Data
-public class Province {
+public class Picture {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String name;
+    private String imageUrl;
 
-    @OneToMany(mappedBy = "provinces")
+    @ManyToOne
     @JsonIgnore
-    private Set<Address> addresses;
+    @JoinColumn
+    private Apartment apartment;
+
 }

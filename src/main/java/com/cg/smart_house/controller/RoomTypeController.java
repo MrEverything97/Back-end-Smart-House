@@ -1,6 +1,6 @@
 package com.cg.smart_house.controller;
 
-import com.cg.smart_house.models.RoomType;
+import com.cg.smart_house.model.RoomType;
 import com.cg.smart_house.service.RoomTypeService;
 import com.cg.smart_house.service.ServiceResult;
 import org.springframework.beans.factory.annotation.Autowired;

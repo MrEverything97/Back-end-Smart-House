@@ -1,7 +1,6 @@
 package com.cg.smart_house.controller;
 
-import com.cg.smart_house.models.Picture;
-import com.cg.smart_house.models.Province;
+import com.cg.smart_house.model.Picture;
 import com.cg.smart_house.service.PictureService;
 import com.cg.smart_house.service.ServiceResult;
 import org.springframework.beans.factory.annotation.Autowired;

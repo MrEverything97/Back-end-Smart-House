@@ -1,20 +1,20 @@
-package com.cg.smart_house.models;
+package com.cg.smart_house.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Data
-public class Category {
+public class Province {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
 
+    @OneToMany(mappedBy = "provinces")
     @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "apartment_id")
-    private Apartment apartment;
+    private Set<Address> addresses;
 }

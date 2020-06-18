@@ -1,4 +1,4 @@
-package com.cg.smart_house.models;
+package com.cg.smart_house.model;
 
 import lombok.Data;
 
@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Entity
 @Data
-@Table(name = "`order`")
+@Table(name = "order")
 public class Order implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

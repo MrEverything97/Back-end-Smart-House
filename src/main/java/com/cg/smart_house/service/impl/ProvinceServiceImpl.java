@@ -1,6 +1,6 @@
 package com.cg.smart_house.service.impl;
 
-import com.cg.smart_house.models.Province;
+import com.cg.smart_house.model.Province;
 import com.cg.smart_house.repository.ProvinceRepository;
 import com.cg.smart_house.service.ProvinceService;
 import com.cg.smart_house.service.ServiceResult;

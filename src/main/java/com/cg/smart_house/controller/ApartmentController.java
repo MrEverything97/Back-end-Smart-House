@@ -1,12 +1,15 @@
 package com.cg.smart_house.controller;
 
-import com.cg.smart_house.models.Apartment;
+import com.cg.smart_house.dto.apartment.ApartmentDtoRequest;
+import com.cg.smart_house.model.Apartment;
 import com.cg.smart_house.service.ApartmentService;
 import com.cg.smart_house.service.ServiceResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/apartment")
@@ -25,8 +28,10 @@ public class ApartmentController {
     }
 
     @PostMapping
-    public ResponseEntity<ServiceResult> createApartment(@RequestBody Apartment apartment){
-        return new ResponseEntity<>(apartmentService.createApartment(apartment), HttpStatus.OK);
+    public ResponseEntity<ServiceResult> createApartment(@RequestBody ApartmentDtoRequest request){
+        ServiceResult result = new ServiceResult();
+        result.setData(apartmentService.createApartment(request));
+        return ResponseEntity.ok(result);
     }
 
     @DeleteMapping("/{id}")
@@ -38,6 +43,6 @@ public class ApartmentController {
     public ResponseEntity<ServiceResult> updateApartment(@RequestBody Apartment apartment){
         ServiceResult result = new ServiceResult();
         result.setData(apartmentService.updateApartment(apartment));
-        return new ResponseEntity<>(result,HttpStatus.OK);
+        return ResponseEntity.ok(result);
     }
 }

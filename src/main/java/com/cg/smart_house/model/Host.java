@@ -1,23 +1,22 @@
-package com.cg.smart_house.models;
+package com.cg.smart_house.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
 @Data
-public class Customer {
+public class Host {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String username;
     private String password;
-    private String name;
+    private String email;
     private String phone;
 
-    @OneToMany(mappedBy = "customers")
+    @OneToMany(mappedBy = "hosts")
     @JsonIgnore
-    private Set<Order> orders;
+    private Set<Apartment> apartment;
 }

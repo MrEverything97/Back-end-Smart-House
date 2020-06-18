@@ -1,10 +1,8 @@
-package com.cg.smart_house.models;
+package com.cg.smart_house.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Data
@@ -43,4 +41,14 @@ public class Apartment {
             joinColumns = @JoinColumn(name = "apartment_id"),
             inverseJoinColumns = @JoinColumn(name = "room_type_id"))
     private List<RoomType> roomTypes;
+
+    public Apartment() {
+    }
+
+    public Apartment(String name, int bathroom, int bedroom, int priceByDate, String description) {
+        this.name = name;
+        this.bathroom = bathroom;
+        this.priceByDate = priceByDate;
+        this.description = description;
+    }
 }

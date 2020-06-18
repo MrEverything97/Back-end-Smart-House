@@ -1,7 +1,6 @@
 package com.cg.smart_house.service.impl;
 
-import com.cg.smart_house.models.Customer;
-import com.cg.smart_house.models.Picture;
+import com.cg.smart_house.model.Customer;
 import com.cg.smart_house.repository.CustomerRepository;
 import com.cg.smart_house.service.CustomerService;
 import com.cg.smart_house.service.ServiceResult;

@@ -1,26 +1,66 @@
 package com.cg.smart_house.service.impl;
 
-import com.cg.smart_house.models.Apartment;
+import com.cg.smart_house.dto.address.AddressDtoResponse;
+import com.cg.smart_house.dto.apartment.ApartmentDtoRequest;
+import com.cg.smart_house.dto.apartment.ApartmentDtoResponse;
+import com.cg.smart_house.dto.picture.PictureDtoResponse;
+import com.cg.smart_house.model.Apartment;
+import com.cg.smart_house.model.Picture;
 import com.cg.smart_house.repository.ApartmentRepository;
+import com.cg.smart_house.repository.PictureRepository;
 import com.cg.smart_house.service.ApartmentService;
 import com.cg.smart_house.service.ServiceResult;
 import com.cg.smart_house.service.ServiceStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ApartmentServiceImpl implements ApartmentService {
     @Autowired
     private ApartmentRepository apartmentRepository;
 
-    @Override
-    public ServiceResult createApartment(Apartment apartment) {
-        ServiceResult serviceResult = new ServiceResult();
+    @Autowired
+    private PictureRepository pictureRepo;
 
-        serviceResult.setData(apartmentRepository.save(apartment));
-        return serviceResult;
+    @Override
+    public ApartmentDtoResponse createApartment(ApartmentDtoRequest request) {
+        ApartmentDtoResponse apartmentResponse = new ApartmentDtoResponse();
+
+        String name = request.getName();
+        Integer bathroom = request.getBathroom();
+        Integer bedroom = request.getBedroom();
+        Integer priceByDate = request.getPriceByDate();
+        String description = request.getDescription();
+        Apartment apartment = new Apartment(name, bathroom, bedroom, priceByDate, description);
+
+        apartmentResponse.setName(name);
+        apartmentResponse.setBathroom(bathroom);
+        apartmentResponse.setBedroom(bedroom);
+        apartmentResponse.setPriceByDate(priceByDate);
+        apartmentResponse.setDescription(description);
+
+        //------------picture
+        List<PictureDtoResponse> pictureDtoResponses = new ArrayList<>();
+        List<Long> pictureIds = request.getPictureIds();
+        for (Long id : pictureIds) {
+            PictureDtoResponse pictureResponse = new PictureDtoResponse();
+            Picture picture = pictureRepo.findById(id).orElseThrow(IllegalAccessError::new);
+            Long pictureId = picture.getId();
+            String imageUrl = picture.getImageUrl();
+            pictureResponse.setId(pictureId);
+            pictureResponse.setImageUrl(imageUrl);
+            pictureDtoResponses.add(pictureResponse);
+        }
+        apartmentResponse.setPictureResponses(pictureDtoResponses);
+        //-----------
+
+        apartmentRepository.save(apartment);
+        return apartmentResponse;
     }
 
     @Override

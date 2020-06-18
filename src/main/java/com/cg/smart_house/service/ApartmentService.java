@@ -1,9 +1,11 @@
 package com.cg.smart_house.service;
 
-import com.cg.smart_house.models.Apartment;
+import com.cg.smart_house.dto.apartment.ApartmentDtoRequest;
+import com.cg.smart_house.dto.apartment.ApartmentDtoResponse;
+import com.cg.smart_house.model.Apartment;
 
 public interface ApartmentService {
-    ServiceResult createApartment(Apartment apartment);
+    ApartmentDtoResponse createApartment(ApartmentDtoRequest request);
 
     ServiceResult findAll();
 

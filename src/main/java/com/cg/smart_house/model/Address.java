@@ -1,4 +1,4 @@
-package com.cg.smart_house.models;
+package com.cg.smart_house.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;

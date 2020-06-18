@@ -1,4 +1,4 @@
-package com.cg.smart_house.models;
+package com.cg.smart_house.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
@@ -12,7 +12,7 @@ public class RoomType {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String name;
+    private Integer type;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "roomTypes")

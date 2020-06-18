@@ -1,6 +1,6 @@
 package com.cg.smart_house.service.impl;
 
-import com.cg.smart_house.models.Category;
+import com.cg.smart_house.model.Category;
 import com.cg.smart_house.repository.CategoryRepository;
 import com.cg.smart_house.service.CategoryService;
 import com.cg.smart_house.service.ServiceResult;
