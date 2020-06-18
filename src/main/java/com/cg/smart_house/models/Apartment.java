@@ -27,7 +27,7 @@ public class Apartment {
     private Set<Category> categories;
 
     @OneToMany
-    private Set<Orders> orders;
+    private Set<Order> orders;
 
     @ManyToOne
     private Host hosts;

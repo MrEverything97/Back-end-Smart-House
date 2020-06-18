@@ -17,5 +17,5 @@ public class Customer {
     private String phone;
 
     @OneToMany
-    private Set<Orders> orders;
+    private Set<Order> orders;
 }
