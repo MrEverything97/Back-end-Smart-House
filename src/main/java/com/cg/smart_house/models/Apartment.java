@@ -1,5 +1,8 @@
 package com.cg.smart_house.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -23,6 +26,7 @@ public class Apartment {
 
     @OneToMany(mappedBy = "apartment")
     private Set<Picture> pictures;
+
 
     @OneToMany(mappedBy = "apartment")
     private Set<Status> statuses;

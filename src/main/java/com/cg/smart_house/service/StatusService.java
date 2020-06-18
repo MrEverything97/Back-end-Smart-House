@@ -13,4 +13,6 @@ public interface StatusService {
     ServiceResult deleteStatus(Long id);
 
     ServiceResult updateStatus(Status status);
+
+    ServiceResult findAllStatusByApartment(Long id);
 }
