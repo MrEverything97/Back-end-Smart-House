@@ -1,7 +1,7 @@
-package com.cg.smart_house.models;
+package com.cg.smart_house.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-
 import javax.persistence.*;
 import java.util.Set;
 
@@ -16,6 +16,7 @@ public class Host {
     private String email;
     private String phone;
 
-    @OneToMany
+    @OneToMany(mappedBy = "hosts")
+    @JsonIgnore
     private Set<Apartment> apartment;
 }

@@ -1,7 +1,6 @@
 package com.cg.smart_house.service.impl;
 
-import com.cg.smart_house.models.Customer;
-import com.cg.smart_house.models.Picture;
+import com.cg.smart_house.model.Customer;
 import com.cg.smart_house.repository.CustomerRepository;
 import com.cg.smart_house.service.CustomerService;
 import com.cg.smart_house.service.ServiceResult;
@@ -55,7 +54,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public ServiceResult updateCustomer(Customer customer) {
         ServiceResult serviceResult = new ServiceResult();
-        if (customerRepository.findById(customer.getId()).isPresent()) {
+        if (! customerRepository.findById(customer.getId()).isPresent()) {
             serviceResult.setMessage("Customer not found");
         } else {
             serviceResult.setData(customerRepository.save(customer));

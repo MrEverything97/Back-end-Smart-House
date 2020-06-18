@@ -1,6 +1,6 @@
 package com.cg.smart_house.controller;
 
-import com.cg.smart_house.models.Category;
+import com.cg.smart_house.model.Category;
 import com.cg.smart_house.service.CategoryService;
 import com.cg.smart_house.service.ServiceResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,32 +9,32 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/category")
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    @GetMapping("/category")
+    @GetMapping
     public ResponseEntity<ServiceResult> listCategory() {
         return new ResponseEntity<>(categoryService.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/category/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ServiceResult> getCategoryById(@PathVariable Long id){
         return new ResponseEntity<>(categoryService.findById(id), HttpStatus.OK);
     }
 
-    @PostMapping("/createCategory")
+    @PostMapping
     public ResponseEntity<ServiceResult> createCategory(@RequestBody Category category){
         return new ResponseEntity<>(categoryService.createCategory(category), HttpStatus.OK);
     }
 
-    @PostMapping("/deleteCategory/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<ServiceResult> deleteCategory(@PathVariable Long id){
         return new ResponseEntity<>(categoryService.deleteCategory(id), HttpStatus.OK);
     }
 
-    @PutMapping("/updateCategory/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<ServiceResult> updateCategory(@RequestBody Category category){
         return new ResponseEntity<>(categoryService.updateCategory(category),HttpStatus.OK);
     }

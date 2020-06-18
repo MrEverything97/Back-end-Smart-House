@@ -1,7 +1,6 @@
 package com.cg.smart_house.service;
 
-import com.cg.smart_house.models.Province;
-import com.cg.smart_house.models.RoomType;
+import com.cg.smart_house.model.Province;
 
 public interface ProvinceService {
 

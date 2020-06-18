@@ -1,6 +1,6 @@
 package com.cg.smart_house.service.impl;
 
-import com.cg.smart_house.models.Category;
+import com.cg.smart_house.model.Category;
 import com.cg.smart_house.repository.CategoryRepository;
 import com.cg.smart_house.service.CategoryService;
 import com.cg.smart_house.service.ServiceResult;
@@ -54,7 +54,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public ServiceResult updateCategory(Category category) {
         ServiceResult serviceResult = new ServiceResult();
-        if (categoryRepository.findById(category.getId()).isPresent()) {
+        if (! categoryRepository.findById(category.getId()).isPresent()) {
             serviceResult.setMessage("Category not found");
         } else {
             serviceResult.setData(categoryRepository.save(category));

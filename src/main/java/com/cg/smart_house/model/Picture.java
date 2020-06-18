@@ -1,5 +1,6 @@
-package com.cg.smart_house.models;
+package com.cg.smart_house.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -13,6 +14,8 @@ public class Picture {
     private String imageUrl;
 
     @ManyToOne
+    @JsonIgnore
+    @JoinColumn
     private Apartment apartment;
 
 }

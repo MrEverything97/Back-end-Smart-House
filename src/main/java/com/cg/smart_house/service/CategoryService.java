@@ -1,7 +1,6 @@
 package com.cg.smart_house.service;
 
-import com.cg.smart_house.models.Category;
-import com.cg.smart_house.models.Customer;
+import com.cg.smart_house.model.Category;
 
 public interface CategoryService {
 

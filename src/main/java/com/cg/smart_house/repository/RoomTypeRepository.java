@@ -1,6 +1,6 @@
 package com.cg.smart_house.repository;
 
-import com.cg.smart_house.models.RoomType;
+import com.cg.smart_house.model.RoomType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,7 +1,6 @@
 package com.cg.smart_house.service.impl;
 
-import com.cg.smart_house.models.Picture;
-import com.cg.smart_house.models.Province;
+import com.cg.smart_house.model.Picture;
 import com.cg.smart_house.repository.PictureRepository;
 import com.cg.smart_house.service.PictureService;
 import com.cg.smart_house.service.ServiceResult;
@@ -55,7 +54,7 @@ public class PictureServiceImpl implements PictureService {
     @Override
     public ServiceResult updatePicture(Picture picture) {
         ServiceResult serviceResult = new ServiceResult();
-        if (pictureRepository.findById(picture.getId()).isPresent()) {
+        if (! pictureRepository.findById(picture.getId()).isPresent()) {
             serviceResult.setMessage("Picture not found");
         } else {
             serviceResult.setData(pictureRepository.save(picture));

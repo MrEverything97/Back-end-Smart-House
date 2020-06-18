@@ -1,7 +1,6 @@
 package com.cg.smart_house.service;
 
-import com.cg.smart_house.models.Apartment;
-import com.cg.smart_house.models.RoomType;
+import com.cg.smart_house.model.RoomType;
 
 public interface RoomTypeService {
     ServiceResult createRoomType(RoomType roomType);
