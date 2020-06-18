@@ -1,10 +1,12 @@
 package com.cg.smart_house.models;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "customer")
+@Data
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -14,14 +16,6 @@ public class Customer {
     private String name;
     private String phone;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @OneToMany(mappedBy = "customers")
+    @OneToMany
     private Set<Orders> orders;
 }
