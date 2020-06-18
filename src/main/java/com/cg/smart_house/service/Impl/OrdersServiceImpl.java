@@ -74,8 +74,8 @@ public class OrdersServiceImpl implements OrdersService {
             serviceResult.setStatus(ServiceStatus.SUCCESS);
             return serviceResult;
         } else {
-            for (int i = 1; i <= listOrders.size() - 1; i++) {
-                if (startTimeOrders.before(listOrders.get(i).getEndTime()) && endTimeOrders.after(listOrders.get(i).getStartTime())) {
+            for (int i = 0; i <= listOrders.size() - 1; i++) {
+                if (startTimeOrders.after(listOrders.get(i).getEndTime()) && endTimeOrders.before(listOrders.get(i + 1).getStartTime())) {
                     serviceResult.setMessage("Success orders apartment");
                     serviceResult.setData(ordersRepository.save(orders));
                     serviceResult.setStatus(ServiceStatus.SUCCESS);
