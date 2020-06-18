@@ -2,6 +2,7 @@ package com.cg.smart_house.service.impl;
 
 import com.cg.smart_house.models.Apartment;
 import com.cg.smart_house.repository.ApartmentRepository;
+import com.cg.smart_house.repository.StatusRepository;
 import com.cg.smart_house.service.ApartmentService;
 import com.cg.smart_house.service.ServiceResult;
 import com.cg.smart_house.service.ServiceStatus;
@@ -12,6 +13,9 @@ import org.springframework.stereotype.Service;
 public class ApartmentServiceImpl implements ApartmentService {
     @Autowired
     private ApartmentRepository apartmentRepository;
+
+    @Autowired
+    private StatusRepository statusRepository;
 
     @Override
     public ServiceResult createApartment(Apartment apartment) {
