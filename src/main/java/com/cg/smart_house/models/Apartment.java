@@ -20,7 +20,7 @@ public class Apartment {
 
     @OneToMany(mappedBy = "apartment")
     @JsonIgnore
-    private Set<Picture> pictures;
+    private List<Picture> pictures;
 
     @OneToMany(mappedBy = "apartment")
     private List<Status> statuses;

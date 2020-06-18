@@ -55,7 +55,7 @@ public class PictureServiceImpl implements PictureService {
     @Override
     public ServiceResult updatePicture(Picture picture) {
         ServiceResult serviceResult = new ServiceResult();
-        if (pictureRepository.findById(picture.getId()).isPresent()) {
+        if (! pictureRepository.findById(picture.getId()).isPresent()) {
             serviceResult.setMessage("Picture not found");
         } else {
             serviceResult.setData(pictureRepository.save(picture));
