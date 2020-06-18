@@ -19,6 +19,7 @@ public class Apartment {
     private String description;
 
     @OneToMany(mappedBy = "apartment")
+    @JsonIgnore
     private Set<Picture> pictures;
 
     @OneToMany(mappedBy = "apartment")
