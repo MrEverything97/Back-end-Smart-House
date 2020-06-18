@@ -13,10 +13,10 @@ public class Address {
     private String name;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn
+    @JoinColumn(name = "apartment_id", referencedColumnName = "id")
     private Apartment apartment;
 
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "province_id")
     private Province provinces;
 }

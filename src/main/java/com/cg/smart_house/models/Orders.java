@@ -17,10 +17,10 @@ public class Orders implements Serializable {
     private int totalMoney;
 
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "apartment_id")
     private Apartment apartment;
 
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "customer_id")
     private Customer customers;
 }

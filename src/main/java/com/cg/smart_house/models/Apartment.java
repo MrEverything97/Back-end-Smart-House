@@ -12,9 +12,18 @@ public class Apartment {
     private Long id;
     private String name;
     private int bathroom;
+
     private int bedroom;
     private int priceByDate;
     private String description;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     @OneToMany(mappedBy = "apartment")
     private Set<Picture> pictures;
@@ -29,7 +38,7 @@ public class Apartment {
     private Set<Orders> orders;
 
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "host_id")
     private Host hosts;
 
     @OneToOne(mappedBy = "apartment")

@@ -12,8 +12,16 @@ public class Picture {
     private Long id;
     private String imageUrl;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "apartment_id")
     private Apartment apartment;
 
     public Picture() {
