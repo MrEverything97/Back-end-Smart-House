@@ -5,7 +5,6 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "apartment")
 @Data
 public class Apartment {
     @Id
@@ -18,40 +17,25 @@ public class Apartment {
     private int priceByDate;
     private String description;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @OneToMany(mappedBy = "apartment")
+    @OneToMany
     private Set<Picture> pictures;
 
-    @OneToMany(mappedBy = "apartment")
+    @OneToMany
     private Set<Status> statuses;
 
-    @OneToMany(mappedBy = "apartment")
+    @OneToMany
     private Set<Category> categories;
 
-    @OneToMany(mappedBy = "apartment")
-    private Set<Orders> orders;
+    @OneToMany
+    private Set<Order> orders;
 
     @ManyToOne
-    @JoinColumn(name = "host_id")
     private Host hosts;
 
-    @OneToOne(mappedBy = "apartment")
+    @OneToOne
     private Address address;
 
     @ManyToMany
-    @JoinTable(
-            name = "apartment_room_type",
-            joinColumns = @JoinColumn(name = "apartment_id"),
-            inverseJoinColumns = @JoinColumn(name = "room_type_id"))
     Set<RoomType> roomTypes;
 
-    public Apartment() {
-    }
 }
