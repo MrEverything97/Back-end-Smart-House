@@ -29,7 +29,7 @@ public class CategoryController {
         return new ResponseEntity<>(categoryService.createCategory(category), HttpStatus.OK);
     }
 
-    @PostMapping("/deleteCategory/{id}")
+    @DeleteMapping("/deleteCategory/{id}")
     public ResponseEntity<ServiceResult> deleteCategory(@PathVariable Long id){
         return new ResponseEntity<>(categoryService.deleteCategory(id), HttpStatus.OK);
     }

@@ -55,7 +55,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public ServiceResult updateCustomer(Customer customer) {
         ServiceResult serviceResult = new ServiceResult();
-        if (customerRepository.findById(customer.getId()).isPresent()) {
+        if (! customerRepository.findById(customer.getId()).isPresent()) {
             serviceResult.setMessage("Customer not found");
         } else {
             serviceResult.setData(customerRepository.save(customer));

@@ -30,7 +30,7 @@ public class PictureController {
         return new ResponseEntity<>(pictureService.createPicture(picture), HttpStatus.OK);
     }
 
-    @PostMapping("/deletePicture/{id}")
+    @DeleteMapping("/deletePicture/{id}")
     public ResponseEntity<ServiceResult> deletePicture(@PathVariable Long id){
         return new ResponseEntity<>(pictureService.deletePicture(id), HttpStatus.OK);
     }

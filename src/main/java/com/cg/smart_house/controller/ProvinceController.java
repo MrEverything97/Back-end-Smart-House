@@ -29,7 +29,7 @@ public class ProvinceController {
         return new ResponseEntity<>(provinceService.createProvince(province), HttpStatus.OK);
     }
 
-    @PostMapping("/deleteProvince/{id}")
+    @DeleteMapping("/deleteProvince/{id}")
     public ResponseEntity<ServiceResult> deleteProvince(@PathVariable Long id){
         return new ResponseEntity<>(provinceService.deleteProvince(id), HttpStatus.OK);
     }

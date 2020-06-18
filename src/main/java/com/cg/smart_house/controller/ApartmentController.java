@@ -29,7 +29,7 @@ public class ApartmentController {
         return new ResponseEntity<>(apartmentService.createApartment(apartment), HttpStatus.OK);
     }
 
-    @PostMapping("/deleteApartment/{id}")
+    @DeleteMapping("/deleteApartment/{id}")
     public ResponseEntity<ServiceResult> deleteApartment(@PathVariable Long id){
         return new ResponseEntity<>(apartmentService.deleteApartment(id), HttpStatus.OK);
     }

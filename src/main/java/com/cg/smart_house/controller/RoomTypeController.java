@@ -29,7 +29,7 @@ public class RoomTypeController {
         return new ResponseEntity<>(roomTypeService.createRoomType(roomType), HttpStatus.OK);
     }
 
-    @PostMapping("/deleteRoomType/{id}")
+    @DeleteMapping("/deleteRoomType/{id}")
     public ResponseEntity<ServiceResult> deleteRoomType(@PathVariable Long id){
         return new ResponseEntity<>(roomTypeService.deleteRoomType(id), HttpStatus.OK);
     }

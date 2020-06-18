@@ -31,7 +31,7 @@ public class StatusController {
         return new ResponseEntity<>(statusService.createStatus(status), HttpStatus.OK);
     }
 
-    @PostMapping("/deleteStatus/{id}")
+    @DeleteMapping("/deleteStatus/{id}")
     public ResponseEntity<ServiceResult> deleteStatus(@PathVariable Long id){
         return new ResponseEntity<>(statusService.deleteStatus(id), HttpStatus.OK);
     }

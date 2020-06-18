@@ -54,7 +54,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public ServiceResult updateCategory(Category category) {
         ServiceResult serviceResult = new ServiceResult();
-        if (categoryRepository.findById(category.getId()).isPresent()) {
+        if (! categoryRepository.findById(category.getId()).isPresent()) {
             serviceResult.setMessage("Category not found");
         } else {
             serviceResult.setData(categoryRepository.save(category));

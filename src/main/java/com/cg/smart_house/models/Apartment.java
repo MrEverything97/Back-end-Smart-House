@@ -1,5 +1,6 @@
 package com.cg.smart_house.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import javax.persistence.*;
 import java.util.List;
@@ -21,10 +22,11 @@ public class Apartment {
     private Set<Picture> pictures;
 
     @OneToMany(mappedBy = "apartment")
-    private Set<Status> statuses;
+    private List<Status> statuses;
 
     @OneToMany(mappedBy = "apartment")
-    private Set<Category> categories;
+    @JsonIgnore
+    private List<Category> categories;
 
     @OneToMany(mappedBy = "apartment")
     private Set<Order> orders;
