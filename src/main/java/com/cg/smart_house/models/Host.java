@@ -1,9 +1,8 @@
 package com.cg.smart_house.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -18,5 +17,6 @@ public class Host {
     private String phone;
 
     @OneToMany(mappedBy = "hosts")
+    @JsonIgnore
     private Set<Apartment> apartment;
 }

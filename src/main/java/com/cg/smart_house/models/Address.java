@@ -1,5 +1,6 @@
 package com.cg.smart_house.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -12,11 +13,12 @@ public class Address {
     private Long id;
     private String name;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "apartment_id", referencedColumnName = "id")
-    private Apartment apartment;
-
     @ManyToOne
     @JoinColumn(name = "province_id")
     private Province provinces;
+
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "apartment_id", referencedColumnName = "id")
+    private Apartment apartment;
 }

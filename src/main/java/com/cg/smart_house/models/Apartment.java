@@ -2,6 +2,7 @@ package com.cg.smart_house.models;
 
 import lombok.Data;
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -12,18 +13,9 @@ public class Apartment {
     private Long id;
     private String name;
     private int bathroom;
-
     private int bedroom;
     private int priceByDate;
     private String description;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     @OneToMany(mappedBy = "apartment")
     private Set<Picture> pictures;
@@ -35,22 +27,19 @@ public class Apartment {
     private Set<Category> categories;
 
     @OneToMany(mappedBy = "apartment")
-    private Set<Orders> orders;
+    private Set<Order> orders;
+
+    @OneToOne(mappedBy = "apartment")
+    private Address address;
 
     @ManyToOne
     @JoinColumn(name = "host_id")
     private Host hosts;
 
-    @OneToOne(mappedBy = "apartment")
-    private Address address;
-
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "apartment_room_type",
             joinColumns = @JoinColumn(name = "apartment_id"),
             inverseJoinColumns = @JoinColumn(name = "room_type_id"))
-    Set<RoomType> roomTypes;
-
-    public Apartment() {
-    }
+    private List<RoomType> roomTypes;
 }

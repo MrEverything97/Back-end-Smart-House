@@ -1,5 +1,6 @@
 package com.cg.smart_house.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -14,30 +15,7 @@ public class RoomType {
     private Long id;
     private String name;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Set<Apartment> getApartments() {
-        return apartments;
-    }
-
-    public void setApartments(Set<Apartment> apartments) {
-        this.apartments = apartments;
-    }
-
-    @ManyToMany(mappedBy = "roomTypes")
-    private Set<Apartment> apartments;
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "roomTypes")
+    private List<Apartment> apartments;
 }

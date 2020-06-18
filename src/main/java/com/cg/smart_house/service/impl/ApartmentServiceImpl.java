@@ -54,7 +54,7 @@ public class ApartmentServiceImpl implements ApartmentService {
     @Override
     public ServiceResult updateApartment(Apartment apartment) {
         ServiceResult serviceResult = new ServiceResult();
-        if (apartmentRepository.findById(apartment.getId()).isPresent()){
+        if (! apartmentRepository.findById(apartment.getId()).isPresent()){
             serviceResult.setMessage("Apartment not found");
         } else{
             serviceResult.setData(apartmentRepository.save(apartment));
