@@ -19,18 +19,16 @@ public class Apartment {
     private String description;
 
     @OneToMany(mappedBy = "apartment")
-    @JsonIgnore
     private List<Picture> pictures;
 
-    @OneToMany(mappedBy = "apartment")
-    private List<Status> statuses;
+//    @OneToMany(mappedBy = "apartment")
+//    private List<Status> statuses;
 
     @OneToMany(mappedBy = "apartment")
-    @JsonIgnore
     private List<Category> categories;
 
     @OneToMany(mappedBy = "apartment")
-    private Set<Order> orders;
+    private List<Order> orders;
 
     @OneToOne(mappedBy = "apartment")
     private Address address;

@@ -14,7 +14,7 @@ public class Picture {
     private String imageUrl;
 
     @ManyToOne
-//    @JsonIgnore
+    @JsonIgnore
     @JoinColumn
     private Apartment apartment;
 

@@ -9,33 +9,35 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/apartment")
 public class ApartmentController {
     @Autowired
     private ApartmentService apartmentService;
 
-    @GetMapping("/listApartment")
+    @GetMapping
     public ResponseEntity<ServiceResult> listApartment() {
         return new ResponseEntity<>(apartmentService.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/listApartment/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ServiceResult> getApartmentById(@PathVariable Long id){
         return new ResponseEntity<>(apartmentService.findById(id), HttpStatus.OK);
     }
 
-    @PostMapping("/createApartment")
+    @PostMapping
     public ResponseEntity<ServiceResult> createApartment(@RequestBody Apartment apartment){
         return new ResponseEntity<>(apartmentService.createApartment(apartment), HttpStatus.OK);
     }
 
-    @DeleteMapping("/deleteApartment/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<ServiceResult> deleteApartment(@PathVariable Long id){
         return new ResponseEntity<>(apartmentService.deleteApartment(id), HttpStatus.OK);
     }
 
-    @PutMapping("/updateApartment/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<ServiceResult> updateApartment(@RequestBody Apartment apartment){
-        return new ResponseEntity<>(apartmentService.updateApartment(apartment),HttpStatus.OK);
+        ServiceResult result = new ServiceResult();
+        result.setData(apartmentService.updateApartment(apartment));
+        return new ResponseEntity<>(result,HttpStatus.OK);
     }
 }

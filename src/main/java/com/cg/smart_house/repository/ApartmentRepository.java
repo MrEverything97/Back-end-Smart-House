@@ -10,7 +10,7 @@ import java.util.List;
 public interface ApartmentRepository extends JpaRepository<Apartment, Long> {
     List<Apartment> findAllByPictures(Picture picture);
 
-    List<Apartment> findAllByStatuses(Status status);
+//    List<Apartment> findAllByStatuses(Status status);
 
     List<Apartment> findAllByCategories(Category category);
 

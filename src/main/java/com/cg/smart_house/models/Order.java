@@ -15,7 +15,7 @@ public class Order implements Serializable {
     private Long id;
     private Date startTime;
     private Date endTime;
-    private int totalMoney;
+    private Long totalMoney;
 
     @ManyToOne
     @JoinColumn(name = "apartment_id")

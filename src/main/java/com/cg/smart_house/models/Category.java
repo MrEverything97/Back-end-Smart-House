@@ -13,6 +13,7 @@ public class Category {
     private Long id;
     private String name;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "apartment_id")
     private Apartment apartment;

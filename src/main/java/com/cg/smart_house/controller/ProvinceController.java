@@ -9,32 +9,32 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/province")
 public class ProvinceController {
     @Autowired
     private ProvinceService provinceService;
 
-    @GetMapping("/province")
+    @GetMapping
     public ResponseEntity<ServiceResult> listProvince() {
         return new ResponseEntity<>(provinceService.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/province/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ServiceResult> getProvinceById(@PathVariable Long id){
         return new ResponseEntity<>(provinceService.findById(id), HttpStatus.OK);
     }
 
-    @PostMapping("/createProvince")
+    @PostMapping
     public ResponseEntity<ServiceResult> createProvince(@RequestBody Province province){
         return new ResponseEntity<>(provinceService.createProvince(province), HttpStatus.OK);
     }
 
-    @DeleteMapping("/deleteProvince/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<ServiceResult> deleteProvince(@PathVariable Long id){
         return new ResponseEntity<>(provinceService.deleteProvince(id), HttpStatus.OK);
     }
 
-    @PutMapping("/updateProvince/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<ServiceResult> updateProvince(@RequestBody Province province){
         return new ResponseEntity<>(provinceService.updateProvince(province),HttpStatus.OK);
     }

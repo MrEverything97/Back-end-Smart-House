@@ -10,32 +10,32 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/picture")
 public class PictureController {
     @Autowired
     private PictureService pictureService;
 
-    @GetMapping("/picture")
+    @GetMapping
     public ResponseEntity<ServiceResult> listPicture() {
         return new ResponseEntity<>(pictureService.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/picture/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ServiceResult> getPictureById(@PathVariable Long id){
         return new ResponseEntity<>(pictureService.findById(id), HttpStatus.OK);
     }
 
-    @PostMapping("/createPicture")
+    @PostMapping
     public ResponseEntity<ServiceResult> createPicture(@RequestBody Picture picture){
         return new ResponseEntity<>(pictureService.createPicture(picture), HttpStatus.OK);
     }
 
-    @DeleteMapping("/deletePicture/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<ServiceResult> deletePicture(@PathVariable Long id){
         return new ResponseEntity<>(pictureService.deletePicture(id), HttpStatus.OK);
     }
 
-    @PutMapping("/updatePicture/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<ServiceResult> updatePicture(@RequestBody Picture picture){
         return new ResponseEntity<>(pictureService.updatePicture(picture),HttpStatus.OK);
     }
