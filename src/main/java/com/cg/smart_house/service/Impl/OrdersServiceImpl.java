@@ -56,6 +56,7 @@ public class OrdersServiceImpl implements OrdersService {
 
         Date startTimeOrders = orders.getStartTime();
         Date endTimeOrders = orders.getEndTime();
+        Date nowDate = new Date();
 
         Calendar c1 = Calendar.getInstance();
         Calendar c2 = Calendar.getInstance();
@@ -79,8 +80,10 @@ public class OrdersServiceImpl implements OrdersService {
         Collections.sort(listOrders);
         int sizeList = listOrders.size() - 1;
         for (int i = 0; i <= sizeList; i++) {
-            if (endTimeOrders.before(listOrders.get(0).getStartTime()) || startTimeOrders.after(listOrders.get(sizeList).getEndTime()) ||
-                    (startTimeOrders.after(listOrders.get(i).getEndTime()) && endTimeOrders.before(listOrders.get(i + 1).getStartTime()))) {
+            if ((startTimeOrders.after(nowDate))
+                    || ((endTimeOrders.before(listOrders.get(0).getStartTime())
+                    || startTimeOrders.after(listOrders.get(sizeList).getEndTime())
+                    || (startTimeOrders.after(listOrders.get(i).getEndTime()) && endTimeOrders.before(listOrders.get(i + 1).getStartTime()))))) {
                 serviceResult.setMessage("Success orders apartment");
                 orders.setTotalMoney(priceApartment);
                 serviceResult.setData(ordersRepository.save(orders));
