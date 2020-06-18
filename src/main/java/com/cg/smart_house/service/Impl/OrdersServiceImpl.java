@@ -80,10 +80,9 @@ public class OrdersServiceImpl implements OrdersService {
         Collections.sort(listOrders);
         int sizeList = listOrders.size() - 1;
         for (int i = 0; i <= sizeList; i++) {
-            if ((startTimeOrders.after(nowDate))
-                    || ((endTimeOrders.before(listOrders.get(0).getStartTime())
-                    || startTimeOrders.after(listOrders.get(sizeList).getEndTime())
-                    || (startTimeOrders.after(listOrders.get(i).getEndTime()) && endTimeOrders.before(listOrders.get(i + 1).getStartTime()))))) {
+            if (startTimeOrders.after(nowDate)
+                    || endTimeOrders.before(listOrders.get(0).getStartTime()) || startTimeOrders.after(listOrders.get(sizeList).getEndTime())
+                    || (startTimeOrders.after(listOrders.get(i).getEndTime()) && endTimeOrders.before(listOrders.get(i + 1).getStartTime()))){
                 serviceResult.setMessage("Success orders apartment");
                 orders.setTotalMoney(priceApartment);
                 serviceResult.setData(ordersRepository.save(orders));
