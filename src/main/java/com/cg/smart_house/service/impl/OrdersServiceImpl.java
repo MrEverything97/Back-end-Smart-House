@@ -95,17 +95,14 @@ public class OrdersServiceImpl implements OrdersService {
         Long priceApartment = apartment.get().getPriceByDate() * countDayOrders;
 
 
-        // Nhà cho thuê chưa ai thuê
         List<Order> listOrders = ordersRepository.findAllByApartment(apartment.get());
         if (listOrders.isEmpty()) {
-            serviceResult.setMessage("No apartment orders by customer, order success");
-            orders.setTotalMoney(priceApartment);
-            serviceResult.setData(ordersRepository.save(orders));
-            serviceResult.setStatus(ServiceStatus.SUCCESS);
-            return serviceResult;
-        }
+            return saveOrdersWithEmptyApartment(orders, serviceResult, priceApartment);
+        } else
+            return saveOrdersWithFullApartment(orders, serviceResult, startTimeOrders, endTimeOrders, nowDate, priceApartment, listOrders);
+    }
 
-        //Nhà đã có thời gian thuê
+    private ServiceResult saveOrdersWithFullApartment(Order orders, ServiceResult serviceResult, Date startTimeOrders, Date endTimeOrders, Date nowDate, Long priceApartment, List<Order> listOrders) {
         Collections.sort(listOrders);
         int sizeList = listOrders.size() - 1;
         for (int i = 0; i <= sizeList; i++) {
@@ -113,12 +110,21 @@ public class OrdersServiceImpl implements OrdersService {
                     || endTimeOrders.before(listOrders.get(0).getStartTime()) || startTimeOrders.after(listOrders.get(sizeList).getEndTime())
                     || (startTimeOrders.after(listOrders.get(i).getEndTime()) && endTimeOrders.before(listOrders.get(i + 1).getStartTime()))){
                 serviceResult.setMessage("Success orders apartment");
-                orders.setTotalMoney(priceApartment);
-                serviceResult.setData(ordersRepository.save(orders));
-                serviceResult.setStatus(ServiceStatus.SUCCESS);
-                return serviceResult;
+                return saveOrdersWithPrice(orders, serviceResult, priceApartment);
             }
         }
+        return serviceResult;
+    }
+
+    private ServiceResult saveOrdersWithEmptyApartment(Order orders, ServiceResult serviceResult, Long priceApartment) {
+        serviceResult.setMessage("No apartment orders by customer, order success");
+        return saveOrdersWithPrice(orders, serviceResult, priceApartment);
+    }
+
+    private ServiceResult saveOrdersWithPrice(Order orders, ServiceResult serviceResult, Long priceApartment) {
+        orders.setTotalMoney(priceApartment);
+        serviceResult.setData(ordersRepository.save(orders));
+        serviceResult.setStatus(ServiceStatus.SUCCESS);
         return serviceResult;
     }
 }

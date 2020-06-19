@@ -2,10 +2,7 @@ package com.cg.smart_house.service.impl;
 
 
 import com.cg.smart_house.model.*;
-import com.cg.smart_house.repository.AddressRepository;
-import com.cg.smart_house.repository.ApartmentRepository;
-import com.cg.smart_house.repository.CategoryRepository;
-import com.cg.smart_house.repository.PictureRepository;
+import com.cg.smart_house.repository.*;
 import com.cg.smart_house.service.ApartmentService;
 import com.cg.smart_house.service.ServiceResult;
 import com.cg.smart_house.service.ServiceStatus;
@@ -13,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+import java.util.Optional;
 
 
 @Service
@@ -22,41 +19,23 @@ public class ApartmentServiceImpl implements ApartmentService {
     private ApartmentRepository apartmentRepository;
 
     @Autowired
-
     private CategoryRepository categoryRepository;
-
-    private AddressRepository addressRepository;
 
     @Autowired
     private PictureRepository pictureRepository;
+
+    @Autowired
+    ProvinceRepository provinceRepository;
+
+//    private Picture savePicture();
 
     @Override
     public ServiceResult createApartment(Apartment apartment) {
         ServiceResult serviceResult = new ServiceResult();
 
-        List<Category> categories = apartment.getCategories();
-        for (Category category : categories){
-            Category findCategory = categoryRepository.findByName(category.getName());
-            if (findCategory == null) {
-                Category newCategory = categoryRepository.save(category);
-                category.setId(newCategory.getId());
-                category.setApartment(apartment);
-            } else {
-                category.setId(findCategory.getId());
-            }
-        }
-        List<Picture> pictures = apartment.getPictures();
-        for (Picture picture : pictures){
-            Picture findPicture = pictureRepository.findByImageUrl(picture.getImageUrl());
-            if (findPicture == null) {
-                Picture newPicture = pictureRepository.save(picture);
-                picture.setId(newPicture.getId());
-                picture.setApartment(apartment);
-            } else {
-                picture.setId(findPicture.getId());
-            }
-        }
-        serviceResult.setData(apartmentRepository.save(apartment));
+        Apartment apartmentObj = this.saveAppartment(apartment);
+        this.savePictures(apartmentObj, apartment);
+
         return serviceResult;
     }
 
@@ -90,6 +69,16 @@ public class ApartmentServiceImpl implements ApartmentService {
             apartmentRepository.delete(apartment);
         }
         return serviceResult;
+    }
+
+    @Override
+    public Apartment saveAppartment(Apartment apartment) {
+        return null;
+    }
+
+    @Override
+    public List<Picture> savePictures(Apartment apartmentObj, Apartment apartment) {
+        return null;
     }
 
     @Override
