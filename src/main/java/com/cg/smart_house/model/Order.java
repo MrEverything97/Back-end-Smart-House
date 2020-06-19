@@ -8,7 +8,11 @@ import java.util.Date;
 
 @Entity
 @Data
+<<<<<<< HEAD
 @Table(name = "orders")
+=======
+@Table(name = "`order`")
+>>>>>>> dev.loi
 public class Order implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

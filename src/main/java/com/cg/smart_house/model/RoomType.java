@@ -12,7 +12,7 @@ public class RoomType {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Integer type;
+    private String name;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "roomTypes")

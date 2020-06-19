@@ -10,6 +10,12 @@ import java.util.List;
 public interface ApartmentRepository extends JpaRepository<Apartment, Long> {
     List<Apartment> findAllByPictures(Picture picture);
 
+<<<<<<< HEAD
+=======
+//    List<Apartment> findAllByStatuses(Status status);
+    Apartment findByName(String name);
+
+>>>>>>> dev.loi
     List<Apartment> findAllByCategories(Category category);
 
     List<Apartment> findAllByOrders(Order order);

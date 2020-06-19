@@ -1,5 +1,6 @@
 package com.cg.smart_house.service.impl;
 
+<<<<<<< HEAD
 import com.cg.smart_house.dto.address.AddressDtoResponse;
 import com.cg.smart_house.dto.apartment.ApartmentDtoRequest;
 import com.cg.smart_house.dto.apartment.ApartmentDtoResponse;
@@ -8,22 +9,23 @@ import com.cg.smart_house.dto.picture.PictureDtoResponse;
 import com.cg.smart_house.dto.roomtype.RoomTypeDtoResponse;
 import com.cg.smart_house.model.*;
 import com.cg.smart_house.repository.*;
+=======
+import com.cg.smart_house.model.Apartment;
+import com.cg.smart_house.repository.ApartmentRepository;
+>>>>>>> dev.loi
 import com.cg.smart_house.service.ApartmentService;
 import com.cg.smart_house.service.ServiceResult;
 import com.cg.smart_house.service.ServiceStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class ApartmentServiceImpl implements ApartmentService {
     @Autowired
     private ApartmentRepository apartmentRepository;
 
+<<<<<<< HEAD
     @Autowired
     private PictureRepository pictureRepo;
 
@@ -39,14 +41,11 @@ public class ApartmentServiceImpl implements ApartmentService {
     @Override
     public ApartmentDtoResponse createApartment(ApartmentDtoRequest request) {
         ApartmentDtoResponse apartmentResponse = new ApartmentDtoResponse();
+=======
+>>>>>>> dev.loi
 
-        String name = request.getName();
-        Integer bathroom = request.getBathroom();
-        Integer bedroom = request.getBedroom();
-        Integer priceByDate = request.getPriceByDate();
-        String description = request.getDescription();
-        Apartment apartment = new Apartment(name, bathroom, bedroom, priceByDate, description);
 
+<<<<<<< HEAD
         apartmentResponse.setName(name);
         apartmentResponse.setBathroom(bathroom);
         apartmentResponse.setBedroom(bedroom);
@@ -111,6 +110,13 @@ public class ApartmentServiceImpl implements ApartmentService {
 
         apartmentRepository.save(apartment);
         return apartmentResponse;
+=======
+    @Override
+    public ServiceResult createApartment(Apartment apartment) {
+        ServiceResult serviceResult = new ServiceResult();
+        serviceResult.setData(apartmentRepository.save(apartment));
+        return serviceResult;
+>>>>>>> dev.loi
     }
 
     @Override
