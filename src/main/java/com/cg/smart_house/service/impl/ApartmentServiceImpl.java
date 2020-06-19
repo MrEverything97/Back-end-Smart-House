@@ -8,11 +8,11 @@ import com.cg.smart_house.service.ServiceResult;
 import com.cg.smart_house.service.ServiceStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
-
+//@Transactional(rollbackFor = Exception.class)
 @Service
 public class ApartmentServiceImpl implements ApartmentService {
     @Autowired
@@ -27,15 +27,32 @@ public class ApartmentServiceImpl implements ApartmentService {
     @Autowired
     ProvinceRepository provinceRepository;
 
-//    private Picture savePicture();
+    @Autowired
+    AddressRepository addressRepository;
 
+//    private Picture savePicture();
     @Override
     public ServiceResult createApartment(Apartment apartment) {
         ServiceResult serviceResult = new ServiceResult();
 
-        Apartment apartmentObj = this.saveAppartment(apartment);
-        this.savePictures(apartmentObj, apartment);
+        // get and remove picture list from apartment
+        List<Picture> pictureList = apartment.getPictures();
+        apartment.setPictures(null);
+        // get and remove address from apartment
+        Address address = apartment.getAddress();
+        apartment.setAddress(null);
+        // save apartment without address and picture list
+        Apartment newApartment = apartmentRepository.save(apartment);
 
+        address.setApartment(apartment);
+        addressRepository.save(address);
+
+        pictureList.forEach(picture -> {
+            picture.setApartment(newApartment);
+            picture = pictureRepository.save(picture);
+        });
+
+        serviceResult.setMessage("add new apartment success");
         return serviceResult;
     }
 
