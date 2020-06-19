@@ -18,7 +18,6 @@ public class Host {
     private String email;
     private String phone;
 
-    @OneToMany(mappedBy = "hosts")
-    @JsonManagedReference
-    private Set<Apartment> apartment;
+//    @OneToMany(mappedBy = "hosts")
+//    private Set<Apartment> apartment;
 }
