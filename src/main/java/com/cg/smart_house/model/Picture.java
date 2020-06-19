@@ -1,15 +1,15 @@
 package com.cg.smart_house.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "picture")
 @Data
 public class Picture {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String imageUrl;
 
@@ -17,6 +17,4 @@ public class Picture {
     @JoinColumn(name = "apartment_id")
     private Apartment apartment;
 
-    public Picture() {
-    }
 }

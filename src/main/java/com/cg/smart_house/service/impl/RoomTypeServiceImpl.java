@@ -1,6 +1,9 @@
 package com.cg.smart_house.service.impl;
 
+
 import com.cg.smart_house.model.RoomType;
+
+import com.cg.smart_house.repository.ApartmentRepository;
 import com.cg.smart_house.repository.RoomTypeRepository;
 import com.cg.smart_house.service.RoomTypeService;
 import com.cg.smart_house.service.ServiceResult;
@@ -12,6 +15,9 @@ import org.springframework.stereotype.Service;
 public class RoomTypeServiceImpl implements RoomTypeService {
     @Autowired
     private RoomTypeRepository roomTypeRepository;
+
+    @Autowired
+    private ApartmentRepository apartmentRepository;
 
     @Override
     public ServiceResult createRoomType(RoomType roomType) {

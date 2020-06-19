@@ -9,35 +9,33 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/room-type")
 public class RoomTypeController {
     @Autowired
     private RoomTypeService roomTypeService;
 
-    @GetMapping("/roomtype")
+    @GetMapping
     public ResponseEntity<ServiceResult> listRoomType() {
         return new ResponseEntity<>(roomTypeService.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/roomtype/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ServiceResult> getRoomTypeById(@PathVariable Long id){
         return new ResponseEntity<>(roomTypeService.findById(id), HttpStatus.OK);
     }
 
-    @PostMapping("/createRoomType")
+    @PostMapping
     public ResponseEntity<ServiceResult> createRoomType(@RequestBody RoomType roomType){
         return new ResponseEntity<>(roomTypeService.createRoomType(roomType), HttpStatus.OK);
     }
 
-    @PostMapping("/deleteRoomType/{id}")
-    public ResponseEntity<ServiceResult> deleteRoomType(@PathVariable Long id){
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ServiceResult> deleteRoomType(@PathVariable long id){
         return new ResponseEntity<>(roomTypeService.deleteRoomType(id), HttpStatus.OK);
     }
 
-    @PutMapping("/updateRoomType/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<ServiceResult> updateRoomType(@RequestBody RoomType roomType){
         return new ResponseEntity<>(roomTypeService.updateRoomType(roomType),HttpStatus.OK);
     }
-
-
 }

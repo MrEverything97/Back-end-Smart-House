@@ -9,9 +9,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "order")
 @Data
-public class Order implements Serializable,Comparable<Order>{
+@Table(name = "`order`")
+public class Order implements Serializable,Comparable<Order> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -31,7 +31,7 @@ public class Order implements Serializable,Comparable<Order>{
     private Customer customers;
 
     @Override
-    public int compareTo(Order orders) {
-        return getStartTime().compareTo(orders.getStartTime());
+    public int compareTo(Order order) {
+        return getStartTime().compareTo(order.getStartTime());
     }
 }

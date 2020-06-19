@@ -2,15 +2,13 @@ package com.cg.smart_house.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.ArrayList;
+
 
 @Entity
-@Table(name = "apartment")
 @Data
 public class Apartment {
     @Id
@@ -45,7 +43,7 @@ public class Apartment {
             name = "apartment_room_type",
             joinColumns = @JoinColumn(name = "apartment_id"),
             inverseJoinColumns = @JoinColumn(name = "room_type_id"))
-    private Set<RoomType> roomTypes = new HashSet<>();
+    private List<RoomType> roomTypes = new ArrayList<>();
 
     public Apartment() {
     }

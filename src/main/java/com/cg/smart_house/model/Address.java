@@ -1,11 +1,11 @@
 package com.cg.smart_house.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "address")
 @Data
 public class Address {
     @Id
@@ -17,8 +17,8 @@ public class Address {
     @JoinColumn(name = "province_id")
     private Province provinces;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
+    @OneToOne
     @JoinColumn(name = "apartment_id", referencedColumnName = "id")
     private Apartment apartment;
-
 }

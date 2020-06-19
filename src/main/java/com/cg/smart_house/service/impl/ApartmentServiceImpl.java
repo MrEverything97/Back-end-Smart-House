@@ -1,8 +1,8 @@
-package com.cg.smart_house.service.Impl;
+package com.cg.smart_house.service.impl;
 
-import com.cg.smart_house.model.Apartment;
-import com.cg.smart_house.model.Category;
-import com.cg.smart_house.model.Picture;
+
+import com.cg.smart_house.model.*;
+import com.cg.smart_house.repository.AddressRepository;
 import com.cg.smart_house.repository.ApartmentRepository;
 import com.cg.smart_house.repository.CategoryRepository;
 import com.cg.smart_house.repository.PictureRepository;
@@ -14,13 +14,18 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
+
 @Service
 public class ApartmentServiceImpl implements ApartmentService {
     @Autowired
     private ApartmentRepository apartmentRepository;
 
     @Autowired
+
     private CategoryRepository categoryRepository;
+
+    private AddressRepository addressRepository;
 
     @Autowired
     private PictureRepository pictureRepository;
@@ -80,7 +85,8 @@ public class ApartmentServiceImpl implements ApartmentService {
         if (apartment == null) {
             serviceResult.setStatus(ServiceStatus.FAILED);
             serviceResult.setMessage("Apartment Not Found");
-        } else {
+        }
+        else {
             apartmentRepository.delete(apartment);
         }
         return serviceResult;
@@ -89,7 +95,7 @@ public class ApartmentServiceImpl implements ApartmentService {
     @Override
     public ServiceResult updateApartment(Apartment apartment) {
         ServiceResult serviceResult = new ServiceResult();
-        if (apartmentRepository.findById(apartment.getId()).isPresent()){
+        if (!apartmentRepository.findById(apartment.getId()).isPresent()){
             serviceResult.setMessage("Apartment not found");
         } else{
             serviceResult.setData(apartmentRepository.save(apartment));
