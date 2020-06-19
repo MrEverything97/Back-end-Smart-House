@@ -1,4 +1,4 @@
-package com.cg.smart_house.models;
+package com.cg.smart_house.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -9,9 +9,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "orders")
+@Table(name = "order")
 @Data
-public class Orders implements Serializable,Comparable<Orders>{
+public class Order implements Serializable,Comparable<Order>{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -31,7 +31,7 @@ public class Orders implements Serializable,Comparable<Orders>{
     private Customer customers;
 
     @Override
-    public int compareTo(Orders orders) {
+    public int compareTo(Order orders) {
         return getStartTime().compareTo(orders.getStartTime());
     }
 }

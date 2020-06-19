@@ -1,9 +1,8 @@
 package com.cg.smart_house.service.Impl;
 
-import com.cg.smart_house.models.Apartment;
-import com.cg.smart_house.models.Category;
-import com.cg.smart_house.models.Host;
-import com.cg.smart_house.models.Picture;
+import com.cg.smart_house.model.Apartment;
+import com.cg.smart_house.model.Category;
+import com.cg.smart_house.model.Picture;
 import com.cg.smart_house.repository.ApartmentRepository;
 import com.cg.smart_house.repository.CategoryRepository;
 import com.cg.smart_house.repository.PictureRepository;
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class ApartmentServiceImpl implements ApartmentService {

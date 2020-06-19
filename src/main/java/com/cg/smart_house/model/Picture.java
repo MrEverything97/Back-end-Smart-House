@@ -1,21 +1,22 @@
-package com.cg.smart_house.models;
+package com.cg.smart_house.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "category")
+@Table(name = "picture")
 @Data
-public class Category {
+public class Picture {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String name;
+    private String imageUrl;
 
     @ManyToOne
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @JoinColumn(name = "apartment_id")
     private Apartment apartment;
+
+    public Picture() {
+    }
 }

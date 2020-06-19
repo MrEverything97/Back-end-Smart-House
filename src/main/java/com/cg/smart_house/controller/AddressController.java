@@ -1,12 +1,11 @@
 package com.cg.smart_house.controller;
 
-import com.cg.smart_house.models.Address;
+import com.cg.smart_house.model.Address;
 import com.cg.smart_house.service.AddressService;
 import com.cg.smart_house.service.ServiceResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

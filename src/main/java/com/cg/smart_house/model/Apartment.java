@@ -1,8 +1,5 @@
-package com.cg.smart_house.models;
+package com.cg.smart_house.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
@@ -33,7 +30,7 @@ public class Apartment {
     private List<Category> categories;
 
     @OneToMany(mappedBy = "apartment")
-    private List<Orders> orders;
+    private List<Order> orders;
 
     @OneToOne(mappedBy = "apartment")
     private Address address;

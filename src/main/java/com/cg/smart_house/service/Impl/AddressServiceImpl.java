@@ -1,6 +1,6 @@
 package com.cg.smart_house.service.Impl;
 
-import com.cg.smart_house.models.Address;
+import com.cg.smart_house.model.Address;
 import com.cg.smart_house.repository.AddressRepository;
 import com.cg.smart_house.service.AddressService;
 import com.cg.smart_house.service.ServiceResult;

@@ -1,6 +1,6 @@
 package com.cg.smart_house.service;
 
-import com.cg.smart_house.models.Address;
+import com.cg.smart_house.model.Address;
 
 public interface AddressService {
     ServiceResult createAddress(Address address);

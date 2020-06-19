@@ -1,7 +1,7 @@
 package com.cg.smart_house.service.Impl;
 
-import com.cg.smart_house.models.Apartment;
-import com.cg.smart_house.models.Orders;
+import com.cg.smart_house.model.Apartment;
+import com.cg.smart_house.model.Order;
 import com.cg.smart_house.repository.ApartmentRepository;
 import com.cg.smart_house.repository.OrdersRepository;
 import com.cg.smart_house.service.OrdersService;
@@ -28,9 +28,9 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
-    public ServiceResult updateStatusOrders(Orders orders) {
+    public ServiceResult updateStatusOrders(Order orders) {
         ServiceResult serviceResult = new ServiceResult();
-        Optional<Orders> orders1 = ordersRepository.findById(orders.getId());
+        Optional<Order> orders1 = ordersRepository.findById(orders.getId());
         if (!orders1.isPresent()){
             serviceResult.setStatus(ServiceStatus.FAILED);
             serviceResult.setMessage("Orders not found");
@@ -70,7 +70,7 @@ public class OrdersServiceImpl implements OrdersService {
 //    }
 
     @Override
-    public ServiceResult createOrders(Orders orders) {
+    public ServiceResult createOrders(Order orders) {
         ServiceResult serviceResult = new ServiceResult();
         serviceResult.setStatus(ServiceStatus.FAILED);
 
@@ -96,7 +96,7 @@ public class OrdersServiceImpl implements OrdersService {
 
 
         // Nhà cho thuê chưa ai thuê
-        List<Orders> listOrders = ordersRepository.findAllByApartment(apartment.get());
+        List<Order> listOrders = ordersRepository.findAllByApartment(apartment.get());
         if (listOrders.isEmpty()) {
             serviceResult.setMessage("No apartment orders by customer, order success");
             orders.setTotalMoney(priceApartment);
