@@ -1,5 +1,6 @@
 package com.cg.smart_house.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -18,5 +19,6 @@ public class Host {
     private String phone;
 
     @OneToMany(mappedBy = "hosts")
+    @JsonManagedReference
     private Set<Apartment> apartment;
 }

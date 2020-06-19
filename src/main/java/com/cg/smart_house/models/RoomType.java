@@ -1,8 +1,11 @@
 package com.cg.smart_house.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -15,5 +18,6 @@ public class RoomType {
     private String name;
 
     @ManyToMany(mappedBy = "roomTypes")
-    private Set<Apartment> apartments;
+    @JsonBackReference
+    private List<Apartment> apartments = new ArrayList<>();
 }

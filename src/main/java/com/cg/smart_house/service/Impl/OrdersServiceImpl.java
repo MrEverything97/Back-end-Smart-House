@@ -28,6 +28,22 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
+    public ServiceResult updateStatusOrders(Orders orders) {
+        ServiceResult serviceResult = new ServiceResult();
+        Optional<Orders> orders1 = ordersRepository.findById(orders.getId());
+        if (!orders1.isPresent()){
+            serviceResult.setStatus(ServiceStatus.FAILED);
+            serviceResult.setMessage("Orders not found");
+            return serviceResult;
+        } else {
+            orders.setStatusOrders(orders.getStatusOrders());
+            ordersRepository.save(orders);
+            serviceResult.setMessage("Update status orders done");
+        }
+        return serviceResult;
+    }
+
+    @Override
     public ServiceResult findAllOrdersByApartment(Long id) {
         ServiceResult serviceResult = new ServiceResult();
         Optional<Apartment> apartment = apartmentRepository.findById(id);
@@ -39,6 +55,19 @@ public class OrdersServiceImpl implements OrdersService {
         }
         return serviceResult;
     }
+
+//    @Override
+//    public ServiceResult findAllOrderByStartTimeAndEndTime(Date minTime, Date maxTime) {
+//        ServiceResult serviceResult = new ServiceResult();
+//        List<Orders> ordersList = ordersRepository.findAll();
+//        if (ordersList.isEmpty()){
+//            serviceResult.setMessage("No found orders");
+//            return serviceResult;
+//        } else {
+//            serviceResult.setData(ordersRepository.findAllByStartTimeAfterAndEndTimeBefore(minTime,maxTime));
+//        }
+//        return serviceResult;
+//    }
 
     @Override
     public ServiceResult createOrders(Orders orders) {
@@ -63,7 +92,7 @@ public class OrdersServiceImpl implements OrdersService {
         c1.setTime(startTimeOrders);
         c2.setTime(endTimeOrders);
         long countDayOrders = (c2.getTime().getTime() - c1.getTime().getTime()) / (24 * 3600 * 1000);
-        Long priceApartment = apartment.get().getPriceByDate() + countDayOrders;
+        Long priceApartment = apartment.get().getPriceByDate() * countDayOrders;
 
 
         // Nhà cho thuê chưa ai thuê

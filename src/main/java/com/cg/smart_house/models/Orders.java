@@ -18,9 +18,9 @@ public class Orders implements Serializable,Comparable<Orders>{
     private Date startTime;
     private Date endTime;
     private Long totalMoney;
+    private StatusOrders statusOrders = StatusOrders.NOT_RENTED;
 
     @ManyToOne
-//    @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @JoinColumn(name = "apartment_id")
     private Apartment apartment;

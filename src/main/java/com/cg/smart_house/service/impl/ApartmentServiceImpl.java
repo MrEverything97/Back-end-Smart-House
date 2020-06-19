@@ -2,7 +2,6 @@ package com.cg.smart_house.service.impl;
 
 import com.cg.smart_house.models.Apartment;
 import com.cg.smart_house.repository.ApartmentRepository;
-import com.cg.smart_house.repository.StatusRepository;
 import com.cg.smart_house.service.ApartmentService;
 import com.cg.smart_house.service.ServiceResult;
 import com.cg.smart_house.service.ServiceStatus;

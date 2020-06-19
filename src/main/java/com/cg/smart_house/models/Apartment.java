@@ -3,10 +3,12 @@ package com.cg.smart_house.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -27,10 +29,6 @@ public class Apartment {
     @OneToMany(mappedBy = "apartment")
     private Set<Picture> pictures;
 
-
-    @OneToMany(mappedBy = "apartment")
-    private Set<Status> statuses;
-
     @OneToMany(mappedBy = "apartment")
     private Set<Category> categories;
 
@@ -49,7 +47,7 @@ public class Apartment {
             name = "apartment_room_type",
             joinColumns = @JoinColumn(name = "apartment_id"),
             inverseJoinColumns = @JoinColumn(name = "room_type_id"))
-    Set<RoomType> roomTypes;
+    Set<RoomType> roomTypes = new HashSet<>();
 
     public Apartment() {
     }
