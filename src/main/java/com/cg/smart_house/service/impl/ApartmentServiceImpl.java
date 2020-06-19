@@ -31,18 +31,19 @@ public class ApartmentServiceImpl implements ApartmentService {
     public ServiceResult createApartment(Apartment apartment) {
         ServiceResult serviceResult = new ServiceResult();
 
+        serviceResult.setData(apartmentRepository.save(apartment));
         //Xét loại nhà
-        List<Category> categories = apartment.getCategories();
-        for (Category category : categories){
-            Category findCategory = categoryRepository.findByName(category.getName());
-            if (findCategory == null) {
-                Category newCategory = categoryRepository.save(category);
-                category.setId(newCategory.getId());
-                category.setApartment(apartment);
-            } else {
-                category.setId(findCategory.getId());
-            }
-        }
+//        List<Category> categories = apartment.getCategories();
+//        for (Category category : categories){
+//            Category findCategory = categoryRepository.findByName(category.getName());
+//            if (findCategory == null) {
+//                Category newCategory = categoryRepository.save(category);
+//                category.setId(newCategory.getId());
+//                category.setApartment(apartment);
+//            } else {
+//                category.setId(findCategory.getId());
+//            }
+//        }
         //Xét ảnh
         List<Picture> pictures = apartment.getPictures();
         for (Picture picture : pictures){

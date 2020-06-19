@@ -16,7 +16,7 @@ public class Picture {
     private String imageUrl;
 
     @ManyToOne
-//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @JoinColumn(name = "apartment_id")
     private Apartment apartment;
 

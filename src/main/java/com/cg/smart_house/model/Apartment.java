@@ -24,8 +24,8 @@ public class Apartment {
     @OneToMany(mappedBy = "apartment")
     private List<Picture> pictures;
 
-    @OneToMany(mappedBy = "apartment")
-    private List<Category> categories;
+//    @OneToMany(mappedBy = "apartment")
+//    private List<Category> categories;
 
     @OneToMany(mappedBy = "apartment")
     private List<Order> orders;
@@ -37,6 +37,13 @@ public class Apartment {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @JoinColumn(name = "host_id")
     private Host hosts;
+
+    @ManyToMany
+    @JoinTable(
+            name = "apartment_category",
+            joinColumns = @JoinColumn(name = "apartment_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private List<Category> categories = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(

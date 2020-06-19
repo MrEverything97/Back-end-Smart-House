@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -14,8 +16,12 @@ public class Category {
     private Long id;
     private String name;
 
-    @ManyToOne
-//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ManyToMany
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @JoinColumn(name = "apartment_id")
-    private Apartment apartment;
+    private List<Apartment> apartments = new ArrayList<>();
+
+//    @ManyToMany(mappedBy = "roomTypes")
+//    @JsonBackReference
+//    private List<Apartment> apartments = new ArrayList<>();
 }
