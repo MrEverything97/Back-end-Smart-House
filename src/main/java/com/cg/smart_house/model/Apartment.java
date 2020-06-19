@@ -16,16 +16,13 @@ public class Apartment {
     private int priceByDate;
     private String description;
 
-    @OneToMany(mappedBy = "apartment")
+    @OneToMany(mappedBy = "apartment", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Picture> pictures;
 
-//    @OneToMany(mappedBy = "apartment")
-//    private List<Status> statuses;
-
-    @OneToMany(mappedBy = "apartment")
+    @OneToMany(mappedBy = "apartment", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Category> categories;
 
-    @OneToMany(mappedBy = "apartment")
+    @OneToMany(mappedBy = "apartment", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Order> orders;
 
     @OneToOne(mappedBy = "apartment")

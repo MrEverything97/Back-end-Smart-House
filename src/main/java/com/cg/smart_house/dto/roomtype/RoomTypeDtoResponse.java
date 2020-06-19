@@ -10,4 +10,9 @@ import lombok.Setter;
 public class RoomTypeDtoResponse {
     private Long id;
     private Integer type;
+
+    public RoomTypeDtoResponse(Long id, Integer type) {
+        this.id = id;
+        this.type = type;
+    }
 }

@@ -8,10 +8,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class CategoryDtoResponse {
-    private Integer id;
+    private Long id;
     private String name;
 
-    public CategoryDtoResponse(Integer id, String name) {
+    public CategoryDtoResponse(Long id, String name) {
         this.id = id;
         this.name = name;
     }

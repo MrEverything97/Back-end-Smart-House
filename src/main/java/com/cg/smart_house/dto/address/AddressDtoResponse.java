@@ -11,4 +11,10 @@ public class AddressDtoResponse {
     private Long id;
     private String name;
     private String province;
+
+    public AddressDtoResponse(Long id, String name, String province) {
+        this.id = id;
+        this.name = name;
+        this.province = province;
+    }
 }

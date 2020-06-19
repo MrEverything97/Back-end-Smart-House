@@ -13,4 +13,12 @@ public class HostDtoResponse {
     private String password;
     private String email;
     private String phone;
+
+    public HostDtoResponse(Long id, String username, String password, String email, String phone) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.phone = phone;
+    }
 }

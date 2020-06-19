@@ -3,11 +3,11 @@ package com.cg.smart_house.service.impl;
 import com.cg.smart_house.dto.address.AddressDtoResponse;
 import com.cg.smart_house.dto.apartment.ApartmentDtoRequest;
 import com.cg.smart_house.dto.apartment.ApartmentDtoResponse;
+import com.cg.smart_house.dto.category.CategoryDtoResponse;
 import com.cg.smart_house.dto.picture.PictureDtoResponse;
-import com.cg.smart_house.model.Apartment;
-import com.cg.smart_house.model.Picture;
-import com.cg.smart_house.repository.ApartmentRepository;
-import com.cg.smart_house.repository.PictureRepository;
+import com.cg.smart_house.dto.roomtype.RoomTypeDtoResponse;
+import com.cg.smart_house.model.*;
+import com.cg.smart_house.repository.*;
 import com.cg.smart_house.service.ApartmentService;
 import com.cg.smart_house.service.ServiceResult;
 import com.cg.smart_house.service.ServiceStatus;
@@ -26,6 +26,15 @@ public class ApartmentServiceImpl implements ApartmentService {
 
     @Autowired
     private PictureRepository pictureRepo;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    @Autowired
+    private RoomTypeRepository roomTypeRepository;
+
+    @Autowired
+    private AddressRepository addressRepository;
 
     @Override
     public ApartmentDtoResponse createApartment(ApartmentDtoRequest request) {
@@ -57,7 +66,48 @@ public class ApartmentServiceImpl implements ApartmentService {
             pictureDtoResponses.add(pictureResponse);
         }
         apartmentResponse.setPictureResponses(pictureDtoResponses);
-        //-----------
+
+        //-----------Category
+        List<CategoryDtoResponse> categoryDtoResponses = new ArrayList<>();
+        List<Long> categoryIds = request.getCategoryIds();
+        for (Long id : categoryIds) {
+            CategoryDtoResponse categoryResponse = new CategoryDtoResponse();
+            Category category = categoryRepository.findById(id).orElseThrow(IllegalAccessError::new);
+            Long categoryId = category.getId();
+            String categoryName = category.getName();
+            categoryResponse.setId(categoryId);
+            categoryResponse.setName(categoryName);
+            categoryDtoResponses.add(categoryResponse);
+        }
+        apartmentResponse.setCategoryDtoResponses(categoryDtoResponses);
+
+        //-----------Address
+        AddressDtoResponse addressDtoResponse = new AddressDtoResponse();
+        Long addressIds = request.getAddressId();
+        Address address = addressRepository.findById(addressIds).orElseThrow(IllegalAccessError::new);
+        addressDtoResponse.setId(address.getId());
+
+        apartmentResponse.setAddressResponse(addressDtoResponse);
+
+        //-----------Host
+        Long hostIds = request.getHostId();
+        apartmentResponse.setId(hostIds);
+
+        //-----------RoomType
+        List<RoomTypeDtoResponse> roomTypeDtoResponses = new ArrayList<>();
+        List<Long> roomTypeIds = request.getRoomTypes();
+        for (Long id : roomTypeIds) {
+            RoomTypeDtoResponse roomTypeResponse = new RoomTypeDtoResponse();
+            RoomType roomType = roomTypeRepository.findById(id).orElseThrow(IllegalAccessError::new);
+            Long roomTypeId = roomType.getId();
+            Integer type = roomType.getType();
+
+            roomTypeResponse.setId(roomTypeId);
+            roomTypeResponse.setType(type);
+
+            roomTypeDtoResponses.add(roomTypeResponse);
+        }
+        apartmentResponse.setRoomTypeResponses(roomTypeDtoResponses);
 
         apartmentRepository.save(apartment);
         return apartmentResponse;

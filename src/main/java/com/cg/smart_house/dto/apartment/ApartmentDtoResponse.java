@@ -1,6 +1,7 @@
 package com.cg.smart_house.dto.apartment;
 
 import com.cg.smart_house.dto.address.AddressDtoResponse;
+import com.cg.smart_house.dto.category.CategoryDtoResponse;
 import com.cg.smart_house.dto.host.HostDtoResponse;
 import com.cg.smart_house.dto.picture.PictureDtoResponse;
 import com.cg.smart_house.dto.roomtype.RoomTypeDtoResponse;
@@ -23,6 +24,7 @@ public class ApartmentDtoResponse {
     private Integer priceByDate;
     private String description;
     private List<PictureDtoResponse> pictureResponses;
+    private List<CategoryDtoResponse> categoryDtoResponses;
     private AddressDtoResponse addressResponse;
     private HostDtoResponse hostDtoResponse;
     private List<RoomTypeDtoResponse> roomTypeResponses;
