@@ -1,12 +1,18 @@
 package com.cg.smart_house.controller;
 
+import com.cg.smart_house.model.Address;
 import com.cg.smart_house.model.Apartment;
+import com.cg.smart_house.model.Picture;
+import com.cg.smart_house.service.AddressService;
 import com.cg.smart_house.service.ApartmentService;
+import com.cg.smart_house.service.PictureService;
 import com.cg.smart_house.service.ServiceResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -14,6 +20,12 @@ import org.springframework.web.bind.annotation.*;
 public class ApartmentController {
     @Autowired
     private ApartmentService apartmentService;
+
+    @Autowired
+    private PictureService pictureService;
+
+    @Autowired
+    private AddressService addressService;
 
     @GetMapping
     public ResponseEntity<ServiceResult> listApartment() {
@@ -28,6 +40,12 @@ public class ApartmentController {
     @PostMapping
     public ResponseEntity<ServiceResult> createApartment(@RequestBody Apartment apartment){
         ServiceResult result = new ServiceResult();
+//        Address address = apartment.getAddress();
+//        addressService.createAddress(address);
+//        List<Picture> pictureList = apartment.getPictures();
+//        pictureList.forEach(picture -> {
+//            pictureService.createPicture(picture);
+//        });
         result.setData(apartmentService.createApartment(apartment));
         return ResponseEntity.ok(result);
     }

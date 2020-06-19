@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Data
 public class Address {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY )
     private Long id;
     private String name;
 
@@ -18,7 +18,7 @@ public class Address {
     private Province provinces;
 
     @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "apartment_id", referencedColumnName = "id")
     private Apartment apartment;
 }

@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 public class Apartment {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private int bathroom;
@@ -20,16 +20,13 @@ public class Apartment {
     @OneToMany(mappedBy = "apartment")
     private List<Picture> pictures;
 
-//    @OneToMany(mappedBy = "apartment")
-//    private List<Status> statuses;
-
-    @OneToMany(mappedBy = "apartment")
+    @ManyToMany
     private List<Category> categories;
 
     @OneToMany(mappedBy = "apartment")
     private List<Order> orders;
 
-    @OneToOne(mappedBy = "apartment")
+    @OneToOne(mappedBy = "apartment", fetch = FetchType.EAGER)
     private Address address;
 
     @ManyToOne

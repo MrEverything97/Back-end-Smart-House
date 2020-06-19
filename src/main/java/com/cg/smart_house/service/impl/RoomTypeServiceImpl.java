@@ -22,16 +22,6 @@ public class RoomTypeServiceImpl implements RoomTypeService {
 
     @Override
     public ServiceResult createRoomType(RoomType roomType) {
-        List<Apartment> apartments = roomType.getApartments();
-        for (Apartment apartment : apartments) {
-            Apartment apartmentFind = apartmentRepository.findByName(apartment.getName());
-            if (apartmentFind == null) {
-                Apartment apartment1 = apartmentRepository.save(apartment);  // create tag not exist
-                apartment.setId(apartment1.getId());
-            }else {
-                apartment.setId(apartmentFind.getId());
-            }
-        }
         ServiceResult serviceResult = new ServiceResult();
         serviceResult.setData(roomTypeRepository.save(roomType));
         return serviceResult;
