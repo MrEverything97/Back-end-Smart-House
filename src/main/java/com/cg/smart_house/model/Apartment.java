@@ -2,6 +2,7 @@ package com.cg.smart_house.model;
 
 import lombok.Data;
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -40,7 +41,7 @@ public class Apartment {
             name = "apartment_room_type",
             joinColumns = @JoinColumn(name = "apartment_id"),
             inverseJoinColumns = @JoinColumn(name = "room_type_id"))
-    private List<RoomType> roomTypes;
+    private List<RoomType> roomTypes = new ArrayList<>();
 
     public Apartment() {
     }

@@ -1,6 +1,8 @@
 package com.cg.smart_house.service.impl;
 
+import com.cg.smart_house.model.Apartment;
 import com.cg.smart_house.model.RoomType;
+import com.cg.smart_house.repository.ApartmentRepository;
 import com.cg.smart_house.repository.RoomTypeRepository;
 import com.cg.smart_house.service.RoomTypeService;
 import com.cg.smart_house.service.ServiceResult;
@@ -8,13 +10,28 @@ import com.cg.smart_house.service.ServiceStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RoomTypeServiceImpl implements RoomTypeService {
     @Autowired
     private RoomTypeRepository roomTypeRepository;
 
+    @Autowired
+    private ApartmentRepository apartmentRepository;
+
     @Override
     public ServiceResult createRoomType(RoomType roomType) {
+        List<Apartment> apartments = roomType.getApartments();
+        for (Apartment apartment : apartments) {
+            Apartment apartmentFind = apartmentRepository.findByName(apartment.getName());
+            if (apartmentFind == null) {
+                Apartment apartment1 = apartmentRepository.save(apartment);  // create tag not exist
+                apartment.setId(apartment1.getId());
+            }else {
+                apartment.setId(apartmentFind.getId());
+            }
+        }
         ServiceResult serviceResult = new ServiceResult();
         serviceResult.setData(roomTypeRepository.save(roomType));
         return serviceResult;

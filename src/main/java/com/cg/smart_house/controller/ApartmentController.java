@@ -1,6 +1,5 @@
 package com.cg.smart_house.controller;
 
-import com.cg.smart_house.dto.apartment.ApartmentDtoRequest;
 import com.cg.smart_house.model.Apartment;
 import com.cg.smart_house.service.ApartmentService;
 import com.cg.smart_house.service.ServiceResult;
@@ -9,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/apartment")
@@ -28,9 +26,9 @@ public class ApartmentController {
     }
 
     @PostMapping
-    public ResponseEntity<ServiceResult> createApartment(@RequestBody ApartmentDtoRequest request){
+    public ResponseEntity<ServiceResult> createApartment(@RequestBody Apartment apartment){
         ServiceResult result = new ServiceResult();
-        result.setData(apartmentService.createApartment(request));
+        result.setData(apartmentService.createApartment(apartment));
         return ResponseEntity.ok(result);
     }
 
