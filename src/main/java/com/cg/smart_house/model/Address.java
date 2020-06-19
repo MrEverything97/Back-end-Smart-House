@@ -14,7 +14,6 @@ public class Address {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "province_id")
     private Province provinces;
 
     @JsonIgnore

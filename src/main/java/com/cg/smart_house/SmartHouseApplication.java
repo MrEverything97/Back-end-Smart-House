@@ -10,5 +10,4 @@ public class SmartHouseApplication {
         SpringApplication.run(SmartHouseApplication.class, args);
     }
 
-// Hoangf ddong
 }
