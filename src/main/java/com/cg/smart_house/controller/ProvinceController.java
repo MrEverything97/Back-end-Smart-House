@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/province")
+@CrossOrigin("*")
 public class ProvinceController {
     @Autowired
     private ProvinceService provinceService;

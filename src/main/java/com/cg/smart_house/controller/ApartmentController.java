@@ -12,6 +12,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin("*")
 public class ApartmentController {
     @Autowired
     private ApartmentService apartmentService;
