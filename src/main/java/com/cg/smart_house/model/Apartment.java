@@ -1,11 +1,12 @@
 package com.cg.smart_house.model;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "apartment")
 @Data
 public class Apartment {
     @Id
@@ -30,6 +31,7 @@ public class Apartment {
     private Address address;
 
     @ManyToOne
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @JoinColumn(name = "host_id")
     private Host hosts;
 
@@ -39,14 +41,4 @@ public class Apartment {
             joinColumns = @JoinColumn(name = "apartment_id"),
             inverseJoinColumns = @JoinColumn(name = "room_type_id"))
     private List<RoomType> roomTypes = new ArrayList<>();
-
-    public Apartment() {
-    }
-
-    public Apartment(String name, int bathroom, int bedroom, int priceByDate, String description) {
-        this.name = name;
-        this.bathroom = bathroom;
-        this.priceByDate = priceByDate;
-        this.description = description;
-    }
 }

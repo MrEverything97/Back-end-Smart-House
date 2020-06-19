@@ -1,13 +1,12 @@
 package com.cg.smart_house.service.impl;
 
-import com.cg.smart_house.model.Address;
-import com.cg.smart_house.model.Apartment;
+import com.cg.smart_house.model.Category;
 import com.cg.smart_house.model.Picture;
-import com.cg.smart_house.model.RoomType;
+import com.cg.smart_house.model.Apartment;
 import com.cg.smart_house.repository.AddressRepository;
 import com.cg.smart_house.repository.ApartmentRepository;
+import com.cg.smart_house.repository.CategoryRepository;
 import com.cg.smart_house.repository.PictureRepository;
-import com.cg.smart_house.repository.RoomTypeRepository;
 import com.cg.smart_house.service.ApartmentService;
 import com.cg.smart_house.service.ServiceResult;
 import com.cg.smart_house.service.ServiceStatus;
@@ -15,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
 
 @Service
 public class ApartmentServiceImpl implements ApartmentService {
@@ -28,17 +26,35 @@ public class ApartmentServiceImpl implements ApartmentService {
     @Autowired
     private PictureRepository pictureRepository;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     @Override
     public ServiceResult createApartment(Apartment apartment) {
         ServiceResult serviceResult = new ServiceResult();
-        List<RoomType> roomTypes = apartment.getRoomTypes();
-        Address address = apartment.getAddress();
-        addressRepository.save(address);
-        List<Picture> pictureList = apartment.getPictures();
-        pictureList.forEach(picture -> {
-            pictureRepository.save(picture);
-        });
 
+        List<Category> categories = apartment.getCategories();
+//        for (Category category : categories){
+//            Category findCategory = categoryRepository.findByName(category.getName());
+//            if (findCategory == null) {
+//                Category newCategory = categoryRepository.save(category);
+//                category.setId(newCategory.getId());
+//                category.setApartments(apartment);
+//            } else {
+//                category.setId(findCategory.getId());
+//            }
+//        }
+        List<Picture> pictures = apartment.getPictures();
+        for (Picture picture : pictures){
+            Picture findPicture = pictureRepository.findByImageUrl(picture.getImageUrl());
+            if (findPicture == null) {
+                Picture newPicture = pictureRepository.save(picture);
+                picture.setId(newPicture.getId());
+                picture.setApartment(apartment);
+            } else {
+                picture.setId(findPicture.getId());
+            }
+        }
         serviceResult.setData(apartmentRepository.save(apartment));
         return serviceResult;
     }
@@ -68,8 +84,7 @@ public class ApartmentServiceImpl implements ApartmentService {
         if (apartment == null) {
             serviceResult.setStatus(ServiceStatus.FAILED);
             serviceResult.setMessage("Apartment Not Found");
-        }
-        else {
+        } else {
             apartmentRepository.delete(apartment);
         }
         return serviceResult;
