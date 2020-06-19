@@ -36,7 +36,7 @@ public class Apartment {
     @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @JoinColumn(name = "host_id")
-    private Host hosts;
+    private Host host;
 
     @ManyToMany
     @JoinTable(

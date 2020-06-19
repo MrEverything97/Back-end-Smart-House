@@ -25,11 +25,6 @@ public class Order implements Serializable,Comparable<Order> {
     @JoinColumn(name = "apartment_id")
     private Apartment apartment;
 
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "customer_id")
-    private Customer customers;
-
     @Override
     public int compareTo(Order order) {
         return getStartTime().compareTo(order.getStartTime());

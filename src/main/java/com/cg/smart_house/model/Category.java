@@ -16,9 +16,8 @@ public class Category {
     private Long id;
     private String name;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "categories")
     @JsonBackReference
-    @JoinColumn(name = "apartment_id")
     private List<Apartment> apartments = new ArrayList<>();
 
 }
