@@ -2,10 +2,7 @@ package com.cg.smart_house.service.impl;
 
 
 import com.cg.smart_house.model.*;
-import com.cg.smart_house.repository.AddressRepository;
-import com.cg.smart_house.repository.ApartmentRepository;
-import com.cg.smart_house.repository.CategoryRepository;
-import com.cg.smart_house.repository.PictureRepository;
+import com.cg.smart_house.repository.*;
 import com.cg.smart_house.service.ApartmentService;
 import com.cg.smart_house.service.ServiceResult;
 import com.cg.smart_house.service.ServiceStatus;
@@ -13,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+import java.util.Optional;
 
 
 @Service
@@ -22,18 +19,19 @@ public class ApartmentServiceImpl implements ApartmentService {
     private ApartmentRepository apartmentRepository;
 
     @Autowired
-
     private CategoryRepository categoryRepository;
-
-    private AddressRepository addressRepository;
 
     @Autowired
     private PictureRepository pictureRepository;
+
+    @Autowired
+    ProvinceRepository provinceRepository;
 
     @Override
     public ServiceResult createApartment(Apartment apartment) {
         ServiceResult serviceResult = new ServiceResult();
 
+        //Xét loại nhà
         List<Category> categories = apartment.getCategories();
         for (Category category : categories){
             Category findCategory = categoryRepository.findByName(category.getName());
@@ -45,6 +43,7 @@ public class ApartmentServiceImpl implements ApartmentService {
                 category.setId(findCategory.getId());
             }
         }
+        //Xét ảnh
         List<Picture> pictures = apartment.getPictures();
         for (Picture picture : pictures){
             Picture findPicture = pictureRepository.findByImageUrl(picture.getImageUrl());
@@ -56,6 +55,11 @@ public class ApartmentServiceImpl implements ApartmentService {
                 picture.setId(findPicture.getId());
             }
         }
+        //Xét địa chỉ
+//        Province province = provinceRepository.findByName(apartment.getAddress().getProvinces().getName());
+//        apartment.getAddress().setApartment(apartment);
+//        apartment.getAddress().getProvinces().setId(province.getId());
+
         serviceResult.setData(apartmentRepository.save(apartment));
         return serviceResult;
     }

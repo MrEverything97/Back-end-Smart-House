@@ -16,7 +16,7 @@ public class Address {
     @ManyToOne
     private Province provinces;
 
-    @JsonIgnore
+//    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "apartment_id", referencedColumnName = "id")
     private Apartment apartment;
