@@ -17,11 +17,8 @@ public class Category {
     private String name;
 
     @ManyToMany
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonBackReference
     @JoinColumn(name = "apartment_id")
     private List<Apartment> apartments = new ArrayList<>();
 
-//    @ManyToMany(mappedBy = "roomTypes")
-//    @JsonBackReference
-//    private List<Apartment> apartments = new ArrayList<>();
 }
