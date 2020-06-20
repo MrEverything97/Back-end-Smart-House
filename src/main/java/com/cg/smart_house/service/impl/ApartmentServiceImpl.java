@@ -20,6 +20,7 @@ public class ApartmentServiceImpl implements ApartmentService {
     private ApartmentRepository apartmentRepository;
 
     @Autowired
+<<<<<<< HEAD
     private HostRepository hostRepository;
 
     @Autowired
@@ -35,11 +36,21 @@ public class ApartmentServiceImpl implements ApartmentService {
     ProvinceRepository provinceRepository;
 
 //    private Picture savePicture();
+=======
+    private CategoryRepository categoryRepository;
+
+    @Autowired
+    private PictureRepository pictureRepository;
+
+    @Autowired
+    ProvinceRepository provinceRepository;
+>>>>>>> 5c756754e611cad23b6af99de1cf0587f25e6bc4
 
     @Override
     public ServiceResult createApartment(Apartment apartment) {
         ServiceResult serviceResult = new ServiceResult();
 
+<<<<<<< HEAD
         // get and remove picture list from apartment
         List<Picture> pictureList = apartment.getPictures();
         apartment.setPictures(null);
@@ -58,6 +69,38 @@ public class ApartmentServiceImpl implements ApartmentService {
         });
 
         serviceResult.setMessage("add new apartment success");
+=======
+        //Xét loại nhà
+        List<Category> categories = apartment.getCategories();
+        for (Category category : categories){
+            Category findCategory = categoryRepository.findByName(category.getName());
+            if (findCategory == null) {
+                Category newCategory = categoryRepository.save(category);
+                category.setId(newCategory.getId());
+                category.setApartment(apartment);
+            } else {
+                category.setId(findCategory.getId());
+            }
+        }
+        //Xét ảnh
+        List<Picture> pictures = apartment.getPictures();
+        for (Picture picture : pictures){
+            Picture findPicture = pictureRepository.findByImageUrl(picture.getImageUrl());
+            if (findPicture == null) {
+                Picture newPicture = pictureRepository.save(picture);
+                picture.setId(newPicture.getId());
+                picture.setApartment(apartment);
+            } else {
+                picture.setId(findPicture.getId());
+            }
+        }
+        //Xét địa chỉ
+//        Province province = provinceRepository.findByName(apartment.getAddress().getProvinces().getName());
+//        apartment.getAddress().setApartment(apartment);
+//        apartment.getAddress().getProvinces().setId(province.getId());
+
+        serviceResult.setData(apartmentRepository.save(apartment));
+>>>>>>> 5c756754e611cad23b6af99de1cf0587f25e6bc4
         return serviceResult;
     }
 

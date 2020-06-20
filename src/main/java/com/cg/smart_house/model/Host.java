@@ -16,6 +16,12 @@ public class Host {
     private String email;
     private String phone;
 
+<<<<<<< HEAD
     @OneToMany(mappedBy = "host")
     private Set<Apartment> apartment;
 }
+=======
+    @OneToMany(mappedBy = "hosts")
+    private Set<Apartment> apartment;
+}
+>>>>>>> 5c756754e611cad23b6af99de1cf0587f25e6bc4
