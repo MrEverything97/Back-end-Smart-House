@@ -1,12 +1,8 @@
 package com.cg.smart_house.service.impl;
 
-import com.cg.smart_house.model.Category;
-import com.cg.smart_house.model.Picture;
-import com.cg.smart_house.model.Apartment;
-import com.cg.smart_house.repository.AddressRepository;
-import com.cg.smart_house.repository.ApartmentRepository;
-import com.cg.smart_house.repository.CategoryRepository;
-import com.cg.smart_house.repository.PictureRepository;
+
+import com.cg.smart_house.model.*;
+import com.cg.smart_house.repository.*;
 import com.cg.smart_house.service.ApartmentService;
 import com.cg.smart_house.service.ServiceResult;
 import com.cg.smart_house.service.ServiceStatus;
@@ -14,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 
 @Service
 public class ApartmentServiceImpl implements ApartmentService {
@@ -21,41 +19,44 @@ public class ApartmentServiceImpl implements ApartmentService {
     private ApartmentRepository apartmentRepository;
 
     @Autowired
-    private AddressRepository addressRepository;
+    private HostRepository hostRepository;
+
+    @Autowired
+    AddressRepository addressRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Autowired
     private PictureRepository pictureRepository;
 
     @Autowired
-    private CategoryRepository categoryRepository;
+    ProvinceRepository provinceRepository;
+
+//    private Picture savePicture();
 
     @Override
     public ServiceResult createApartment(Apartment apartment) {
         ServiceResult serviceResult = new ServiceResult();
 
-        List<Category> categories = apartment.getCategories();
-//        for (Category category : categories){
-//            Category findCategory = categoryRepository.findByName(category.getName());
-//            if (findCategory == null) {
-//                Category newCategory = categoryRepository.save(category);
-//                category.setId(newCategory.getId());
-//                category.setApartments(apartment);
-//            } else {
-//                category.setId(findCategory.getId());
-//            }
-//        }
-        List<Picture> pictures = apartment.getPictures();
-        for (Picture picture : pictures){
-            Picture findPicture = pictureRepository.findByImageUrl(picture.getImageUrl());
-            if (findPicture == null) {
-                Picture newPicture = pictureRepository.save(picture);
-                picture.setId(newPicture.getId());
-                picture.setApartment(apartment);
-            } else {
-                picture.setId(findPicture.getId());
-            }
-        }
-        serviceResult.setData(apartmentRepository.save(apartment));
+        // get and remove picture list from apartment
+        List<Picture> pictureList = apartment.getPictures();
+        apartment.setPictures(null);
+        // get and remove address from apartment
+        Address address = apartment.getAddress();
+        apartment.setAddress(null);
+        // save apartment without address and picture list
+        Apartment newApartment = apartmentRepository.save(apartment);
+
+        address.setApartment(apartment);
+        addressRepository.save(address);
+
+        pictureList.forEach(picture -> {
+            picture.setApartment(newApartment);
+            picture = pictureRepository.save(picture);
+        });
+
+        serviceResult.setMessage("add new apartment success");
         return serviceResult;
     }
 
@@ -84,10 +85,26 @@ public class ApartmentServiceImpl implements ApartmentService {
         if (apartment == null) {
             serviceResult.setStatus(ServiceStatus.FAILED);
             serviceResult.setMessage("Apartment Not Found");
-        } else {
-            apartmentRepository.delete(apartment);
         }
+        //Tim Apartment By Host
+        List<Host> hosts = hostRepository.findAllByApartment(apartment);
+        for (Host host : hosts) {
+            host.setApartment(null);
+            hostRepository.save(host);
+        }
+        apartmentRepository.delete(apartment);
+
         return serviceResult;
+    }
+
+    @Override
+    public Apartment saveAppartment(Apartment apartment) {
+        return null;
+    }
+
+    @Override
+    public List<Picture> savePictures(Apartment apartmentObj, Apartment apartment) {
+        return null;
     }
 
     @Override

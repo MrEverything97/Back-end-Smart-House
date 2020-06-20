@@ -1,16 +1,15 @@
 package com.cg.smart_house.model;
 
 import lombok.Data;
-
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Data
-@Table(name = "customer")
 public class Customer {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String username;
     private String password;
@@ -18,5 +17,5 @@ public class Customer {
     private String phone;
 
     @OneToMany(mappedBy = "customers")
-    private Set<Order> orders;
+    private List<Order> orders;
 }

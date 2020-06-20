@@ -1,7 +1,8 @@
 package com.cg.smart_house.service.impl;
 
-import com.cg.smart_house.model.Apartment;
+
 import com.cg.smart_house.model.RoomType;
+
 import com.cg.smart_house.repository.ApartmentRepository;
 import com.cg.smart_house.repository.RoomTypeRepository;
 import com.cg.smart_house.service.RoomTypeService;
@@ -9,8 +10,6 @@ import com.cg.smart_house.service.ServiceResult;
 import com.cg.smart_house.service.ServiceStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class RoomTypeServiceImpl implements RoomTypeService {

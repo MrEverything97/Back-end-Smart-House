@@ -1,4 +1,5 @@
 package com.cg.smart_house.controller;
+
 import com.cg.smart_house.model.Order;
 import com.cg.smart_house.service.OrdersService;
 import com.cg.smart_house.service.ServiceResult;
@@ -6,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 
 @RestController
 @RequestMapping("/api")
@@ -25,8 +25,8 @@ public class OrdersController {
     }
 
     @PutMapping("/updateStatusOrders")
-    public ResponseEntity<ServiceResult> updateStatusOrders(@RequestBody Order order){
-        return new ResponseEntity<>(ordersService.updateStatusOrders(order),HttpStatus.OK);
+    public ResponseEntity<ServiceResult> updateStatusOrders(@RequestBody Order orders){
+        return new ResponseEntity<>(ordersService.updateStatusOrders(orders),HttpStatus.OK);
     }
 
 //    @SneakyThrows

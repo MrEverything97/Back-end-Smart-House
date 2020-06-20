@@ -22,6 +22,7 @@ public class ApartmentController {
         return new ResponseEntity<>(apartmentService.createApartment(apartment), HttpStatus.OK);
     }
 
+    /* ---------------- UPDATE Apartment ------------------------ */
     @PutMapping("/updateApartment/{id}")
     public ResponseEntity<ServiceResult> updateApartment(@RequestBody Apartment apartment){
         return new ResponseEntity<>(apartmentService.updateApartment(apartment),HttpStatus.OK);
