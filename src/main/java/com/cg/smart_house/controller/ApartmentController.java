@@ -8,39 +8,47 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/apartment")
+@RequestMapping("/api")
 public class ApartmentController {
     @Autowired
     private ApartmentService apartmentService;
 
-    @GetMapping
-    public ResponseEntity<ServiceResult> listApartment() {
-        return new ResponseEntity<>(apartmentService.findAll(), HttpStatus.OK);
+    /* ---------------- CREATE Apartment ------------------------ */
+    @PostMapping("/createApartment")
+    public ResponseEntity<ServiceResult> createApartment(@Valid @RequestBody Apartment apartment){
+        return new ResponseEntity<>(apartmentService.createApartment(apartment), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ServiceResult> getApartmentById(@PathVariable Long id){
-        return new ResponseEntity<>(apartmentService.findById(id), HttpStatus.OK);
+    /* ---------------- UPDATE Apartment ------------------------ */
+    @PutMapping("/updateApartment/{id}")
+    public ResponseEntity<ServiceResult> updateApartment(@PathVariable Long id,@RequestBody Apartment apartment){
+        return new ResponseEntity<>(apartmentService.updateApartment(id,apartment),HttpStatus.OK);
+    }
+    /* ---------------- SEARCH Apartment ------------------------ */
+    @GetMapping("/searchApartment")
+    public ResponseEntity<ServiceResult> searchApartment(@RequestParam("price") int price){
+        return new ResponseEntity<>(apartmentService.findTopByPriceByDate(price),HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<ServiceResult> createApartment(@RequestBody Apartment apartment){
-        ServiceResult result = new ServiceResult();
-        result.setData(apartmentService.createApartment(apartment));
-        return ResponseEntity.ok(result);
-    }
-
-    @DeleteMapping("/{id}")
+    /* ---------------- DELETE Apartment ------------------------ */
+    @DeleteMapping("/deleteApartment/{id}")
     public ResponseEntity<ServiceResult> deleteApartment(@PathVariable Long id){
         return new ResponseEntity<>(apartmentService.deleteApartment(id), HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ServiceResult> updateApartment(@RequestBody Apartment apartment){
-        ServiceResult result = new ServiceResult();
-        result.setData(apartmentService.updateApartment(apartment));
-        return ResponseEntity.ok(result);
+    /* ---------------- VIEWS Apartment ------------------------ */
+    @GetMapping("/listApartment/{id}")
+    public ResponseEntity<ServiceResult> getApartmentById(@PathVariable Long id){
+        return new ResponseEntity<>(apartmentService.findById(id), HttpStatus.OK);
     }
+
+    /* ---------------- LIST Apartment ------------------------ */
+    @GetMapping("/listApartment")
+    public ResponseEntity<ServiceResult> listApartment(){
+        return new ResponseEntity<>(apartmentService.findAll(),HttpStatus.OK);
+    }
+
 }

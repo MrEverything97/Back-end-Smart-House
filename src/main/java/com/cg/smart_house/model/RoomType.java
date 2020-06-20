@@ -1,12 +1,14 @@
 package com.cg.smart_house.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "room_type")
 @Data
 public class RoomType {
     @Id
@@ -14,7 +16,7 @@ public class RoomType {
     private Long id;
     private String name;
 
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "roomTypes")
-    private List<Apartment> apartments;
+    @ManyToMany(mappedBy = "roomTypes")
+    @JsonBackReference
+    private List<Apartment> apartments = new ArrayList<>();
 }

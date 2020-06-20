@@ -1,6 +1,8 @@
 package com.cg.smart_house.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -9,13 +11,13 @@ import javax.persistence.*;
 @Data
 public class Picture {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String imageUrl;
 
     @ManyToOne
-    @JsonIgnore
-    @JoinColumn
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JoinColumn(name = "apartment_id")
     private Apartment apartment;
 
 }

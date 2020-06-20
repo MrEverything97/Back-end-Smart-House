@@ -1,9 +1,12 @@
 package com.cg.smart_house.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import javax.persistence.*;
-import java.util.ArrayList;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
+import java.util.ArrayList;
+
 
 @Entity
 @Data
@@ -11,41 +14,44 @@ public class Apartment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotBlank(message = "Please not null name")
     private String name;
     private int bathroom;
     private int bedroom;
     private int priceByDate;
     private String description;
 
-    @OneToMany(mappedBy = "apartment", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "apartment")
     private List<Picture> pictures;
 
-    @OneToMany(mappedBy = "apartment", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<Category> categories;
+//    @OneToMany(mappedBy = "apartment")
+//    private List<Category> categories;
 
-    @OneToMany(mappedBy = "apartment", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "apartment")
     private List<Order> orders;
 
     @OneToOne(mappedBy = "apartment")
     private Address address;
 
     @ManyToOne
-    private Host hosts;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JoinColumn(name = "host_id")
+    private Host host;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
+    @JoinTable(
+            name = "apartment_category",
+            joinColumns = @JoinColumn(name = "apartment_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private List<Category> categories ;
+
+    @ManyToMany
     @JoinTable(
             name = "apartment_room_type",
             joinColumns = @JoinColumn(name = "apartment_id"),
             inverseJoinColumns = @JoinColumn(name = "room_type_id"))
-    private List<RoomType> roomTypes = new ArrayList<>();
+    private List<RoomType> roomTypes ;
 
     public Apartment() {
-    }
-
-    public Apartment(String name, int bathroom, int bedroom, int priceByDate, String description) {
-        this.name = name;
-        this.bathroom = bathroom;
-        this.priceByDate = priceByDate;
-        this.description = description;
     }
 }

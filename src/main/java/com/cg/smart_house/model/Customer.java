@@ -1,9 +1,8 @@
 package com.cg.smart_house.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -18,6 +17,5 @@ public class Customer {
     private String phone;
 
     @OneToMany(mappedBy = "customers")
-    @JsonIgnore
-    private Set<Order> orders;
+    private List<Order> orders;
 }

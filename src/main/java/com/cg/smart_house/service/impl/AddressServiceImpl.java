@@ -1,4 +1,5 @@
 package com.cg.smart_house.service.impl;
+
 import com.cg.smart_house.model.Address;
 import com.cg.smart_house.repository.AddressRepository;
 import com.cg.smart_house.service.AddressService;
@@ -15,6 +16,7 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public ServiceResult createAddress(Address address) {
         ServiceResult serviceResult = new ServiceResult();
+
         serviceResult.setData(addressRepository.save(address));
         return serviceResult;
     }
@@ -44,7 +46,8 @@ public class AddressServiceImpl implements AddressService {
         if (address == null) {
             serviceResult.setStatus(ServiceStatus.FAILED);
             serviceResult.setMessage("Address Not Found");
-        } else {
+        }
+        else {
             addressRepository.delete(address);
         }
         return serviceResult;
@@ -53,9 +56,9 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public ServiceResult updateAddress(Address address) {
         ServiceResult serviceResult = new ServiceResult();
-        if (! addressRepository.findById(address.getId()).isPresent()) {
+        if (!addressRepository.findById(address.getId()).isPresent()){
             serviceResult.setMessage("Address not found");
-        } else {
+        } else{
             serviceResult.setData(addressRepository.save(address));
         }
         return serviceResult;
