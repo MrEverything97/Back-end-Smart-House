@@ -21,6 +21,6 @@ public interface ApartmentRepository extends JpaRepository<Apartment, Long> {
     List<Apartment> findAllByAddress(Address address);
 
     List<Apartment> findAllByHost(Host host);
-
+    List<Apartment> findAllByHost_Id(Long hostId);
     List<Apartment> findAllByRoomTypes(RoomType rooType);
 }

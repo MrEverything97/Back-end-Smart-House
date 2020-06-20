@@ -50,4 +50,6 @@ public class ApartmentController {
         return new ResponseEntity<>(apartmentService.findAll(),HttpStatus.OK);
     }
 
+
+
 }

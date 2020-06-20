@@ -9,6 +9,7 @@ import com.cg.smart_house.service.ServiceStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -106,15 +107,18 @@ public class ApartmentServiceImpl implements ApartmentService {
         return serviceResult;
     }
 
-//    @Override
-//    public Apartment saveApartment(Apartment apartment) {
-//        return null;
-//    }
-//
-//    @Override
-//    public List<Picture> savePictures(Apartment apartmentObj, Apartment apartment) {
-//        return null;
-//    }
+    @Override
+    public ServiceResult findAllByHostId(Long hostId) {
+        ServiceResult serviceResult = new ServiceResult();
+        List<Apartment> apartmentList = apartmentRepository.findAllByHost_Id(hostId);
+        if(apartmentList.isEmpty()){
+            serviceResult.setMessage("NOT FOUND");
+        } else {
+            serviceResult.setMessage("SUCCESS");
+            serviceResult.setData(apartmentList);
+        }
+        return serviceResult;
+    }
 
     @Override
     public ServiceResult updateApartment(Long id,Apartment apartment) {
