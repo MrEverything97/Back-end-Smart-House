@@ -27,6 +27,8 @@ public class ApartmentServiceImpl implements ApartmentService {
     @Autowired
     ProvinceRepository provinceRepository;
 
+    @Autowired
+    AddressRepository addressRepository;
 //    @Override
 //    public ServiceResult saveApartment(Apartment apartment) {
 //        ServiceResult serviceResult = new ServiceResult();
@@ -68,8 +70,14 @@ public class ApartmentServiceImpl implements ApartmentService {
                 category.setId(findCategory.getId());
             }
         }
+        Address address = apartment.getAddress();
+//        address.setProvinces(address.getProvinces();
+        apartment.setAddress(null);
 
         serviceResult.setData(apartmentRepository.save(apartment));
+
+        address.setApartment(apartment);
+        addressRepository.save(address);
 
         List<Picture> pictures = apartment.getPictures();
         for (Picture picture : pictures) {
@@ -82,7 +90,6 @@ public class ApartmentServiceImpl implements ApartmentService {
                 picture.setId(findPicture.getId());
             }
         }
-        
         serviceResult.setData(apartmentRepository.save(apartment));
         return serviceResult;
     }

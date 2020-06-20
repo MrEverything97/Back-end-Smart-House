@@ -56,18 +56,18 @@ public class OrdersServiceImpl implements OrdersService {
         return serviceResult;
     }
 
-//    @Override
-//    public ServiceResult findAllOrderByStartTimeAndEndTime(Date minTime, Date maxTime) {
-//        ServiceResult serviceResult = new ServiceResult();
-//        List<Orders> ordersList = ordersRepository.findAll();
-//        if (ordersList.isEmpty()){
-//            serviceResult.setMessage("No found orders");
-//            return serviceResult;
-//        } else {
-//            serviceResult.setData(ordersRepository.findAllByStartTimeAfterAndEndTimeBefore(minTime,maxTime));
-//        }
-//        return serviceResult;
-//    }
+    @Override
+    public ServiceResult findAllOrderByStartTimeAndEndTime(Date minTime, Date maxTime) {
+        ServiceResult serviceResult = new ServiceResult();
+        List<Order> orderList = ordersRepository.getAllByStartTimeAndEndTime(minTime,maxTime);
+        if (orderList.isEmpty()){
+            serviceResult.setMessage("No find orders");
+        } else {
+            serviceResult.setData(ordersRepository.getAllByStartTimeAndEndTime(minTime,maxTime));
+        }
+        return serviceResult;
+    }
+
 
     @Override
     public ServiceResult createOrders(Order orders) {
