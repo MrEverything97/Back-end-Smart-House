@@ -9,14 +9,14 @@ import javax.persistence.*;
 @Data
 public class Address {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY )
     private Long id;
     private String name;
 
     @ManyToOne
     private Province provinces;
 
-//    @JsonIgnore
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "apartment_id", referencedColumnName = "id")
     private Apartment apartment;

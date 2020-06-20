@@ -1,14 +1,26 @@
 package com.cg.smart_house.controller;
 
+import com.cg.smart_house.model.Address;
 import com.cg.smart_house.model.Apartment;
+import com.cg.smart_house.model.Picture;
+import com.cg.smart_house.service.AddressService;
 import com.cg.smart_house.service.ApartmentService;
+import com.cg.smart_house.service.PictureService;
 import com.cg.smart_house.service.ServiceResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+<<<<<<<<< Temporary merge branch 1
+<<<<<<<<< Temporary merge branch 1
+=========
 import javax.validation.Valid;
+>>>>>>>>> Temporary merge branch 2
+=========
+import java.util.List;
+
+>>>>>>>>> Temporary merge branch 2
 
 @RestController
 @RequestMapping("/api")
@@ -25,8 +37,8 @@ public class ApartmentController {
 
     /* ---------------- UPDATE Apartment ------------------------ */
     @PutMapping("/updateApartment/{id}")
-    public ResponseEntity<ServiceResult> updateApartment(@RequestBody Apartment apartment){
-        return new ResponseEntity<>(apartmentService.updateApartment(apartment),HttpStatus.OK);
+    public ResponseEntity<ServiceResult> updateApartment(@PathVariable Long id,@RequestBody Apartment apartment){
+        return new ResponseEntity<>(apartmentService.updateApartment(id,apartment),HttpStatus.OK);
     }
 
     /* ---------------- DELETE Apartment ------------------------ */

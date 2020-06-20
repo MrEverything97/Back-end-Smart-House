@@ -8,15 +8,20 @@ import com.cg.smart_house.service.ServiceResult;
 import com.cg.smart_house.service.ServiceStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-//@Transactional(rollbackFor = Exception.class)
+
 @Service
 public class ApartmentServiceImpl implements ApartmentService {
     @Autowired
     private ApartmentRepository apartmentRepository;
+
+    @Autowired
+    private HostRepository hostRepository;
+
+    @Autowired
+    AddressRepository addressRepository;
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -27,10 +32,8 @@ public class ApartmentServiceImpl implements ApartmentService {
     @Autowired
     ProvinceRepository provinceRepository;
 
-    @Autowired
-    AddressRepository addressRepository;
-
 //    private Picture savePicture();
+
     @Override
     public ServiceResult createApartment(Apartment apartment) {
         ServiceResult serviceResult = new ServiceResult();
@@ -82,30 +85,56 @@ public class ApartmentServiceImpl implements ApartmentService {
             serviceResult.setStatus(ServiceStatus.FAILED);
             serviceResult.setMessage("Apartment Not Found");
         }
-        else {
-            apartmentRepository.delete(apartment);
+        //Tim Apartment By Host
+        List<Host> hosts = hostRepository.findAllByApartment(apartment);
+        for (Host host : hosts) {
+            host.setApartment(null);
+            hostRepository.save(host);
         }
+        //Find Apartment By Address
+        List<Picture> pictures = pictureRepository.findAllByApartment(apartment);
+        for (Picture picture : pictures) {
+            picture.setApartment(null);
+            pictureRepository.save(picture);
+        }
+        Address address = addressRepository.findAllByApartment(apartment);
+        address.setApartment(null);
+        addressRepository.save(address);
+
+        apartmentRepository.delete(apartment);
+
         return serviceResult;
     }
 
-    @Override
-    public Apartment saveAppartment(Apartment apartment) {
-        return null;
-    }
+//    @Override
+//    public Apartment saveApartment(Apartment apartment) {
+//        return null;
+//    }
+//
+//    @Override
+//    public List<Picture> savePictures(Apartment apartmentObj, Apartment apartment) {
+//        return null;
+//    }
 
     @Override
-    public List<Picture> savePictures(Apartment apartmentObj, Apartment apartment) {
-        return null;
-    }
-
-    @Override
-    public ServiceResult updateApartment(Apartment apartment) {
+    public ServiceResult updateApartment(Long id,Apartment apartment) {
         ServiceResult serviceResult = new ServiceResult();
-        if (!apartmentRepository.findById(apartment.getId()).isPresent()){
-            serviceResult.setMessage("Apartment not found");
-        } else{
-            serviceResult.setData(apartmentRepository.save(apartment));
+        Apartment currentApartment = apartmentRepository.findById(id).orElse(null);
+        if (apartment == null) {
+            serviceResult.setStatus(ServiceStatus.FAILED);
+            serviceResult.setMessage("Apartment Not Found");
+        } else {
+
+            List<Picture> oldPictures = pictureRepository.findAllByApartment(currentApartment);
+            pictureRepository.deleteAll(oldPictures);
+            List<Picture> newPictures = apartment.getPictures();
+            for (Picture picture : newPictures) {
+                picture.setId(null);
+                picture.setApartment(currentApartment);
+                pictureRepository.save(picture);
+            }
         }
+        //Find Apartment By Address
         return serviceResult;
     }
 }
