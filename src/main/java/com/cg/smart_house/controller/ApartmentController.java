@@ -24,8 +24,8 @@ public class ApartmentController {
 
     /* ---------------- UPDATE Apartment ------------------------ */
     @PutMapping("/updateApartment/{id}")
-    public ResponseEntity<ServiceResult> updateApartment(@RequestBody Apartment apartment){
-        return new ResponseEntity<>(apartmentService.updateApartment(apartment),HttpStatus.OK);
+    public ResponseEntity<ServiceResult> updateApartment(@PathVariable Long id,@RequestBody Apartment apartment){
+        return new ResponseEntity<>(apartmentService.updateApartment(id,apartment),HttpStatus.OK);
     }
 
     /* ---------------- DELETE Apartment ------------------------ */

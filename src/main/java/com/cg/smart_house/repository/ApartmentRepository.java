@@ -12,10 +12,8 @@ public interface ApartmentRepository extends JpaRepository<Apartment, Long> {
     List<Apartment> findAllByBedroom(int amount);
     List<Apartment> findAllByBathroom(int amount);
     List<Apartment> findAllByPictures(Picture picture);
-
     //    List<Apartment> findAllByStatuses(Status status);
     Apartment findByName(String name);
-
 
     List<Apartment> findAllByCategories(Category category);
 
