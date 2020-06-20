@@ -33,6 +33,12 @@ public class ApartmentController {
         return new ResponseEntity<>(apartmentService.findTopByPriceByDate(price),HttpStatus.OK);
     }
 
+    /* ---------------- SEARCH Apartment By PriceAndName ------------------------ */
+    @GetMapping("/search")
+    public ResponseEntity<ServiceResult> searchApartmentByPriceAndName(@RequestParam("price") int price, @RequestParam("name") String name){
+        return new ResponseEntity<>(apartmentService.findTop5ByPriceByDateAndNameContains(price, name),HttpStatus.OK);
+    }
+
     /* ---------------- DELETE Apartment ------------------------ */
     @DeleteMapping("/deleteApartment/{id}")
     public ResponseEntity<ServiceResult> deleteApartment(@PathVariable Long id){

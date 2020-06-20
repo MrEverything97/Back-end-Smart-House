@@ -19,5 +19,7 @@ public interface ApartmentRepository extends JpaRepository<Apartment, Long> {
     List<Apartment> findAllByHost(Host host);
     List<Apartment> findAllByRoomTypes(RoomType rooType);
 
-    List<Apartment> findTopByPriceByDate(int price);
+    List<Apartment> findTop2ByPriceByDate(int price);
+
+    List<Apartment> findTop5ByPriceByDateAndNameContains(int price, String name);
 }

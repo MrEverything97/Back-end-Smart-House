@@ -18,6 +18,8 @@ public interface ApartmentService {
 
     ServiceResult findTopByPriceByDate(int price);
 
+    ServiceResult findTop5ByPriceByDateAndNameContains(int price, String name);
+
     //    Apartment saveApartment(Apartment apartment);
 
     //    List<Picture> savePictures(Apartment apartmentObj, Apartment apartment);

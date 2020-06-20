@@ -112,11 +112,22 @@ public class ApartmentServiceImpl implements ApartmentService {
     @Override
     public ServiceResult findTopByPriceByDate(int price) {
         ServiceResult serviceResult = new ServiceResult();
-        List<Apartment> apartments = apartmentRepository.findTopByPriceByDate(price);
+        List<Apartment> apartments = apartmentRepository.findTop2ByPriceByDate(price);
         if (apartments.isEmpty()) {
             serviceResult.setMessage("No Apartment Math");
         }
-        serviceResult.setData(apartmentRepository.findTopByPriceByDate(price));
+        serviceResult.setData(apartmentRepository.findTop2ByPriceByDate(price));
+        return serviceResult;
+    }
+
+    @Override
+    public ServiceResult findTop5ByPriceByDateAndNameContains(int price, String name) {
+        ServiceResult serviceResult = new ServiceResult();
+        List<Apartment> apartments = apartmentRepository.findTop5ByPriceByDateAndNameContains(price, name);
+        if (apartments.isEmpty()) {
+            serviceResult.setMessage("No Apartment Math");
+        }
+        serviceResult.setData(apartmentRepository.findTop5ByPriceByDateAndNameContains(price, name));
         return serviceResult;
     }
 
