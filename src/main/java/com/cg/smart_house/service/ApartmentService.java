@@ -7,12 +7,18 @@ import java.util.List;
 
 public interface ApartmentService {
     ServiceResult createApartment(Apartment apartment);
+
     ServiceResult updateApartment(Long id,Apartment apartment);
+
     ServiceResult findAll();
+
     ServiceResult findById(Long id);
+
     ServiceResult deleteApartment(Long id);
 
-//    Apartment saveApartment(Apartment apartment);
-//
-//    List<Picture> savePictures(Apartment apartmentObj, Apartment apartment);
+    ServiceResult findTopByPriceByDate(int price);
+
+    //    Apartment saveApartment(Apartment apartment);
+
+    //    List<Picture> savePictures(Apartment apartmentObj, Apartment apartment);
 }

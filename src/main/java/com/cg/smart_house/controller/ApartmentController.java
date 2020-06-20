@@ -27,6 +27,11 @@ public class ApartmentController {
     public ResponseEntity<ServiceResult> updateApartment(@PathVariable Long id,@RequestBody Apartment apartment){
         return new ResponseEntity<>(apartmentService.updateApartment(id,apartment),HttpStatus.OK);
     }
+    /* ---------------- SEARCH Apartment ------------------------ */
+    @GetMapping("/searchApartment")
+    public ResponseEntity<ServiceResult> searchApartment(@RequestParam("price") int price){
+        return new ResponseEntity<>(apartmentService.findTopByPriceByDate(price),HttpStatus.OK);
+    }
 
     /* ---------------- DELETE Apartment ------------------------ */
     @DeleteMapping("/deleteApartment/{id}")

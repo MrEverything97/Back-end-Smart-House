@@ -104,7 +104,19 @@ public class ApartmentServiceImpl implements ApartmentService {
         addressRepository.save(address);
 
         apartmentRepository.delete(apartment);
+//        serviceResult.setData(apartment);
 
+        return serviceResult;
+    }
+
+    @Override
+    public ServiceResult findTopByPriceByDate(int price) {
+        ServiceResult serviceResult = new ServiceResult();
+        List<Apartment> apartments = apartmentRepository.findTopByPriceByDate(price);
+        if (apartments.isEmpty()) {
+            serviceResult.setMessage("No Apartment Math");
+        }
+        serviceResult.setData(apartmentRepository.findTopByPriceByDate(price));
         return serviceResult;
     }
 
