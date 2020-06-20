@@ -12,15 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-<<<<<<<<< Temporary merge branch 1
-<<<<<<<<< Temporary merge branch 1
-=========
-import javax.validation.Valid;
->>>>>>>>> Temporary merge branch 2
-=========
-import java.util.List;
-
->>>>>>>>> Temporary merge branch 2
 
 @RestController
 @RequestMapping("/api")
@@ -31,7 +22,7 @@ public class ApartmentController {
 
     /* ---------------- CREATE Apartment ------------------------ */
     @PostMapping("/createApartment")
-    public ResponseEntity<ServiceResult> createApartment(@Valid @RequestBody Apartment apartment){
+    public ResponseEntity<ServiceResult> createApartment( @RequestBody Apartment apartment){
         return new ResponseEntity<>(apartmentService.createApartment(apartment), HttpStatus.OK);
     }
 
