@@ -1,5 +1,6 @@
 package com.cg.smart_house.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;

@@ -50,12 +50,15 @@ public class ApartmentServiceImpl implements ApartmentService {
         address.setApartment(apartment);
         addressRepository.save(address);
 
+
         pictureList.forEach(picture -> {
             picture.setApartment(newApartment);
             picture = pictureRepository.save(picture);
+
         });
 
         serviceResult.setMessage("add new apartment success");
+
         return serviceResult;
     }
 
