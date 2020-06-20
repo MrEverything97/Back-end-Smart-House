@@ -11,8 +11,8 @@ public interface ApartmentService {
     ServiceResult findAll();
     ServiceResult findById(Long id);
     ServiceResult deleteApartment(Long id);
-
-    Apartment saveAppartment(Apartment apartment);
-
-    List<Picture> savePictures(Apartment apartmentObj, Apartment apartment);
+//
+//    ServiceResult saveApartment(Apartment apartment);
+//
+//    List<Picture> savePictures(Apartment apartment);
 }

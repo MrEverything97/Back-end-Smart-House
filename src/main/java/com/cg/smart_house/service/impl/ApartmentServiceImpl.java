@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Set;
 
 
 @Service
@@ -27,17 +27,66 @@ public class ApartmentServiceImpl implements ApartmentService {
     @Autowired
     ProvinceRepository provinceRepository;
 
-//    private Picture savePicture();
+//    @Override
+//    public ServiceResult saveApartment(Apartment apartment) {
+//        ServiceResult serviceResult = new ServiceResult();
+//        serviceResult.setData(apartmentRepository.save(apartment));
+//        return serviceResult;
+//    }
+//
+//    @Override
+//    public List<Picture> savePictures(Apartment apartment) {
+//        List<Picture> pictures = apartment.getPictures();
+//        for (Picture picture : pictures) {
+//            Picture findPicture = pictureRepository.findByImageUrl(picture.getImageUrl());
+//            if (findPicture == null) {
+//                Picture newPicture = pictureRepository.save(picture);
+//                picture.setId(newPicture.getId());
+//                picture.setApartment(apartment);
+//            } else {
+//                picture.setId(findPicture.getId());
+//            }
+//        }
+//        return pictures;
+//    }
 
     @Override
     public ServiceResult createApartment(Apartment apartment) {
         ServiceResult serviceResult = new ServiceResult();
 
-        Apartment apartmentObj = this.saveAppartment(apartment);
-        this.savePictures(apartmentObj, apartment);
+//        ServiceResult apartmentObj = this.saveApartment(apartment);
+//        this.savePictures(apartmentObj);
+//        return serviceResult;
 
+        Set<Category> categories = apartment.getCategories();
+        for (Category category : categories){
+            Category findCategory = categoryRepository.findByName(category.getName());
+            if (findCategory == null) {
+                Category newCategory = categoryRepository.save(category);
+                category.setId(newCategory.getId());
+            } else {
+                category.setId(findCategory.getId());
+            }
+        }
+
+        serviceResult.setData(apartmentRepository.save(apartment));
+
+        List<Picture> pictures = apartment.getPictures();
+        for (Picture picture : pictures) {
+            Picture findPicture = pictureRepository.findByImageUrl(picture.getImageUrl());
+            if (findPicture == null) {
+                Picture newPicture = pictureRepository.save(picture);
+                picture.setId(newPicture.getId());
+                picture.setApartment(apartment);
+            } else {
+                picture.setId(findPicture.getId());
+            }
+        }
+        
+        serviceResult.setData(apartmentRepository.save(apartment));
         return serviceResult;
     }
+
 
     @Override
     public ServiceResult findAll() {
@@ -64,29 +113,19 @@ public class ApartmentServiceImpl implements ApartmentService {
         if (apartment == null) {
             serviceResult.setStatus(ServiceStatus.FAILED);
             serviceResult.setMessage("Apartment Not Found");
-        }
-        else {
+        } else {
             apartmentRepository.delete(apartment);
         }
         return serviceResult;
     }
 
-    @Override
-    public Apartment saveAppartment(Apartment apartment) {
-        return null;
-    }
-
-    @Override
-    public List<Picture> savePictures(Apartment apartmentObj, Apartment apartment) {
-        return null;
-    }
 
     @Override
     public ServiceResult updateApartment(Apartment apartment) {
         ServiceResult serviceResult = new ServiceResult();
-        if (!apartmentRepository.findById(apartment.getId()).isPresent()){
+        if (!apartmentRepository.findById(apartment.getId()).isPresent()) {
             serviceResult.setMessage("Apartment not found");
-        } else{
+        } else {
             serviceResult.setData(apartmentRepository.save(apartment));
         }
         return serviceResult;
