@@ -2,6 +2,7 @@ package com.cg.smart_house.service.impl;
 
 import com.cg.smart_house.model.Apartment;
 import com.cg.smart_house.model.Order;
+import com.cg.smart_house.model.StatusOrders;
 import com.cg.smart_house.repository.ApartmentRepository;
 import com.cg.smart_house.repository.OrdersRepository;
 import com.cg.smart_house.service.OrdersService;
@@ -102,12 +103,47 @@ public class OrdersServiceImpl implements OrdersService {
             return saveOrdersWithFullApartment(orders, serviceResult, startTimeOrders, endTimeOrders, nowDate, priceApartment, listOrders);
     }
 
+    @Override
+    public ServiceResult blockOrder(Order order) {
+        order.setStatusOrders(StatusOrders.BLOCK);
+        ServiceResult serviceResult = new ServiceResult();
+        serviceResult.setStatus(ServiceStatus.FAILED);
+
+        Long idApartment = order.getApartment().getId();
+        Optional<Apartment> apartment = apartmentRepository.findById(idApartment);
+
+        // Không có nhà để cho thuê
+        if (!apartment.isPresent()) {
+            serviceResult.setMessage("No apartment have been orders");
+            return serviceResult;
+        }
+
+        Date startTimeOrders = order.getStartTime();
+        Date endTimeOrders = order.getEndTime();
+        Date nowDate = new Date();
+
+        Calendar c1 = Calendar.getInstance();
+        Calendar c2 = Calendar.getInstance();
+        c1.setTime(startTimeOrders);
+        c2.setTime(endTimeOrders);
+        long countDayOrders = (c2.getTime().getTime() - c1.getTime().getTime()) / (24 * 3600 * 1000);
+        // Set 0 because of blocking
+        Long priceApartment = 0L;
+
+
+        List<Order> listOrders = ordersRepository.findAllByApartment(apartment.get());
+        if (listOrders.isEmpty()) {
+            return saveOrdersWithEmptyApartment(order, serviceResult, priceApartment);
+        } else
+            return saveOrdersWithFullApartment(order, serviceResult, startTimeOrders, endTimeOrders, nowDate, priceApartment, listOrders);
+    }
+
     private ServiceResult saveOrdersWithFullApartment(Order orders, ServiceResult serviceResult, Date startTimeOrders, Date endTimeOrders, Date nowDate, Long priceApartment, List<Order> listOrders) {
         Collections.sort(listOrders);
         int sizeList = listOrders.size() - 1;
         for (int i = 0; i <= sizeList; i++) {
-            if (startTimeOrders.after(nowDate)
-                    || endTimeOrders.before(listOrders.get(0).getStartTime()) || startTimeOrders.after(listOrders.get(sizeList).getEndTime())
+            if ((startTimeOrders.after(nowDate) && endTimeOrders.before(listOrders.get(0).getStartTime()))
+                    || startTimeOrders.after(listOrders.get(sizeList).getEndTime())
                     || (startTimeOrders.after(listOrders.get(i).getEndTime()) && endTimeOrders.before(listOrders.get(i + 1).getStartTime()))){
                 serviceResult.setMessage("Success orders apartment");
                 return saveOrdersWithPrice(orders, serviceResult, priceApartment);
@@ -127,4 +163,5 @@ public class OrdersServiceImpl implements OrdersService {
         serviceResult.setStatus(ServiceStatus.SUCCESS);
         return serviceResult;
     }
+
 }

@@ -30,6 +30,12 @@ public class OrdersController {
         return new ResponseEntity<>(ordersService.updateStatusOrders(orders),HttpStatus.OK);
     }
 
+    @PostMapping("/block-order")
+    public ResponseEntity<ServiceResult> blockOrder(@RequestBody Order order){
+        return new ResponseEntity<>(ordersService.blockOrder(order),HttpStatus.OK);
+    }
+
+
 //    @SneakyThrows
 //    @GetMapping("/listApartmentByDate")
 //    public ResponseEntity<ServiceResult> listApartmentByDate(@RequestParam("minTime") String minTime,
