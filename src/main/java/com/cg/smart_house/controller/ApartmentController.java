@@ -9,6 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @RestController
 @RequestMapping("/api")
@@ -33,11 +36,26 @@ public class ApartmentController {
         return new ResponseEntity<>(apartmentService.findTopByPriceByDate(price),HttpStatus.OK);
     }
 
+    /* ---------------- SEARCH BetweenByPriceDate------------------------ */
+    @GetMapping("/searchPrice")
+    public ResponseEntity<ServiceResult> searchByDate(@RequestParam("min") int minPrice, @RequestParam("max") int maxPrice){
+        return new ResponseEntity<>(apartmentService.findAllByPriceByDate(minPrice, maxPrice),HttpStatus.OK);
+    }
+
     /* ---------------- SEARCH Apartment By PriceAndName ------------------------ */
     @GetMapping("/search")
     public ResponseEntity<ServiceResult> searchApartmentByPriceAndName(@RequestParam("price") int price, @RequestParam("name") String name){
         return new ResponseEntity<>(apartmentService.findTop5ByPriceByDateAndNameContains(price, name),HttpStatus.OK);
     }
+
+    /* ---------------- SEARCH Apartment By StartTimeAndEndTime ------------------------ */
+//    @GetMapping("/searchTime")
+//    public ResponseEntity<ServiceResult> searchApartmentByStartTimeAndEndTime(@RequestParam("start") Date startTime, @RequestParam("end") Date endTime){
+//        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+//        Date dfMinTime = df.parse(startTime);
+//        Date dfMaxTime = df.parse(endTime);
+//        return new ResponseEntity<>(apartmentService.findAllOrderByStartTimeAndEndTime(startTime, endTime),HttpStatus.OK);
+//    }
 
     /* ---------------- DELETE Apartment ------------------------ */
     @DeleteMapping("/deleteApartment/{id}")

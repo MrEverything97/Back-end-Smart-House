@@ -8,6 +8,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @RestController
 @RequestMapping("/api")
 public class OrdersController {
@@ -15,27 +20,26 @@ public class OrdersController {
     private OrdersService ordersService;
 
     @GetMapping("/listOrders")
-    public ResponseEntity<ServiceResult> listOrders(){
-        return new ResponseEntity<>(ordersService.findALl(),HttpStatus.OK);
+    public ResponseEntity<ServiceResult> listOrders() {
+        return new ResponseEntity<>(ordersService.findALl(), HttpStatus.OK);
     }
 
     @PostMapping("/createOrders")
-    public ResponseEntity<ServiceResult> createOrders(@RequestBody Order orders){
+    public ResponseEntity<ServiceResult> createOrders(@RequestBody Order orders) {
         return new ResponseEntity<>(ordersService.createOrders(orders), HttpStatus.OK);
     }
 
     @PutMapping("/updateStatusOrders")
-    public ResponseEntity<ServiceResult> updateStatusOrders(@RequestBody Order orders){
-        return new ResponseEntity<>(ordersService.updateStatusOrders(orders),HttpStatus.OK);
+    public ResponseEntity<ServiceResult> updateStatusOrders(@RequestBody Order orders) {
+        return new ResponseEntity<>(ordersService.updateStatusOrders(orders), HttpStatus.OK);
     }
 
-//    @SneakyThrows
-//    @GetMapping("/listApartmentByDate")
-//    public ResponseEntity<ServiceResult> listApartmentByDate(@RequestParam("minTime") String minTime,
-//                                                             @RequestParam("maxTime") String maxTime){
-//        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//        Date dfMinTime = df.parse(minTime);
-//        Date dfMaxTime = df.parse(maxTime);
-//        return new ResponseEntity<>(ordersService.findAllOrderByStartTimeAndEndTime(dfMinTime,dfMaxTime),HttpStatus.OK);
-//    }
+    @GetMapping("/searchOrders")
+    public ResponseEntity<ServiceResult> listApartmentByDate(@RequestParam("minTime") String minTime,
+                                                             @RequestParam("maxTime") String maxTime) throws ParseException{
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        Date dfMinTime = df.parse(minTime);
+        Date dfMaxTime = df.parse(maxTime);
+        return new ResponseEntity<>(ordersService.findAllOrderByStartTimeAndEndTime(dfMinTime, dfMaxTime), HttpStatus.OK);
+    }
 }
