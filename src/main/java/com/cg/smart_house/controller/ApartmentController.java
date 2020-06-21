@@ -2,19 +2,25 @@ package com.cg.smart_house.controller;
 
 import com.cg.smart_house.model.Apartment;
 import com.cg.smart_house.service.ApartmentService;
+import com.cg.smart_house.service.OrdersService;
 import com.cg.smart_house.service.ServiceResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Date;
 
 @RestController
 @RequestMapping("/api")
 public class ApartmentController {
     @Autowired
     private ApartmentService apartmentService;
+
+    @Autowired
+    private OrdersService ordersService;
 
     /* ---------------- CREATE Apartment ------------------------ */
     @PostMapping("/createApartment")
@@ -45,6 +51,18 @@ public class ApartmentController {
         return new ResponseEntity<>(apartmentService.findTop5ByPriceByDateAndNameContains(price, name),HttpStatus.OK);
     }
 
+    /* ---------------- SEARCH AllByApartment ------------------------ */
+    @GetMapping("/searchAll")
+    public ResponseEntity<ServiceResult> searchAllByApartment(@RequestParam("name") String name,
+                                                              @RequestParam("bedroom") int bedroom,
+                                                              @RequestParam("bathroom") int bathroom,
+                                                              @RequestParam("price") int price,
+                                                              @RequestParam("address") String address,
+                                                              @RequestParam("start") Date startTime,
+                                                              @RequestParam("end") Date endTime){
+        return new ResponseEntity<>(apartmentService.searchAllByApartment(name, bedroom, bathroom, price, address, startTime, endTime),HttpStatus.OK);
+    }
+
     /* ---------------- SEARCH Apartment By StartTimeAndEndTime ------------------------ */
 //    @GetMapping("/searchTime")
 //    public ResponseEntity<ServiceResult> searchApartmentByStartTimeAndEndTime(@RequestParam("start") Date startTime, @RequestParam("end") Date endTime){
@@ -70,6 +88,11 @@ public class ApartmentController {
     @GetMapping("/listApartment")
     public ResponseEntity<ServiceResult> listApartment(){
         return new ResponseEntity<>(apartmentService.findAll(),HttpStatus.OK);
+    }
+
+    @GetMapping("/listApartmentRanting")
+    public ResponseEntity<ServiceResult> listApartmentRanting() {
+        return new ResponseEntity<>(ordersService.findAllApartmentRanting(),HttpStatus.OK);
     }
 
 }

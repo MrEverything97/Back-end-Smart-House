@@ -147,14 +147,19 @@ public class ApartmentServiceImpl implements ApartmentService {
 
     @Override
     public ServiceResult findAllOrderByStartTimeAndEndTime(Date startTime, Date endTime) {
-        ServiceResult serviceResult = new ServiceResult();
-        List<Apartment> apartments = apartmentRepository.findAllByStartTimeAndEndTime(startTime, endTime);
-        if (apartments.isEmpty()) {
-            serviceResult.setMessage("Not found");
-        }
-        serviceResult.setData(apartmentRepository.findAllByStartTimeAndEndTime(startTime, endTime));
-        return serviceResult;
+        return null;
     }
+
+//    @Override
+//    public ServiceResult findAllOrderByStartTimeAndEndTime(Date startTime, Date endTime) {
+//        ServiceResult serviceResult = new ServiceResult();
+//        List<Apartment> apartments = apartmentRepository.findAllByStartTimeAndEndTime(startTime, endTime);
+//        if (apartments.isEmpty()) {
+//            serviceResult.setMessage("Not found");
+//        }
+//        serviceResult.setData(apartmentRepository.findAllByStartTimeAndEndTime(startTime, endTime));
+//        return serviceResult;
+//    }
 
 
 //    @Override
@@ -186,6 +191,18 @@ public class ApartmentServiceImpl implements ApartmentService {
             }
         }
         //Find Apartment By Address
+        return serviceResult;
+    }
+
+    @Override
+    public ServiceResult searchAllByApartment(String name, int bedroom, int bathroom, int price, String address,
+                                              Date startTime, Date endTime) {
+        ServiceResult serviceResult = new ServiceResult();
+        List<Apartment> apartments = apartmentRepository.findAllByApartment(name, bedroom, bathroom, price, address, startTime, endTime);
+        if (apartments.isEmpty()) {
+            serviceResult.setMessage("Not found");
+        }
+        serviceResult.setData(apartmentRepository.findAllByApartment(name, bedroom, bathroom, price, address, startTime, endTime));
         return serviceResult;
     }
 //        ServiceResult serviceResult = new ServiceResult();

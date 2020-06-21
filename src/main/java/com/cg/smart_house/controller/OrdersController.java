@@ -8,6 +8,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @RestController
 @RequestMapping("/api")
 public class OrdersController {
@@ -29,13 +34,17 @@ public class OrdersController {
         return new ResponseEntity<>(ordersService.updateStatusOrders(orders),HttpStatus.OK);
     }
 
-//    @SneakyThrows
-//    @GetMapping("/listApartmentByDate")
+//    @GetMapping("/listOrders")
 //    public ResponseEntity<ServiceResult> listApartmentByDate(@RequestParam("minTime") String minTime,
-//                                                             @RequestParam("maxTime") String maxTime){
+//                                                             @RequestParam("maxTime") String maxTime) throws ParseException {
 //        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 //        Date dfMinTime = df.parse(minTime);
 //        Date dfMaxTime = df.parse(maxTime);
 //        return new ResponseEntity<>(ordersService.findAllOrderByStartTimeAndEndTime(dfMinTime,dfMaxTime),HttpStatus.OK);
+//    }
+
+//    @GetMapping("/listApartmentRanting")
+//    public ResponseEntity<ServiceResult> listApartmentRanting() {
+//        return new ResponseEntity<>(ordersService.findAllApartmentRanting(),HttpStatus.OK);
 //    }
 }

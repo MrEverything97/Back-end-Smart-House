@@ -2,6 +2,7 @@ package com.cg.smart_house.service.impl;
 
 import com.cg.smart_house.model.Apartment;
 import com.cg.smart_house.model.Order;
+import com.cg.smart_house.model.StatusOrders;
 import com.cg.smart_house.repository.ApartmentRepository;
 import com.cg.smart_house.repository.OrdersRepository;
 import com.cg.smart_house.service.OrdersService;
@@ -59,15 +60,26 @@ public class OrdersServiceImpl implements OrdersService {
 //    @Override
 //    public ServiceResult findAllOrderByStartTimeAndEndTime(Date minTime, Date maxTime) {
 //        ServiceResult serviceResult = new ServiceResult();
-//        List<Orders> ordersList = ordersRepository.findAll();
+//        List<Order> ordersList = ordersRepository.getAllByStartTimeAndEndTime(minTime, maxTime);
 //        if (ordersList.isEmpty()){
 //            serviceResult.setMessage("No found orders");
 //            return serviceResult;
 //        } else {
-//            serviceResult.setData(ordersRepository.findAllByStartTimeAfterAndEndTimeBefore(minTime,maxTime));
+//            serviceResult.setData(ordersRepository.getAllByStartTimeAndEndTime(  minTime,maxTime));
 //        }
 //        return serviceResult;
 //    }
+
+    @Override
+    public ServiceResult findAllApartmentRanting() {
+        ServiceResult serviceResult = new ServiceResult();
+        List<Order> apartments = ordersRepository.findAllByStatusOrders(StatusOrders.RENTING);
+        if (apartments.isEmpty()) {
+            serviceResult.setMessage("Not found");
+        }
+        serviceResult.setData(apartments);
+        return serviceResult;
+    }
 
     @Override
     public ServiceResult createOrders(Order orders) {
