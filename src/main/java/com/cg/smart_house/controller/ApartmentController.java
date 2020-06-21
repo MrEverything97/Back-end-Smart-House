@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/api")
@@ -50,6 +52,10 @@ public class ApartmentController {
         return new ResponseEntity<>(apartmentService.findAll(),HttpStatus.OK);
     }
 
-
+    // Update pictures only
+    @PutMapping("/update-apartment-pictures/{id}")
+    public ResponseEntity<ServiceResult> updateApartmentPictures(@PathVariable Long id,@RequestBody List<Picture> pictureList){
+        return new ResponseEntity<>(apartmentService.updateApartmentPicture(id,pictureList),HttpStatus.OK);
+    }
 
 }

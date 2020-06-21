@@ -8,10 +8,12 @@ import java.util.List;
 public interface ApartmentService {
     ServiceResult createApartment(Apartment apartment);
     ServiceResult updateApartment(Long id,Apartment apartment);
+    ServiceResult updateApartmentPicture(Long id,List<Picture> pictureList);
     ServiceResult findAll();
     ServiceResult findById(Long id);
     ServiceResult deleteApartment(Long id);
     ServiceResult findAllByHostId(Long hostId);
+
 //    Apartment saveApartment(Apartment apartment);
 //
 //    List<Picture> savePictures(Apartment apartmentObj, Apartment apartment);

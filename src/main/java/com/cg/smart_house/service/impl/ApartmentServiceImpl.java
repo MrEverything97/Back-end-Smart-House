@@ -122,17 +122,22 @@ public class ApartmentServiceImpl implements ApartmentService {
 
     @Override
     public ServiceResult updateApartment(Long id,Apartment apartment) {
+        // need new logic
+        return null;
+    }
+
+
+    @Override
+    public ServiceResult updateApartmentPicture(Long id, List<Picture> pictureList) { // only update pictures
         ServiceResult serviceResult = new ServiceResult();
         Apartment currentApartment = apartmentRepository.findById(id).orElse(null);
-        if (apartment == null) {
+        if (currentApartment == null) {
             serviceResult.setStatus(ServiceStatus.FAILED);
             serviceResult.setMessage("Apartment Not Found");
         } else {
-
-            List<Picture> oldPictures = pictureRepository.findAllByApartment(currentApartment);
-            pictureRepository.deleteAll(oldPictures);
-            List<Picture> newPictures = apartment.getPictures();
-            for (Picture picture : newPictures) {
+            List<Picture> oldPictureList = pictureRepository.findAllByApartment(currentApartment);
+            pictureRepository.deleteAll(oldPictureList);
+            for (Picture picture : pictureList) {
                 picture.setId(null);
                 picture.setApartment(currentApartment);
                 pictureRepository.save(picture);
