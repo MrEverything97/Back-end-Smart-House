@@ -10,6 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @RestController
 @RequestMapping("/api")
@@ -45,7 +49,7 @@ public class ApartmentController {
     }
 
     /* ---------------- LIST Apartment ------------------------ */
-    @GetMapping("/listApartment")
+    @GetMapping("/listApartmentAll")
     public ResponseEntity<ServiceResult> listApartment(){
         return new ResponseEntity<>(apartmentService.findAll(),HttpStatus.OK);
     }
@@ -53,6 +57,16 @@ public class ApartmentController {
     @GetMapping("/listApartmentRanting")
     public ResponseEntity<ServiceResult> listApartmentRanting() {
         return new ResponseEntity<>(ordersService.findAllApartmentRanTing(),HttpStatus.OK);
+    }
+
+    @GetMapping("/listApartment")
+    public ResponseEntity<ServiceResult> listApartmentByDate(@RequestParam("minTime") String minTime,
+                                                             @RequestParam("maxTime") String maxTime,
+                                                             @RequestParam("idProvince") Long idProvince) throws ParseException {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        Date dfMinTime = df.parse(minTime);
+        Date dfMaxTime = df.parse(maxTime);
+        return new ResponseEntity<>(apartmentService.findAllByAddressAndOrderStartTimeAndEndTime(idProvince, dfMinTime,dfMaxTime),HttpStatus.OK);
     }
 
 }

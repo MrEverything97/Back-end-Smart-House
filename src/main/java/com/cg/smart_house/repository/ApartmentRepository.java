@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ApartmentRepository extends JpaRepository<Apartment, Long> {
@@ -31,6 +32,8 @@ public interface ApartmentRepository extends JpaRepository<Apartment, Long> {
     List<Apartment> findAllByHosts(Host host);
 
     List<Apartment> findAllByRoomTypes(RoomType rooType);
+
+    List<Apartment> findAllByAddressProvinces(Province province);
 }
 
 //    @Query("select apart,adr,ord from Apartment apart, Address adr, Order ord "

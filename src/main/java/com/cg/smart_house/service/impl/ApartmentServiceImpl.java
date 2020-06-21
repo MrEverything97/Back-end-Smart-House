@@ -133,32 +133,24 @@ public class ApartmentServiceImpl implements ApartmentService {
         ServiceResult serviceResult = new ServiceResult();
         serviceResult.setStatus(ServiceStatus.FAILED);
 
-        Address address = addressRepository.findAllByProvinces(provinceRepository.findById(idProvince));
-        if (address == null) {
-            serviceResult.setMessage("No find apartment ");
+        Province province = provinceRepository.findById(idProvince).orElse(null);
+        if (province == null) {
+            serviceResult.setMessage("No find apartment by province ");
             return serviceResult;
         } else {
-            List<Apartment> apartmentList = apartmentRepository.findAllByAddress(address);
+            List<Apartment> apartmentListByProvince = apartmentRepository.findAllByAddressProvinces(province);
             List<Order> orderList = ordersRepository.getAllByStartTimeAndEndTimeNoParam(minTime, maxTime);
             if (orderList.isEmpty()) {
-                serviceResult.setData(apartmentList);
                 serviceResult.setStatus(ServiceStatus.SUCCESS);
-                return serviceResult;
+                serviceResult.setData(apartmentListByProvince);
             } else {
-                Collections.sort(orderList);
-                int sizeList = orderList.size() - 1;
-                for (int i = 0; i < sizeList; i++) {
-                    if (!(orderList.get(0).getStartTime().after(maxTime)
-                            || orderList.get(sizeList).getEndTime().before(minTime)
-                            || (orderList.get(i).getEndTime().before(minTime) && orderList.get(i + 1).getStartTime().after(maxTime)))) {
-
-                    }
-
+                for (Order order : orderList) {
+                    apartmentListByProvince.remove(order.getApartment());
                 }
+                serviceResult.setStatus(ServiceStatus.SUCCESS);
+                serviceResult.setData(apartmentListByProvince);
             }
-
-
-            return null;
+            return serviceResult;
         }
 
 
