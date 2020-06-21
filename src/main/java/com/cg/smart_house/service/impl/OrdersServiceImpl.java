@@ -60,13 +60,11 @@ public class OrdersServiceImpl implements OrdersService {
     @Override
     public ServiceResult findAllOrderByStartTimeAndEndTime(Date minTime, Date maxTime) {
         ServiceResult serviceResult = new ServiceResult();
+
         List<Apartment> apartmentList = apartmentRepository.findAll();
-        List<Order> orderListAll = ordersRepository.findAll();
         List<Order> orderListByDate = ordersRepository.getAllByStartTimeAndEndTime(minTime, maxTime);
-        if (orderListAll.isEmpty()) {
-            serviceResult.setMessage("No find orders");
-        } else if (orderListByDate.isEmpty()) {
-            serviceResult.setData(orderListAll);
+        if (orderListByDate.isEmpty()) {
+            serviceResult.setData(apartmentList);
             return serviceResult;
         } else {
             for (Order order : orderListByDate) {
