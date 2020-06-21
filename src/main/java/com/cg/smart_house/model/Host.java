@@ -2,6 +2,7 @@ package com.cg.smart_house.model;
 
 import lombok.Data;
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -9,19 +10,13 @@ import java.util.Set;
 @Data
 public class Host {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
     private String password;
     private String email;
     private String phone;
 
-<<<<<<< HEAD
     @OneToMany(mappedBy = "host")
-    private Set<Apartment> apartment;
+    private List<Apartment> apartment;
 }
-=======
-    @OneToMany(mappedBy = "hosts")
-    private Set<Apartment> apartment;
-}
->>>>>>> 5c756754e611cad23b6af99de1cf0587f25e6bc4

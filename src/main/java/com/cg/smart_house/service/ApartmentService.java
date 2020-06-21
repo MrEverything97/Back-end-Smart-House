@@ -1,12 +1,12 @@
 package com.cg.smart_house.service;
 
 import com.cg.smart_house.model.Apartment;
-<<<<<<< HEAD
+
 import com.cg.smart_house.model.Picture;
 
+import java.util.Date;
 import java.util.List;
-=======
->>>>>>> 5c756754e611cad23b6af99de1cf0587f25e6bc4
+
 
 public interface ApartmentService {
     ServiceResult createApartment(Apartment apartment);
@@ -20,6 +20,12 @@ public interface ApartmentService {
     ServiceResult deleteApartment(Long id);
 
     ServiceResult findTopByPriceByDate(int price);
+
+    ServiceResult findTop5ByPriceByDateAndNameContains(int price, String name);
+
+    ServiceResult findAllByPriceByDate(int minPrice, int maxPrice);
+
+    ServiceResult findAllOrderByStartTimeAndEndTime(Date startTime, Date endTime);
 
     //    Apartment saveApartment(Apartment apartment);
 

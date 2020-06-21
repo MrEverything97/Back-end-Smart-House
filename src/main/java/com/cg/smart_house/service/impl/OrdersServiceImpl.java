@@ -94,11 +94,6 @@ public class OrdersServiceImpl implements OrdersService {
         long countDayOrders = (c2.getTime().getTime() - c1.getTime().getTime()) / (24 * 3600 * 1000);
         Long priceApartment = apartment.get().getPriceByDate() * countDayOrders;
 
-
-<<<<<<< HEAD:src/main/java/com/cg/smart_house/service/impl/OrdersServiceImpl.java
-=======
-        // Nhà cho thuê chưa ai thuê
->>>>>>> 5c756754e611cad23b6af99de1cf0587f25e6bc4:src/main/java/com/cg/smart_house/service/impl/OrdersServiceImpl.java
         List<Order> listOrders = ordersRepository.findAllByApartment(apartment.get());
         if (listOrders.isEmpty()) {
             return saveOrdersWithEmptyApartment(orders, serviceResult, priceApartment);

@@ -5,14 +5,13 @@ import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
-import java.util.ArrayList;
 
 
 @Entity
 @Data
 public class Apartment {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank(message = "Please not null name")
     private String name;
@@ -24,13 +23,6 @@ public class Apartment {
     @OneToMany(mappedBy = "apartment")
     private List<Picture> pictures;
 
-<<<<<<< HEAD
-//    @OneToMany(mappedBy = "apartment")
-//    private List<Category> categories;
-=======
-    @OneToMany(mappedBy = "apartment")
-    private List<Category> categories;
->>>>>>> 5c756754e611cad23b6af99de1cf0587f25e6bc4
 
     @OneToMany(mappedBy = "apartment")
     private List<Order> orders;
@@ -41,7 +33,6 @@ public class Apartment {
     @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @JoinColumn(name = "host_id")
-<<<<<<< HEAD
     private Host host;
 
     @ManyToMany
@@ -52,21 +43,11 @@ public class Apartment {
     private List<Category> categories ;
 
     @ManyToMany
-=======
-    private Host hosts;
-
-    @ManyToMany
->>>>>>> 5c756754e611cad23b6af99de1cf0587f25e6bc4
     @JoinTable(
             name = "apartment_room_type",
             joinColumns = @JoinColumn(name = "apartment_id"),
             inverseJoinColumns = @JoinColumn(name = "room_type_id"))
     private List<RoomType> roomTypes ;
 
-    public Apartment() {
-    }
-<<<<<<< HEAD
+
 }
-=======
-}
->>>>>>> 5c756754e611cad23b6af99de1cf0587f25e6bc4

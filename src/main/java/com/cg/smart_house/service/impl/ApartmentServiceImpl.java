@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +21,7 @@ public class ApartmentServiceImpl implements ApartmentService {
     private ApartmentRepository apartmentRepository;
 
     @Autowired
-<<<<<<< HEAD
+
     private HostRepository hostRepository;
 
     @Autowired
@@ -35,22 +36,12 @@ public class ApartmentServiceImpl implements ApartmentService {
     @Autowired
     ProvinceRepository provinceRepository;
 
-//    private Picture savePicture();
-=======
-    private CategoryRepository categoryRepository;
 
-    @Autowired
-    private PictureRepository pictureRepository;
-
-    @Autowired
-    ProvinceRepository provinceRepository;
->>>>>>> 5c756754e611cad23b6af99de1cf0587f25e6bc4
 
     @Override
     public ServiceResult createApartment(Apartment apartment) {
         ServiceResult serviceResult = new ServiceResult();
 
-<<<<<<< HEAD
         // get and remove picture list from apartment
         List<Picture> pictureList = apartment.getPictures();
         apartment.setPictures(null);
@@ -69,40 +60,9 @@ public class ApartmentServiceImpl implements ApartmentService {
         });
 
         serviceResult.setMessage("add new apartment success");
-=======
-        //Xét loại nhà
-        List<Category> categories = apartment.getCategories();
-        for (Category category : categories){
-            Category findCategory = categoryRepository.findByName(category.getName());
-            if (findCategory == null) {
-                Category newCategory = categoryRepository.save(category);
-                category.setId(newCategory.getId());
-                category.setApartment(apartment);
-            } else {
-                category.setId(findCategory.getId());
-            }
-        }
-        //Xét ảnh
-        List<Picture> pictures = apartment.getPictures();
-        for (Picture picture : pictures){
-            Picture findPicture = pictureRepository.findByImageUrl(picture.getImageUrl());
-            if (findPicture == null) {
-                Picture newPicture = pictureRepository.save(picture);
-                picture.setId(newPicture.getId());
-                picture.setApartment(apartment);
-            } else {
-                picture.setId(findPicture.getId());
-            }
-        }
-        //Xét địa chỉ
-//        Province province = provinceRepository.findByName(apartment.getAddress().getProvinces().getName());
-//        apartment.getAddress().setApartment(apartment);
-//        apartment.getAddress().getProvinces().setId(province.getId());
-
-        serviceResult.setData(apartmentRepository.save(apartment));
->>>>>>> 5c756754e611cad23b6af99de1cf0587f25e6bc4
         return serviceResult;
     }
+
 
     @Override
     public ServiceResult findAll() {
@@ -155,13 +115,47 @@ public class ApartmentServiceImpl implements ApartmentService {
     @Override
     public ServiceResult findTopByPriceByDate(int price) {
         ServiceResult serviceResult = new ServiceResult();
-        List<Apartment> apartments = apartmentRepository.findTopByPriceByDate(price);
+        List<Apartment> apartments = apartmentRepository.findTop2ByPriceByDate(price);
         if (apartments.isEmpty()) {
             serviceResult.setMessage("No Apartment Math");
         }
-        serviceResult.setData(apartmentRepository.findTopByPriceByDate(price));
+        serviceResult.setData(apartmentRepository.findTop2ByPriceByDate(price));
         return serviceResult;
     }
+
+    @Override
+    public ServiceResult findTop5ByPriceByDateAndNameContains(int price, String name) {
+        ServiceResult serviceResult = new ServiceResult();
+        List<Apartment> apartments = apartmentRepository.findTop5ByPriceByDateAndNameContains(price, name);
+        if (apartments.isEmpty()) {
+            serviceResult.setMessage("No Apartment Math");
+        }
+        serviceResult.setData(apartmentRepository.findTop5ByPriceByDateAndNameContains(price, name));
+        return serviceResult;
+    }
+
+    @Override
+    public ServiceResult findAllByPriceByDate(int minPrice, int maxPrice) {
+        ServiceResult serviceResult = new ServiceResult();
+        List<Apartment> apartments = apartmentRepository.findAllByPriceByDateBetween(minPrice, maxPrice);
+        if (apartments.isEmpty()) {
+            serviceResult.setMessage("Not found");
+        }
+        serviceResult.setData(apartmentRepository.findAllByPriceByDateBetween(minPrice, maxPrice));
+        return serviceResult;
+    }
+
+    @Override
+    public ServiceResult findAllOrderByStartTimeAndEndTime(Date startTime, Date endTime) {
+        ServiceResult serviceResult = new ServiceResult();
+        List<Apartment> apartments = apartmentRepository.findAllByStartTimeAndEndTime(startTime, endTime);
+        if (apartments.isEmpty()) {
+            serviceResult.setMessage("Not found");
+        }
+        serviceResult.setData(apartmentRepository.findAllByStartTimeAndEndTime(startTime, endTime));
+        return serviceResult;
+    }
+
 
 //    @Override
 //    public Apartment saveApartment(Apartment apartment) {
