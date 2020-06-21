@@ -9,8 +9,7 @@ import com.cg.smart_house.service.ServiceStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 @Service
@@ -110,12 +109,45 @@ public class ApartmentServiceImpl implements ApartmentService {
     @Override
     public ServiceResult findAllByHostId(Long hostId) {
         ServiceResult serviceResult = new ServiceResult();
+        serviceResult.setStatus(ServiceStatus.FAILED);
         List<Apartment> apartmentList = apartmentRepository.findAllByHost_Id(hostId);
         if(apartmentList.isEmpty()){
             serviceResult.setMessage("NOT FOUND");
         } else {
             serviceResult.setMessage("SUCCESS");
             serviceResult.setData(apartmentList);
+        }
+        return serviceResult;
+    }
+
+    @Override
+    public ServiceResult searchApartment(int bedroom, int bathroom, Long province_id, int startPrice, int endPrice, Date startTime, Date endTime) {
+        ServiceResult serviceResult = new ServiceResult();
+        serviceResult.setStatus(ServiceStatus.FAILED);
+        List<Apartment> apartmentList = apartmentRepository.findApartmentByBedroomAndBathroomAndAddress_Provinces_IdAndPriceByDateIsBetween(bedroom, bathroom, province_id, startPrice, endPrice);
+        int i;
+        List<Order> orderList;
+        List<Apartment> resultApartmentList = new ArrayList<>();
+        for(i = 0; i < apartmentList.size(); i++) {
+            orderList = apartmentList.get(i).getOrders();
+            Date nowDate = new Date();
+            Collections.sort(orderList);
+            int sizeList = orderList.size() - 1;
+            boolean flag = true;
+            for (int j = 0; j <= sizeList && flag; j++) {
+                if (!((startTime.after(nowDate) && endTime.before(orderList.get(0).getStartTime()))
+                        || startTime.after(orderList.get(sizeList).getEndTime())
+                        || (startTime.after(orderList.get(j).getEndTime()) && endTime.before(orderList.get(j + 1).getStartTime())))){
+                    flag = false;
+                }
+            }
+            if(flag){
+               resultApartmentList.add(apartmentList.get(i));
+            }
+        }
+        if(!resultApartmentList.isEmpty()){
+            serviceResult.setStatus(ServiceStatus.SUCCESS);
+            serviceResult.setData(resultApartmentList);
         }
         return serviceResult;
     }
