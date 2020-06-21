@@ -19,6 +19,7 @@ public class ApartmentServiceImpl implements ApartmentService {
     private ApartmentRepository apartmentRepository;
 
     @Autowired
+
     private HostRepository hostRepository;
 
     @Autowired
@@ -33,7 +34,7 @@ public class ApartmentServiceImpl implements ApartmentService {
     @Autowired
     ProvinceRepository provinceRepository;
 
-//    private Picture savePicture();
+
 
     @Override
     public ServiceResult createApartment(Apartment apartment) {
@@ -59,6 +60,7 @@ public class ApartmentServiceImpl implements ApartmentService {
         serviceResult.setMessage("add new apartment success");
         return serviceResult;
     }
+
 
     @Override
     public ServiceResult findAll() {
@@ -116,17 +118,7 @@ public class ApartmentServiceImpl implements ApartmentService {
             serviceResult.setMessage("No Apartment Math");
         }
         serviceResult.setData(apartmentRepository.findTop2ByPriceByDate(price));
-        return serviceResult;
-    }
 
-    @Override
-    public ServiceResult findTop5ByPriceByDateAndNameContains(int price, String name) {
-        ServiceResult serviceResult = new ServiceResult();
-        List<Apartment> apartments = apartmentRepository.findTop5ByPriceByDateAndNameContains(price, name);
-        if (apartments.isEmpty()) {
-            serviceResult.setMessage("No Apartment Math");
-        }
-        serviceResult.setData(apartmentRepository.findTop5ByPriceByDateAndNameContains(price, name));
         return serviceResult;
     }
 
@@ -149,8 +141,32 @@ public class ApartmentServiceImpl implements ApartmentService {
             serviceResult.setMessage("Not found");
         }
         serviceResult.setData(apartmentRepository.findAllByStartTimeAndEndTime(startTime, endTime));
+
         return serviceResult;
     }
+
+    @Override
+    public ServiceResult findTop5ByPriceByDateAndNameContains(int price, String name) {
+        ServiceResult serviceResult = new ServiceResult();
+        List<Apartment> apartments = apartmentRepository.findTop5ByPriceByDateAndNameContains(price, name);
+        if (apartments.isEmpty()) {
+            serviceResult.setMessage("No Apartment Math");
+        }
+        serviceResult.setData(apartmentRepository.findTop5ByPriceByDateAndNameContains(price, name));
+        return serviceResult;
+    }
+
+//    @Override
+//    public ServiceResult findAllOrderByStartTimeAndEndTime(Date startTime, Date endTime) {
+//        ServiceResult serviceResult = new ServiceResult();
+//        List<Apartment> apartments = apartmentRepository.findAllByStartTimeAndEndTime(startTime, endTime);
+//        if (apartments.isEmpty()) {
+//            serviceResult.setMessage("Not found");
+//        }
+//        serviceResult.setData(apartmentRepository.findAllByStartTimeAndEndTime(startTime, endTime));
+//        return serviceResult;
+//    }
+
 
 //    @Override
 //    public Apartment saveApartment(Apartment apartment) {
@@ -183,4 +199,26 @@ public class ApartmentServiceImpl implements ApartmentService {
         //Find Apartment By Address
         return serviceResult;
     }
+
+
+    @Override
+    public ServiceResult searchAllByApartment(String name, int bedroom, int bathroom, int price, String address,
+                                              Date startTime, Date endTime) {
+        ServiceResult serviceResult = new ServiceResult();
+        List<Apartment> apartments = apartmentRepository.findAllByApartment(name, bedroom, bathroom, price, address, startTime, endTime);
+        if (apartments.isEmpty()) {
+            serviceResult.setMessage("Not found");
+        }
+        serviceResult.setData(apartmentRepository.findAllByApartment(name, bedroom, bathroom, price, address, startTime, endTime));
+        return serviceResult;
+    }
+//        ServiceResult serviceResult = new ServiceResult();
+//        if (!apartmentRepository.findById(apartment.getId()).isPresent()){
+//            serviceResult.setMessage("Apartment not found");
+//        } else{
+//            serviceResult.setData(apartmentRepository.save(apartment));
+//        }
+//        return serviceResult;
+//    }
 }
+

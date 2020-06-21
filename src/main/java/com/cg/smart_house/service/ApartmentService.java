@@ -1,15 +1,19 @@
 package com.cg.smart_house.service;
 
 import com.cg.smart_house.model.Apartment;
+
 import com.cg.smart_house.model.Picture;
 
 import java.util.Date;
 import java.util.List;
 
+
 public interface ApartmentService {
     ServiceResult createApartment(Apartment apartment);
 
     ServiceResult updateApartment(Long id,Apartment apartment);
+
+    ServiceResult searchAllByApartment(String name, int bedroom, int bathroom, int price, String address, Date startTime, Date endTime);
 
     ServiceResult findAll();
 

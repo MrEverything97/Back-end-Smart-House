@@ -20,3 +20,5 @@ public class Host {
     @OneToMany(mappedBy = "host")
     private List<Apartment> apartment;
 }
+
+

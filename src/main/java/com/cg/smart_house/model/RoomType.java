@@ -18,5 +18,7 @@ public class RoomType {
 
     @ManyToMany(mappedBy = "roomTypes")
     @JsonBackReference
+
     private List<Apartment> apartments;
+
 }

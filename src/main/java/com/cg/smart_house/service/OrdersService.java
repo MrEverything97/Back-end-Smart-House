@@ -9,5 +9,9 @@ public interface OrdersService {
     ServiceResult updateStatusOrders(Order orders);
     ServiceResult createOrders(Order orders);
     ServiceResult findAllOrdersByApartment(Long id);
+
     ServiceResult findAllOrderByStartTimeAndEndTime(Date minTime, Date maxTime);
+//    ServiceResult findAllOrderByStartTimeAndEndTime(Date minTime, Date maxTime);
+    //Tim kiem nha da cho thue
+    ServiceResult findAllApartmentRanting();
 }

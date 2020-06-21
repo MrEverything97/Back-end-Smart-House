@@ -43,4 +43,19 @@ public class OrdersController {
         Date dfMaxTime = df.parse(maxTime);
         return new ResponseEntity<>(ordersService.findAllOrderByStartTimeAndEndTime(dfMinTime, dfMaxTime), HttpStatus.OK);
     }
+
+//    @GetMapping("/listOrders")
+//    public ResponseEntity<ServiceResult> listApartmentByDate(@RequestParam("minTime") String minTime,
+//                                                             @RequestParam("maxTime") String maxTime) throws ParseException {
+//        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+//        Date dfMinTime = df.parse(minTime);
+//        Date dfMaxTime = df.parse(maxTime);
+//        return new ResponseEntity<>(ordersService.findAllOrderByStartTimeAndEndTime(dfMinTime,dfMaxTime),HttpStatus.OK);
+//    }
+
+//    @GetMapping("/listApartmentRanting")
+//    public ResponseEntity<ServiceResult> listApartmentRanting() {
+//        return new ResponseEntity<>(ordersService.findAllApartmentRanting(),HttpStatus.OK);
+//    }
+
 }

@@ -40,14 +40,13 @@ public class Apartment {
             name = "apartment_category",
             joinColumns = @JoinColumn(name = "apartment_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private List<Category> categories ;
+    private List<Category> categories;
 
     @ManyToMany
     @JoinTable(
             name = "apartment_room_type",
             joinColumns = @JoinColumn(name = "apartment_id"),
             inverseJoinColumns = @JoinColumn(name = "room_type_id"))
-    private List<RoomType> roomTypes ;
-
+    private List<RoomType> roomTypes;
 
 }

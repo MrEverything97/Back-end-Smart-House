@@ -2,6 +2,7 @@ package com.cg.smart_house.service.impl;
 
 import com.cg.smart_house.model.Apartment;
 import com.cg.smart_house.model.Order;
+import com.cg.smart_house.model.StatusOrders;
 import com.cg.smart_house.repository.ApartmentRepository;
 import com.cg.smart_house.repository.OrdersRepository;
 import com.cg.smart_house.service.OrdersService;
@@ -27,6 +28,7 @@ public class OrdersServiceImpl implements OrdersService {
         return serviceResult;
     }
 
+    //Update trang thai nha
     @Override
     public ServiceResult updateStatusOrders(Order orders) {
         ServiceResult serviceResult = new ServiceResult();
@@ -68,6 +70,31 @@ public class OrdersServiceImpl implements OrdersService {
         return serviceResult;
     }
 
+//    @Override
+//    public ServiceResult findAllOrderByStartTimeAndEndTime(Date minTime, Date maxTime) {
+//        ServiceResult serviceResult = new ServiceResult();
+//        List<Order> ordersList = ordersRepository.getAllByStartTimeAndEndTime(minTime, maxTime);
+//        if (ordersList.isEmpty()){
+//            serviceResult.setMessage("No found orders");
+//            return serviceResult;
+//        } else {
+//            serviceResult.setData(ordersRepository.getAllByStartTimeAndEndTime(  minTime,maxTime));
+//        }
+//        return serviceResult;
+//    }
+
+
+    @Override
+    public ServiceResult findAllApartmentRanting() {
+        ServiceResult serviceResult = new ServiceResult();
+        List<Order> apartments = ordersRepository.findAllByStatusOrders(StatusOrders.RENTING);
+        if (apartments.isEmpty()) {
+            serviceResult.setMessage("Not found");
+        }
+        serviceResult.setData(apartments);
+        return serviceResult;
+    }
+
     @Override
     public ServiceResult createOrders(Order orders) {
         ServiceResult serviceResult = new ServiceResult();
@@ -82,15 +109,23 @@ public class OrdersServiceImpl implements OrdersService {
             return serviceResult;
         }
 
+        //Khai bao ngay bat dau
         Date startTimeOrders = orders.getStartTime();
+        //khai bao ngay ket thuc
         Date endTimeOrders = orders.getEndTime();
+        //Khai bao ngay hien tai
         Date nowDate = new Date();
 
+        //Lay ngay theo lich
         Calendar c1 = Calendar.getInstance();
         Calendar c2 = Calendar.getInstance();
+        //Ap dung so sanh
         c1.setTime(startTimeOrders);
         c2.setTime(endTimeOrders);
+        //Truoc khi so sanh. Tao so nguyen kieu Long lay du lieu
+        //tu Date da tao truoc do. Su dung phuong thuc GetTime().
         long countDayOrders = (c2.getTime().getTime() - c1.getTime().getTime()) / (24 * 3600 * 1000);
+        //Tinh gia phong
         Long priceApartment = apartment.get().getPriceByDate() * countDayOrders;
 
 
@@ -105,8 +140,8 @@ public class OrdersServiceImpl implements OrdersService {
         Collections.sort(listOrders);
         int sizeList = listOrders.size() - 1;
         for (int i = 0; i <= sizeList; i++) {
-            if (startTimeOrders.after(nowDate)
-                    || endTimeOrders.before(listOrders.get(0).getStartTime()) || startTimeOrders.after(listOrders.get(sizeList).getEndTime())
+            if ((startTimeOrders.after(nowDate) && endTimeOrders.before(listOrders.get(0).getStartTime()))
+                    || startTimeOrders.after(listOrders.get(sizeList).getEndTime())
                     || (startTimeOrders.after(listOrders.get(i).getEndTime()) && endTimeOrders.before(listOrders.get(i + 1).getStartTime()))){
                 serviceResult.setMessage("Success orders apartment");
                 return saveOrdersWithPrice(orders, serviceResult, priceApartment);
