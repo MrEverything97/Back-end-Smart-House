@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -60,7 +62,10 @@ public class ApartmentController {
     }
 
     @GetMapping("/search-apartment")
-    public ResponseEntity<ServiceResult> searchApartment(@RequestParam int bedroom, int bathroom, Long province_id, int startPrice, int endPrice, Date startTime, Date endTime){
-        return new ResponseEntity<>(apartmentService.searchApartment(bedroom,bathroom,province_id,startPrice,endPrice,startTime,endTime),HttpStatus.OK);
+    public ResponseEntity<ServiceResult> searchApartment(@RequestParam int bedroom, int bathroom, Long province_id, int startPrice, int endPrice, String startTime, String endTime) throws ParseException {
+         System.out.println(startTime);
+        Date startTimeDate = new SimpleDateFormat("yyyy-MM-dd").parse(startTime);
+        Date endTimeDate = new SimpleDateFormat("yyyy-MM-dd").parse(endTime);
+        return new ResponseEntity<>(apartmentService.searchApartment(bedroom,bathroom,province_id,startPrice,endPrice,startTimeDate,endTimeDate),HttpStatus.OK);
     }
 }
