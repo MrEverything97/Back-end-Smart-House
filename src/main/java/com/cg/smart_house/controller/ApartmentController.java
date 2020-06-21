@@ -27,10 +27,10 @@ public class ApartmentController {
     }
 
     /* ---------------- UPDATE Apartment ------------------------ */
-    @PutMapping("/updateApartment/{id}")
-    public ResponseEntity<ServiceResult> updateApartment(@RequestBody Apartment apartment){
-        return new ResponseEntity<>(apartmentService.updateApartment(apartment),HttpStatus.OK);
-    }
+//    @PutMapping("/updateApartment/{id}")
+//    public ResponseEntity<ServiceResult> updateApartment(@RequestBody Apartment apartment){
+//        return new ResponseEntity<>(apartmentService.updateApartment(apartment),HttpStatus.OK);
+//    }
 
     /* ---------------- DELETE Apartment ------------------------ */
     @DeleteMapping("/deleteApartment/{id}")

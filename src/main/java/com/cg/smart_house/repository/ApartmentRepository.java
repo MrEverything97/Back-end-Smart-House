@@ -32,6 +32,7 @@ public interface ApartmentRepository extends JpaRepository<Apartment, Long> {
 
     List<Apartment> findAllByRoomTypes(RoomType rooType);
 }
+
 //    @Query("select apart,adr,ord from Apartment apart, Address adr, Order ord "
 //            + "where apart.id = adr.apartment.id and apart.id = ord.apartment.id " +
 //            "and adr.provinces=:nameProvince and :minTime <= ord.startTime and ord.endTime <= :maxTime ")

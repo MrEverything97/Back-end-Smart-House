@@ -32,7 +32,7 @@ public class OrdersServiceImpl implements OrdersService {
     public ServiceResult updateStatusOrders(Order orders) {
         ServiceResult serviceResult = new ServiceResult();
         Optional<Order> orders1 = ordersRepository.findById(orders.getId());
-        if (!orders1.isPresent()){
+        if (!orders1.isPresent()) {
             serviceResult.setStatus(ServiceStatus.FAILED);
             serviceResult.setMessage("Orders not found");
             return serviceResult;
@@ -60,11 +60,19 @@ public class OrdersServiceImpl implements OrdersService {
     @Override
     public ServiceResult findAllOrderByStartTimeAndEndTime(Date minTime, Date maxTime) {
         ServiceResult serviceResult = new ServiceResult();
-        List<Order> orderList = ordersRepository.getAllByStartTimeAndEndTime(minTime,maxTime);
-        if (orderList.isEmpty()){
+        List<Apartment> apartmentList = apartmentRepository.findAll();
+        List<Order> orderListAll = ordersRepository.findAll();
+        List<Order> orderListByDate = ordersRepository.getAllByStartTimeAndEndTime(minTime, maxTime);
+        if (orderListAll.isEmpty()) {
             serviceResult.setMessage("No find orders");
+        } else if (orderListByDate.isEmpty()) {
+            serviceResult.setData(orderListAll);
+            return serviceResult;
         } else {
-            serviceResult.setData(orderList);
+            for (Order order : orderListByDate) {
+                apartmentList.remove(order.getApartment());
+            }
+            serviceResult.setData(apartmentList);
         }
         return serviceResult;
     }
@@ -119,7 +127,7 @@ public class OrdersServiceImpl implements OrdersService {
         for (int i = 0; i <= sizeList; i++) {
             if ((startTimeOrders.after(nowDate) && endTimeOrders.before(listOrders.get(0).getStartTime()))
                     || startTimeOrders.after(listOrders.get(sizeList).getEndTime())
-                    || (startTimeOrders.after(listOrders.get(i).getEndTime()) && endTimeOrders.before(listOrders.get(i + 1).getStartTime()))){
+                    || (startTimeOrders.after(listOrders.get(i).getEndTime()) && endTimeOrders.before(listOrders.get(i + 1).getStartTime()))) {
                 serviceResult.setMessage("Success orders apartment");
                 return saveOrdersWithPrice(orders, serviceResult, priceApartment);
             }

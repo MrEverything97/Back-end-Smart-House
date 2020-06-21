@@ -128,46 +128,49 @@ public class ApartmentServiceImpl implements ApartmentService {
         return serviceResult;
     }
 
-//    @Override
-//    public ServiceResult findAllByAddressAndOrderStartTimeAndEndTime(Long idProvince, Date minTime, Date maxTime) {
-//        ServiceResult serviceResult = new ServiceResult();
-//        serviceResult.setStatus(ServiceStatus.FAILED);
-//
-//        Address address = addressRepository.findAllByProvinces(provinceRepository.findById(idProvince));
-//        if (address == null) {
-//            serviceResult.setMessage("No find apartment ");
-//            return serviceResult;
-//        } else {
-//            List<Order> orderList = ordersRepository.findAll();
-//            if (orderList.isEmpty()) {
-//                serviceResult.setData(apartmentRepository.findAll());
-//                serviceResult.setStatus(ServiceStatus.SUCCESS);
-//                return serviceResult;
-//            } else {
-//                Collections.sort(orderList);
-//                List<Apartment> apartmentList = new ArrayList<>();
-//                int sizeOrders = orderList.size() - 1;
-////                for (Order order : orderList) {
-////                    if (order.getStartTime().after(minTime) || order.getEndTime().before(maxTime) || )
-//
-//                }
-//
-//            }
-//        }
-//
-//
-//        return null;
-//    }
-
-
     @Override
-    public ServiceResult updateApartment(Apartment apartment) {
+    public ServiceResult findAllByAddressAndOrderStartTimeAndEndTime(Long idProvince, Date minTime, Date maxTime) {
         ServiceResult serviceResult = new ServiceResult();
-        if (!apartmentRepository.findById(apartment.getId()).isPresent()) {
-            serviceResult.setMessage("Apartment not found");
+        serviceResult.setStatus(ServiceStatus.FAILED);
+
+        Address address = addressRepository.findAllByProvinces(provinceRepository.findById(idProvince));
+        if (address == null) {
+            serviceResult.setMessage("No find apartment ");
+            return serviceResult;
         } else {
-            serviceResult.setData(apartmentRepository.save(apartment));
+            List<Apartment> apartmentList = apartmentRepository.findAllByAddress(address);
+            List<Order> orderList = ordersRepository.getAllByStartTimeAndEndTimeNoParam(minTime, maxTime);
+            if (orderList.isEmpty()) {
+                serviceResult.setData(apartmentList);
+                serviceResult.setStatus(ServiceStatus.SUCCESS);
+                return serviceResult;
+            } else {
+                Collections.sort(orderList);
+                int sizeList = orderList.size() - 1;
+                for (int i = 0; i < sizeList; i++) {
+                    if (!(orderList.get(0).getStartTime().after(maxTime)
+                            || orderList.get(sizeList).getEndTime().before(minTime)
+                            || (orderList.get(i).getEndTime().before(minTime) && orderList.get(i + 1).getStartTime().after(maxTime)))) {
+
+                    }
+
+                }
+            }
+
+
+            return null;
         }
-        return serviceResult;
+
+
+//        @Override
+//        public ServiceResult updateApartment (Apartment apartment){
+//            ServiceResult serviceResult = new ServiceResult();
+//            if (!apartmentRepository.findById(apartment.getId()).isPresent()) {
+//                serviceResult.setMessage("Apartment not found");
+//            } else {
+//                serviceResult.setData(apartmentRepository.save(apartment));
+//            }
+//            return serviceResult;
+//        }
     }
 }
