@@ -11,6 +11,7 @@ public interface ApartmentService {
     ServiceResult findById(Long id);
     ServiceResult deleteApartment(Long id);
     ServiceResult findAllByAddressAndOrderStartTimeAndEndTime(Long idProvince, Date minTime, Date maxTime);
+    ServiceResult findAllCriteria(int bedroom, int bathroom, int priceByDate, Long idProvince, Date minTime, Date maxTime);
 //
 //    ServiceResult saveApartment(Apartment apartment);
 //

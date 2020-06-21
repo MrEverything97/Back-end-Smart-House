@@ -165,4 +165,30 @@ public class ApartmentServiceImpl implements ApartmentService {
 //            return serviceResult;
 //        }
     }
+
+    @Override
+    public ServiceResult findAllCriteria(int bedroom, int bathroom, int priceByDate, Long idProvince, Date minTime, Date maxTime) {
+        ServiceResult serviceResult = new ServiceResult();
+        serviceResult.setStatus(ServiceStatus.FAILED);
+
+        Province province = provinceRepository.findById(idProvince).orElse(null);
+        if (province == null) {
+            serviceResult.setMessage("No find apartment by province ");
+            return serviceResult;
+        } else {
+            List<Apartment> apartmentList = apartmentRepository.findAllByBedroomAndBathroomAndPriceByDateAndAddress_Provinces(bedroom, bathroom, priceByDate, province);
+            List<Order> orderList = ordersRepository.getAllByStartTimeAndEndTimeNoParam(minTime, maxTime);
+            if (orderList.isEmpty()) {
+                serviceResult.setStatus(ServiceStatus.SUCCESS);
+                serviceResult.setData(apartmentList);
+            } else {
+                for (Order order : orderList) {
+                    apartmentList.remove(order.getApartment());
+                }
+                serviceResult.setStatus(ServiceStatus.SUCCESS);
+                serviceResult.setData(apartmentList);
+            }
+            return serviceResult;
+        }
+    }
 }
