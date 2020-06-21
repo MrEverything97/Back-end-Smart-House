@@ -33,16 +33,16 @@ public interface ApartmentRepository extends JpaRepository<Apartment, Long> {
 //    @Query(value = "select o.start_time, o.end_time from apartment inner join orders o on apartment.id = o.apartment_id", nativeQuery = true)
 //    List<Apartment> findAllByStartTimeAndEndTime(Date startTime, Date endTime);
 
-    @Query(value = "select ap.name, ap.bedroom, ap.bathroom, ap.price_by_date, a.name, o.start_time, o.end_time\n" +
-            "from apartment ap\n" +
-            "    inner join address a on ap.id = a.apartment_id\n" +
-            "    inner join `order` o on ap.id = o.apartment_id;\n", nativeQuery = true)
-    List<Apartment> findAllByApartment(@Param("name") String name,
-                                       @Param("bedroom") int bedroom,
-                                       @Param("bathroom") int bathroom,
-                                       @Param("price") int price,
-                                       @Param("address") String address,
-                                       @Param("start") Date startTime,
-                                       @Param("end") Date endTime
-                                       );
+//    @Query(value = "select ap.name, ap.bedroom, ap.bathroom, ap.price_by_date, a.name, o.start_time, o.end_time\n" +
+//            "from apartment ap\n" +
+//            "    inner join address a on ap.id = a.apartment_id\n" +
+//            "    inner join `order` o on ap.id = o.apartment_id;\n", nativeQuery = true)
+//    List<Apartment> findAllByApartment(@Param("name") String name,
+//                                       @Param("bedroom") int bedroom,
+//                                       @Param("bathroom") int bathroom,
+//                                       @Param("price") int price,
+//                                       @Param("address") String address,
+//                                       @Param("start") Date startTime,
+//                                       @Param("end") Date endTime
+//                                       );
 }

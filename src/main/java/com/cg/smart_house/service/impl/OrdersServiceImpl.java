@@ -28,6 +28,7 @@ public class OrdersServiceImpl implements OrdersService {
         return serviceResult;
     }
 
+    //Update trang thai nha
     @Override
     public ServiceResult updateStatusOrders(Order orders) {
         ServiceResult serviceResult = new ServiceResult();
@@ -95,15 +96,23 @@ public class OrdersServiceImpl implements OrdersService {
             return serviceResult;
         }
 
+        //Khai bao ngay bat dau
         Date startTimeOrders = orders.getStartTime();
+        //khai bao ngay ket thuc
         Date endTimeOrders = orders.getEndTime();
+        //Khai bao ngay hien tai
         Date nowDate = new Date();
 
+        //Lay ngay theo lich
         Calendar c1 = Calendar.getInstance();
         Calendar c2 = Calendar.getInstance();
+        //Ap dung so sanh
         c1.setTime(startTimeOrders);
         c2.setTime(endTimeOrders);
+        //Truoc khi so sanh. Tao so nguyen kieu Long lay du lieu
+        //tu Date da tao truoc do. Su dung phuong thuc GetTime().
         long countDayOrders = (c2.getTime().getTime() - c1.getTime().getTime()) / (24 * 3600 * 1000);
+        //Tinh gia phong
         Long priceApartment = apartment.get().getPriceByDate() * countDayOrders;
 
         List<Order> listOrders = ordersRepository.findAllByApartment(apartment.get());
@@ -117,8 +126,8 @@ public class OrdersServiceImpl implements OrdersService {
         Collections.sort(listOrders);
         int sizeList = listOrders.size() - 1;
         for (int i = 0; i <= sizeList; i++) {
-            if (startTimeOrders.after(nowDate)
-                    || endTimeOrders.before(listOrders.get(0).getStartTime()) || startTimeOrders.after(listOrders.get(sizeList).getEndTime())
+            if ((startTimeOrders.after(nowDate) && endTimeOrders.before(listOrders.get(0).getStartTime()))
+                    || startTimeOrders.after(listOrders.get(sizeList).getEndTime())
                     || (startTimeOrders.after(listOrders.get(i).getEndTime()) && endTimeOrders.before(listOrders.get(i + 1).getStartTime()))){
                 serviceResult.setMessage("Success orders apartment");
                 return saveOrdersWithPrice(orders, serviceResult, priceApartment);

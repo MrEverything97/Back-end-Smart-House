@@ -52,16 +52,16 @@ public class ApartmentController {
     }
 
     /* ---------------- SEARCH AllByApartment ------------------------ */
-    @GetMapping("/searchAll")
-    public ResponseEntity<ServiceResult> searchAllByApartment(@RequestParam("name") String name,
-                                                              @RequestParam("bedroom") int bedroom,
-                                                              @RequestParam("bathroom") int bathroom,
-                                                              @RequestParam("price") int price,
-                                                              @RequestParam("address") String address,
-                                                              @RequestParam("start") Date startTime,
-                                                              @RequestParam("end") Date endTime){
-        return new ResponseEntity<>(apartmentService.searchAllByApartment(name, bedroom, bathroom, price, address, startTime, endTime),HttpStatus.OK);
-    }
+//    @GetMapping("/searchAll")
+//    public ResponseEntity<ServiceResult> searchAllByApartment(@RequestParam("name") String name,
+//                                                              @RequestParam("bedroom") int bedroom,
+//                                                              @RequestParam("bathroom") int bathroom,
+//                                                              @RequestParam("price") int price,
+//                                                              @RequestParam("address") String address,
+//                                                              @RequestParam("start") Date startTime,
+//                                                              @RequestParam("end") Date endTime){
+//        return new ResponseEntity<>(apartmentService.searchAllByApartment(name, bedroom, bathroom, price, address, startTime, endTime),HttpStatus.OK);
+//    }
 
     /* ---------------- SEARCH Apartment By StartTimeAndEndTime ------------------------ */
 //    @GetMapping("/searchTime")
