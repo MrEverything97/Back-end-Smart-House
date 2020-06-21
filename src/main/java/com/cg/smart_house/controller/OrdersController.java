@@ -15,6 +15,7 @@ import java.util.Date;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin("*")
 public class OrdersController {
     @Autowired
     private OrdersService ordersService;

@@ -13,7 +13,7 @@ import java.util.Date;
 @Table(name = "`order`")
 public class Order implements Serializable,Comparable<Order> {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Date startTime;
     private Date endTime;

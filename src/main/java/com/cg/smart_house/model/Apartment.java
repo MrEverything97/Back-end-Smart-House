@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 public class Apartment {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank(message = "Please not null name")
     private String name;
@@ -23,8 +23,6 @@ public class Apartment {
     @OneToMany(mappedBy = "apartment")
     private List<Picture> pictures;
 
-//    @OneToMany(mappedBy = "apartment")
-//    private List<Category> categories;
 
     @OneToMany(mappedBy = "apartment")
     private List<Order> orders;
@@ -51,6 +49,5 @@ public class Apartment {
             inverseJoinColumns = @JoinColumn(name = "room_type_id"))
     private List<RoomType> roomTypes ;
 
-    public Apartment() {
-    }
+
 }

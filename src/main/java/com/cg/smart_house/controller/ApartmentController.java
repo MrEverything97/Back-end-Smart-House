@@ -1,27 +1,27 @@
 package com.cg.smart_house.controller;
 
+import com.cg.smart_house.model.Address;
 import com.cg.smart_house.model.Apartment;
+import com.cg.smart_house.model.Picture;
+import com.cg.smart_house.service.AddressService;
 import com.cg.smart_house.service.ApartmentService;
+import com.cg.smart_house.service.PictureService;
 import com.cg.smart_house.service.ServiceResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 @RestController
 @RequestMapping("/api")
+@CrossOrigin("*")
 public class ApartmentController {
     @Autowired
     private ApartmentService apartmentService;
 
     /* ---------------- CREATE Apartment ------------------------ */
     @PostMapping("/createApartment")
-    public ResponseEntity<ServiceResult> createApartment(@Valid @RequestBody Apartment apartment){
+    public ResponseEntity<ServiceResult> createApartment( @RequestBody Apartment apartment){
         return new ResponseEntity<>(apartmentService.createApartment(apartment), HttpStatus.OK);
     }
 

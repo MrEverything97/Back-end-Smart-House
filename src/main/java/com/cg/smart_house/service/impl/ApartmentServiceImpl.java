@@ -8,11 +8,9 @@ import com.cg.smart_house.service.ServiceResult;
 import com.cg.smart_house.service.ServiceStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -185,12 +183,4 @@ public class ApartmentServiceImpl implements ApartmentService {
         //Find Apartment By Address
         return serviceResult;
     }
-//        ServiceResult serviceResult = new ServiceResult();
-//        if (!apartmentRepository.findById(apartment.getId()).isPresent()){
-//            serviceResult.setMessage("Apartment not found");
-//        } else{
-//            serviceResult.setData(apartmentRepository.save(apartment));
-//        }
-//        return serviceResult;
-//    }
 }

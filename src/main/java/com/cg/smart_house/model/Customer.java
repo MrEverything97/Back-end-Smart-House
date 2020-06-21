@@ -8,13 +8,14 @@ import java.util.List;
 @Data
 public class Customer {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
     private String password;
     private String name;
     private String phone;
 
-    @OneToMany(mappedBy = "customers")
+    @OneToMany
+    @JoinColumn(name = "customer_id")
     private List<Order> orders;
 }

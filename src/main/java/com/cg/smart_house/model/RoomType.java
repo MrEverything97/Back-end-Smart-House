@@ -12,11 +12,11 @@ import java.util.List;
 @Data
 public class RoomType {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
 
     @ManyToMany(mappedBy = "roomTypes")
     @JsonBackReference
-    private List<Apartment> apartments = new ArrayList<>();
+    private List<Apartment> apartments;
 }

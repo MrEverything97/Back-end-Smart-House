@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/picture")
+@CrossOrigin("*")
 public class PictureController {
     @Autowired
     private PictureService pictureService;
