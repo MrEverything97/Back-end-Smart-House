@@ -9,6 +9,7 @@ import com.cg.smart_house.service.ServiceStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -124,6 +125,11 @@ public class ApartmentServiceImpl implements ApartmentService {
             apartmentRepository.delete(apartment);
         }
         return serviceResult;
+    }
+
+    @Override
+    public ServiceResult findAllByAddressAndOrderStartTimeAndEndTime(Long idProvince, Date minTime, Date maxTime) {
+        return null;
     }
 
 

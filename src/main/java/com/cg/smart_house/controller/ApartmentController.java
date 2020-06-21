@@ -2,6 +2,7 @@ package com.cg.smart_house.controller;
 
 import com.cg.smart_house.model.Apartment;
 import com.cg.smart_house.service.ApartmentService;
+import com.cg.smart_house.service.OrdersService;
 import com.cg.smart_house.service.ServiceResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,9 @@ import javax.validation.Valid;
 public class ApartmentController {
     @Autowired
     private ApartmentService apartmentService;
+
+    @Autowired
+    private OrdersService ordersService;
 
     /* ---------------- CREATE Apartment ------------------------ */
     @PostMapping("/createApartment")
@@ -44,6 +48,11 @@ public class ApartmentController {
     @GetMapping("/listApartment")
     public ResponseEntity<ServiceResult> listApartment(){
         return new ResponseEntity<>(apartmentService.findAll(),HttpStatus.OK);
+    }
+
+    @GetMapping("/listApartmentRanting")
+    public ResponseEntity<ServiceResult> listApartmentRanting() {
+        return new ResponseEntity<>(ordersService.findAllApartmentRanTing(),HttpStatus.OK);
     }
 
 }

@@ -2,6 +2,7 @@ package com.cg.smart_house.repository;
 
 import com.cg.smart_house.model.Apartment;
 import com.cg.smart_house.model.Order;
+import com.cg.smart_house.model.StatusOrders;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -23,6 +24,11 @@ public interface OrdersRepository extends JpaRepository<Order, Long> {
     @Query(value = "select a from Order a where :minTime <= a.startTime and  a.endTime <= :maxTime")
     List<Order> getAllByStartTimeAndEndTime(@Param("minTime") Date minTime,
                                             @Param("maxTime") Date maxTime);
+
+    List<Order> findAllByStatusOrders(StatusOrders statusOrders);
+
+//    @Query(value = "select  from Order join Apartment b where Order.apartment= Apartment.id  ")
+//    List<Order> getAll();
 }
 
 

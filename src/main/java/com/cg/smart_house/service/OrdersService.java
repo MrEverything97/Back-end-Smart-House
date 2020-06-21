@@ -10,4 +10,5 @@ public interface OrdersService {
     ServiceResult createOrders(Order orders);
     ServiceResult findAllOrdersByApartment(Long id);
     ServiceResult findAllOrderByStartTimeAndEndTime(Date minTime, Date maxTime);
+    ServiceResult findAllApartmentRanTing();
 }
