@@ -9,9 +9,7 @@ import com.cg.smart_house.service.ServiceStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 @Service
@@ -30,6 +28,9 @@ public class ApartmentServiceImpl implements ApartmentService {
 
     @Autowired
     AddressRepository addressRepository;
+
+    @Autowired
+    OrdersRepository ordersRepository;
 //    @Override
 //    public ServiceResult saveApartment(Apartment apartment) {
 //        ServiceResult serviceResult = new ServiceResult();
@@ -62,7 +63,7 @@ public class ApartmentServiceImpl implements ApartmentService {
 //        return serviceResult;
 
         Set<Category> categories = apartment.getCategories();
-        for (Category category : categories){
+        for (Category category : categories) {
             Category findCategory = categoryRepository.findByName(category.getName());
             if (findCategory == null) {
                 Category newCategory = categoryRepository.save(category);
@@ -127,10 +128,36 @@ public class ApartmentServiceImpl implements ApartmentService {
         return serviceResult;
     }
 
-    @Override
-    public ServiceResult findAllByAddressAndOrderStartTimeAndEndTime(Long idProvince, Date minTime, Date maxTime) {
-        return null;
-    }
+//    @Override
+//    public ServiceResult findAllByAddressAndOrderStartTimeAndEndTime(Long idProvince, Date minTime, Date maxTime) {
+//        ServiceResult serviceResult = new ServiceResult();
+//        serviceResult.setStatus(ServiceStatus.FAILED);
+//
+//        Address address = addressRepository.findAllByProvinces(provinceRepository.findById(idProvince));
+//        if (address == null) {
+//            serviceResult.setMessage("No find apartment ");
+//            return serviceResult;
+//        } else {
+//            List<Order> orderList = ordersRepository.findAll();
+//            if (orderList.isEmpty()) {
+//                serviceResult.setData(apartmentRepository.findAll());
+//                serviceResult.setStatus(ServiceStatus.SUCCESS);
+//                return serviceResult;
+//            } else {
+//                Collections.sort(orderList);
+//                List<Apartment> apartmentList = new ArrayList<>();
+//                int sizeOrders = orderList.size() - 1;
+////                for (Order order : orderList) {
+////                    if (order.getStartTime().after(minTime) || order.getEndTime().before(maxTime) || )
+//
+//                }
+//
+//            }
+//        }
+//
+//
+//        return null;
+//    }
 
 
     @Override
