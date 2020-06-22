@@ -2,6 +2,8 @@ package com.cg.smart_house.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
@@ -19,6 +21,7 @@ public class Apartment {
     private int bathroom;
     private int bedroom;
     private int priceByDate;
+    @Length(max = 10000)
     private String description;
 
     @OneToMany(mappedBy = "apartment")
