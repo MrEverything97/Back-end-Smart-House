@@ -13,6 +13,7 @@ public class Picture {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Length(max = 1000)
+
     private String imageUrl;
 
     @ManyToOne
