@@ -1,10 +1,9 @@
 package com.cg.smart_house.service.impl;
 import com.cg.smart_house.model.Host;
-import com.cg.smart_house.model.Picture;
 import com.cg.smart_house.repository.HostRepository;
 import com.cg.smart_house.service.HostService;
 import com.cg.smart_house.service.ServiceResult;
-import com.cg.smart_house.service.ServiceStatus;
+import com.cg.smart_house.enumm.ServiceStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

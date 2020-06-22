@@ -1,5 +1,6 @@
 package com.cg.smart_house.service;
 
+import com.cg.smart_house.enumm.ServiceStatus;
 import lombok.Data;
 
 @Data

@@ -7,7 +7,7 @@ import com.cg.smart_house.repository.ApartmentRepository;
 import com.cg.smart_house.repository.RoomTypeRepository;
 import com.cg.smart_house.service.RoomTypeService;
 import com.cg.smart_house.service.ServiceResult;
-import com.cg.smart_house.service.ServiceStatus;
+import com.cg.smart_house.enumm.ServiceStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.cg.smart_house.service;
+package com.cg.smart_house.enumm;
 
 public enum ServiceStatus {
     SUCCESS,
