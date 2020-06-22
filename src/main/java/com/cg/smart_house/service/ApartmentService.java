@@ -11,10 +11,10 @@ import java.util.Date;
 
 public interface ApartmentService {
     ServiceResult createApartment(Apartment apartment);
-
+//
     ServiceResult updateApartment(Long id,Apartment apartment);
-
-    ServiceResult searchAllByApartment(String name, int bedroom, int bathroom, int price, String address, Date startTime, Date endTime);
+//
+//    ServiceResult searchAllByApartment(String name, int bedroom, int bathroom, int price, String address, Date startTime, Date endTime);
 
 //    ServiceResult updateApartment(Apartment apartment);
     ServiceResult findAll();
@@ -29,13 +29,13 @@ public interface ApartmentService {
 //
 //    List<Picture> savePictures(Apartment apartment);
 
-    ServiceResult findTopByPriceByDate(int price);
-
+//    ServiceResult findTopByPriceByDate(int price);
+//
     ServiceResult findTop5ByPriceByDateAndNameContains(int price, String name);
-
+//
     ServiceResult findAllByPriceByDate(int minPrice, int maxPrice);
+//
+//    ServiceResult findAllOrderByStartTimeAndEndTime(Date startTime, Date endTime);
 
-    ServiceResult findAllOrderByStartTimeAndEndTime(Date startTime, Date endTime);
-
-    List<Picture> savePictures(Apartment apartmentObj, Apartment apartment);
+//    List<Picture> savePictures(Apartment apartmentObj, Apartment apartment);
 }

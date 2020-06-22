@@ -19,7 +19,11 @@ public interface ApartmentRepository extends JpaRepository<Apartment, Long> {
 
 //    List<Apartment> findAllByStatuses(Status status);
     Apartment findByName(String name);
+    List<Apartment> findTop2ByPriceByDate(int price);
 
+    List<Apartment> findTop5ByPriceByDateAndNameContains(int price, String name);
+
+    List<Apartment> findAllByPriceByDateBetween(int minPrice, int maxPrice);
 
     List<Apartment> findAllByCategories(Category category);
 
@@ -35,3 +39,4 @@ public interface ApartmentRepository extends JpaRepository<Apartment, Long> {
 
     List<Apartment> findAllByBedroomAndBathroomAndPriceByDateAndAddress_Provinces(int bedroom, int bathroom, int priceByDate,Province province);
 }
+
