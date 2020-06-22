@@ -6,6 +6,7 @@ import com.cg.smart_house.service.ServiceResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.DateFormat;
@@ -21,6 +22,7 @@ public class OrdersController {
     private OrdersService ordersService;
 
     @GetMapping("/listOrders")
+    @PreAuthorize("hasRole('CUSTOMER') or hasRole('HOST')")
     public ResponseEntity<ServiceResult> listOrders() {
         return new ResponseEntity<>(ordersService.findALl(), HttpStatus.OK);
     }

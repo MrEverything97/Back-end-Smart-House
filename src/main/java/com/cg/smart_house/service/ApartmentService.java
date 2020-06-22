@@ -15,7 +15,7 @@ public interface ApartmentService {
     ServiceResult updateApartmentPicture(Long id,List<Picture> pictureList);
 
     //Tim Kiem
-    ServiceResult searchAllByApartment(int bedroom, int bathroom, int min, int max, String address, Date startTime, Date endTime);
+//    ServiceResult searchAllByApartment(int bedroom, int bathroom, int min, int max, String address, Date startTime, Date endTime);
 
     ServiceResult findAll();
 
@@ -31,7 +31,7 @@ public interface ApartmentService {
 
     ServiceResult findAllByPriceByDate(int minPrice, int maxPrice);
 
-    ServiceResult findAllOrderByStartTimeAndEndTime(Date startTime, Date endTime);
+//    ServiceResult findAllOrderByStartTimeAndEndTime(Date startTime, Date endTime);
 
     //    Apartment saveApartment(Apartment apartment);
 

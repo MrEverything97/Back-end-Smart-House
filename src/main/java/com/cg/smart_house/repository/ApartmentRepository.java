@@ -38,24 +38,24 @@ public interface ApartmentRepository extends JpaRepository<Apartment, Long> {
     List<Apartment> findTop5ByPriceByDateAndNameContains(int price, String name);
 
     List<Apartment> findAllByPriceByDateBetween(int minPrice, int maxPrice);
+//
+//    @Query(value = "select o.start_time, o.end_time from apartment inner join orders o on apartment.id = o.apartment_id", nativeQuery = true)
+//    List<Apartment> findAllByStartTimeAndEndTime(Date startTime, Date endTime);
 
-    @Query(value = "select o.start_time, o.end_time from apartment inner join orders o on apartment.id = o.apartment_id", nativeQuery = true)
-    List<Apartment> findAllByStartTimeAndEndTime(Date startTime, Date endTime);
 
 
-
-    @Query("select ap from Apartment ap left join Order o on ap.id = o.apartment.id " +
-            "left join Address a on a.apartment.id = ap.id where ap.bedroom = :bedroom " +
-            "and ap.bathroom =: bathroom and ap.priceByDate >= :min and ap.priceByDate <= :max " +
-            "and a.name = :address and o.startTime >= :startTime and o.endTime <= :endTime")
-    List<Apartment> findAllByApartment(
-                                       @Param("bedroom") int bedroom,
-                                       @Param("bathroom") int bathroom,
-                                       @Param("min") int min,
-                                       @Param("max") int max,
-                                       @Param("address") String address,
-                                       @Param("start") Date startTime,
-                                       @Param("end") Date endTime
-                                       );
+//    @Query("select ap from Apartment ap left join Order o on ap.id = o.apartment.id " +
+//            "left join Address a on a.apartment.id = ap.id where ap.bedroom = :bedroom " +
+//            "and ap.bathroom =: bathroom and ap.priceByDate >= :min and ap.priceByDate <= :max " +
+//            "and a.name = :address and o.startTime >= :startTime and o.endTime <= :endTime")
+//    List<Apartment> findAllByApartment(
+//                                       @Param("bedroom") int bedroom,
+//                                       @Param("bathroom") int bathroom,
+//                                       @Param("min") int min,
+//                                       @Param("max") int max,
+//                                       @Param("address") String address,
+//                                       @Param("start") Date startTime,
+//                                       @Param("end") Date endTime
+//                                       );
 
 }
