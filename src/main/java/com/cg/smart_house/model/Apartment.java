@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
+import java.util.ArrayList;
 
 
 @Entity
@@ -48,5 +49,6 @@ public class Apartment {
             joinColumns = @JoinColumn(name = "apartment_id"),
             inverseJoinColumns = @JoinColumn(name = "room_type_id"))
     private List<RoomType> roomTypes;
+
 
 }

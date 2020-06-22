@@ -45,17 +45,9 @@ public class OrdersController {
     }
 
 //    @GetMapping("/listOrders")
-//    public ResponseEntity<ServiceResult> listApartmentByDate(@RequestParam("minTime") String minTime,
-//                                                             @RequestParam("maxTime") String maxTime) throws ParseException {
-//        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//        Date dfMinTime = df.parse(minTime);
-//        Date dfMaxTime = df.parse(maxTime);
-//        return new ResponseEntity<>(ordersService.findAllOrderByStartTimeAndEndTime(dfMinTime,dfMaxTime),HttpStatus.OK);
-//    }
-
-//    @GetMapping("/listApartmentRanting")
-//    public ResponseEntity<ServiceResult> listApartmentRanting() {
-//        return new ResponseEntity<>(ordersService.findAllApartmentRanting(),HttpStatus.OK);
-//    }
+    @PostMapping("/block-order")
+    public ResponseEntity<ServiceResult> blockOrder(@RequestBody Order order){
+        return new ResponseEntity<>(ordersService.blockOrder(order),HttpStatus.OK);
+    }
 
 }

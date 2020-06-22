@@ -11,7 +11,10 @@ public interface OrdersService {
     ServiceResult findAllOrdersByApartment(Long id);
 
     ServiceResult findAllOrderByStartTimeAndEndTime(Date minTime, Date maxTime);
+    ServiceResult blockOrder(Order order);
+
 //    ServiceResult findAllOrderByStartTimeAndEndTime(Date minTime, Date maxTime);
     //Tim kiem nha da cho thue
     ServiceResult findAllApartmentRanting();
 }
+
