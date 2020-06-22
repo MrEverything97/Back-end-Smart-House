@@ -202,14 +202,14 @@ public class ApartmentServiceImpl implements ApartmentService {
 
 
     @Override
-    public ServiceResult searchAllByApartment(String name, int bedroom, int bathroom, int price, String address,
+    public ServiceResult searchAllByApartment(int bedroom, int bathroom, int min, int max, String address,
                                               Date startTime, Date endTime) {
         ServiceResult serviceResult = new ServiceResult();
-        List<Apartment> apartments = apartmentRepository.findAllByApartment(name, bedroom, bathroom, price, address, startTime, endTime);
+        List<Apartment> apartments = apartmentRepository.findAllByApartment( bedroom, bathroom, min, max, address, startTime, endTime);
         if (apartments.isEmpty()) {
             serviceResult.setMessage("Not found");
         }
-        serviceResult.setData(apartmentRepository.findAllByApartment(name, bedroom, bathroom, price, address, startTime, endTime));
+        serviceResult.setData(apartmentRepository.findAllByApartment(bedroom, bathroom, min, max, address, startTime, endTime));
         return serviceResult;
     }
 //        ServiceResult serviceResult = new ServiceResult();

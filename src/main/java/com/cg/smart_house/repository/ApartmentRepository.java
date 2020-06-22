@@ -35,14 +35,17 @@ public interface ApartmentRepository extends JpaRepository<Apartment, Long> {
     @Query(value = "select o.start_time, o.end_time from apartment inner join orders o on apartment.id = o.apartment_id", nativeQuery = true)
     List<Apartment> findAllByStartTimeAndEndTime(Date startTime, Date endTime);
 
-    @Query(value = "select ap.name, ap.bedroom, ap.bathroom, ap.price_by_date, a.name, o.start_time, o.end_time\n" +
-            "from apartment ap\n" +
-            "    inner join address a on ap.id = a.apartment_id\n" +
-            "    inner join `order` o on ap.id = o.apartment_id;\n", nativeQuery = true)
-    List<Apartment> findAllByApartment(@Param("name") String name,
+
+
+    @Query("select ap from Apartment ap left join Order o on ap.id = o.apartment.id " +
+            "left join Address a on a.apartment.id = ap.id where ap.bedroom = :bedroom " +
+            "and ap.bathroom =: bathroom and ap.priceByDate >= :min and ap.priceByDate <= :max " +
+            "and a.name = :address and o.startTime >= :startTime and o.endTime <= :endTime")
+    List<Apartment> findAllByApartment(
                                        @Param("bedroom") int bedroom,
                                        @Param("bathroom") int bathroom,
-                                       @Param("price") int price,
+                                       @Param("min") int min,
+                                       @Param("max") int max,
                                        @Param("address") String address,
                                        @Param("start") Date startTime,
                                        @Param("end") Date endTime

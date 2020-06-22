@@ -13,7 +13,8 @@ public interface ApartmentService {
 
     ServiceResult updateApartment(Long id,Apartment apartment);
 
-    ServiceResult searchAllByApartment(String name, int bedroom, int bathroom, int price, String address, Date startTime, Date endTime);
+    //Tim Kiem
+    ServiceResult searchAllByApartment(int bedroom, int bathroom, int min, int max, String address, Date startTime, Date endTime);
 
     ServiceResult findAll();
 
