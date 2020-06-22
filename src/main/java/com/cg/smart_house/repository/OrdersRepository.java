@@ -36,5 +36,3 @@ public interface OrdersRepository extends JpaRepository<Order, Long> {
 //    @Query(value = "select  from Order join Apartment b where Order.apartment= Apartment.id  ")
 //    List<Order> getAll();
 }
-
-

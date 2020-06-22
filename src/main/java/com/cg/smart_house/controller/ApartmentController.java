@@ -5,6 +5,7 @@ import com.cg.smart_house.service.ApartmentService;
 import com.cg.smart_house.service.OrdersService;
 import com.cg.smart_house.service.ServiceResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import java.util.Date;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin("*")
 public class ApartmentController {
     @Autowired
     private ApartmentService apartmentService;
@@ -84,5 +86,10 @@ public class ApartmentController {
     }
 
 
+//
+//    @GetMapping("/listApartmentRanting")
+//    public ResponseEntity<ServiceResult> listApartmentRanting() {
+//        return new ResponseEntity<>(ordersService.findAllApartmentRanting(),HttpStatus.OK);
+//    }
 
 }

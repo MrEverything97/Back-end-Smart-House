@@ -4,10 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Set;
 
 
 @Entity
@@ -38,21 +36,21 @@ public class Apartment {
     @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @JoinColumn(name = "host_id")
-    private Host hosts;
+    private Host host;
 
     @ManyToMany
     @JoinTable(
             name = "apartment_category",
             joinColumns = @JoinColumn(name = "apartment_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private Set<Category> categories = new HashSet<>();
+    private List<Category> categories;
 
     @ManyToMany
     @JoinTable(
             name = "apartment_room_type",
             joinColumns = @JoinColumn(name = "apartment_id"),
             inverseJoinColumns = @JoinColumn(name = "room_type_id"))
-    private List<RoomType> roomTypes = new ArrayList<>();
+    private List<RoomType> roomTypes;
 
     public Apartment() {
     }

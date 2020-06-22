@@ -32,7 +32,7 @@ public class OrdersServiceImpl implements OrdersService {
     public ServiceResult updateStatusOrders(Order orders) {
         ServiceResult serviceResult = new ServiceResult();
         Optional<Order> orders1 = ordersRepository.findById(orders.getId());
-        if (!orders1.isPresent()) {
+        if (!orders1.isPresent()){
             serviceResult.setStatus(ServiceStatus.FAILED);
             serviceResult.setMessage("Orders not found");
             return serviceResult;
@@ -95,6 +95,7 @@ public class OrdersServiceImpl implements OrdersService {
         Long idApartment = orders.getApartment().getId();
         Optional<Apartment> apartment = apartmentRepository.findById(idApartment);
 
+        // Không có nhà để cho thuê
         if (!apartment.isPresent()) {
             serviceResult.setMessage("No apartment have been orders");
             return serviceResult;

@@ -3,7 +3,6 @@ package com.cg.smart_house.controller;
 import com.cg.smart_house.model.Order;
 import com.cg.smart_house.service.OrdersService;
 import com.cg.smart_house.service.ServiceResult;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +16,7 @@ import java.util.Date;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin("*")
 public class OrdersController {
     @Autowired
     private OrdersService ordersService;
