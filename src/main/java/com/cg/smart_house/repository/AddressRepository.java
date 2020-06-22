@@ -7,11 +7,10 @@ import com.cg.smart_house.model.Picture;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
 import java.util.Optional;
 
 
-
+@Repository
 public interface AddressRepository extends JpaRepository<Address, Long> {
     Address findByName(String nameAddress);
     Address findAllByApartment(Apartment apartment);

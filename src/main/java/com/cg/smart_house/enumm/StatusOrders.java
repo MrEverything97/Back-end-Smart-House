@@ -1,4 +1,4 @@
-package com.cg.smart_house.model;
+package com.cg.smart_house.enumm;
 
 public enum StatusOrders {
     NOT_RENTED,

@@ -15,6 +15,6 @@ public interface OrdersService {
 
 //    ServiceResult findAllOrderByStartTimeAndEndTime(Date minTime, Date maxTime);
     //Tim kiem nha da cho thue
-    ServiceResult findAllApartmentRanting();
+//    ServiceResult findAllApartmentRanting();
 }
 

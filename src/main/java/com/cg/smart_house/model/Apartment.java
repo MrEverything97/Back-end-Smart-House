@@ -36,6 +36,11 @@ public class Apartment {
     @JoinColumn(name = "host_id")
     private Host host;
 
+    @ManyToOne
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
     @ManyToMany
     @JoinTable(
             name = "apartment_category",

@@ -2,7 +2,7 @@ package com.cg.smart_house.service.impl;
 
 import com.cg.smart_house.model.Apartment;
 import com.cg.smart_house.model.Order;
-import com.cg.smart_house.model.StatusOrders;
+import com.cg.smart_house.enumm.StatusOrders;
 import com.cg.smart_house.repository.ApartmentRepository;
 import com.cg.smart_house.repository.OrdersRepository;
 import com.cg.smart_house.service.OrdersService;
@@ -75,17 +75,17 @@ public class OrdersServiceImpl implements OrdersService {
         return serviceResult;
     }
 
-    @Override
-    public ServiceResult findAllApartmentRanTing() {
-        ServiceResult serviceResult = new ServiceResult();
-        List<Order> apartments = ordersRepository.findAllByStatusOrders(StatusOrders.RENTING);
-        if (apartments == null) {
-            serviceResult.setMessage("Not found");
-        } else {
-            serviceResult.setData(apartments);
-        }
-        return serviceResult;
-    }
+//    @Override
+//    public ServiceResult findAllApartmentRanTing() {
+//        ServiceResult serviceResult = new ServiceResult();
+//        List<Order> apartments = ordersRepository.findAllByStatusOrders(StatusOrders.RENTING);
+//        if (apartments == null) {
+//            serviceResult.setMessage("Not found");
+//        } else {
+//            serviceResult.setData(apartments);
+//        }
+//        return serviceResult;
+//    }
 
     @Override
     public ServiceResult createOrders(Order orders) {

@@ -1,5 +1,6 @@
 package com.cg.smart_house.model;
 
+import com.cg.smart_house.enumm.StatusOrders;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -29,6 +30,11 @@ public class Order implements Serializable,Comparable<Order> {
     @JsonIgnore
     @JoinColumn(name = "customer_id")
     private Customer customers;
+
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Override
     public int compareTo(Order order) {

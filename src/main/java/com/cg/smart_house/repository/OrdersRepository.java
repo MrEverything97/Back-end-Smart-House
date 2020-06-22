@@ -2,18 +2,12 @@ package com.cg.smart_house.repository;
 
 import com.cg.smart_house.model.Apartment;
 import com.cg.smart_house.model.Order;
-import com.cg.smart_house.model.StatusOrders;
+import com.cg.smart_house.enumm.StatusOrders;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.TemporalType;
-import javax.persistence.TypedQuery;
-import java.time.LocalDate;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
