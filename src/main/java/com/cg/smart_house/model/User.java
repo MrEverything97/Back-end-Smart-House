@@ -1,5 +1,6 @@
 package com.cg.smart_house.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -25,6 +26,7 @@ public class User {
     private List<Order> orders;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Apartment> apartments;
 
     @ManyToMany(fetch = FetchType.LAZY)
