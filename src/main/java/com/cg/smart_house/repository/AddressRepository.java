@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -16,6 +17,6 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
     Address findByName(String nameAddress);
     Address findAllByApartment(Apartment apartment);
 
-    Address findAllByProvinces(Optional<Province> province);
+    Address findAllByProvince(Optional<Province> province);
 
 }

@@ -13,8 +13,6 @@ import com.cg.smart_house.service.CommentService;
 import com.cg.smart_house.service.ServiceResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -29,18 +27,19 @@ public class CommentServiceImpl implements CommentService {
     private OrdersRepository ordersRepository;
 
     @Override
-    public ServiceResult findAllCommentByApartment(Long Id) {
+    public ServiceResult findAllCommentById(Long Id) {
         ServiceResult serviceResult=new ServiceResult();
         List<Comment> commentList = commentRepository.findAllByApartment(Id);
+        serviceResult.setData(commentList);
         return serviceResult;
     }
-
+//    fix lai nhe!!!
     @Override
     public ServiceResult saveComment(Comment comment) {
         ServiceResult serviceResult= new ServiceResult();
         int amountOrder = 0;
         int amountComment=0;
-        List<Order> orderList= ordersRepository.findAllByApartment(comment.getApartment());
+        List<Order> orderList= ordersRepository.findAllByApartment_Id(comment.getApartment().getId());
         List<Comment> commentList=commentRepository.findAllByApartment(comment.getId());
 //        so lan rented order cho 1 user
         try{
@@ -66,11 +65,9 @@ public class CommentServiceImpl implements CommentService {
         }
 
         if (amountComment<amountOrder){
-            commentRepository.save(comment);
+            serviceResult.setData(commentRepository.save(comment));
         }
 
         return serviceResult;
     }
-
-
 }

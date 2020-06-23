@@ -13,6 +13,7 @@ import java.util.List;
 
 @Repository
 public interface OrdersRepository extends JpaRepository<Order, Long> {
+    List<Order> findAllByApartment_Id(Long id);
     List<Order> findAllByApartment(Apartment apartment);
 
     @Query(value = "select a from Order a where :minTime <= a.startTime and  a.endTime <= :maxTime")

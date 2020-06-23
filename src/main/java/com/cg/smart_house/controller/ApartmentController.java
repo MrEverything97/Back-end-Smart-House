@@ -117,40 +117,5 @@ public class ApartmentController {
         Date endTimeDate = new SimpleDateFormat("yyyy-MM-dd").parse(endTime);
         return new ResponseEntity<>(apartmentService.searchApartment(bedroom,bathroom,province_id,startPrice,endPrice,startTimeDate,endTimeDate),HttpStatus.OK);
     }
-//    @GetMapping("/listApartmentRanting")
-//    public ResponseEntity<ServiceResult> listApartmentRanting() {
-//        return new ResponseEntity<>(ordersService.findAllApartmentRanTing(),HttpStatus.OK);
-//    }
-//
-//    @GetMapping("/listApartment")
-//    public ResponseEntity<ServiceResult> listApartmentByDate(@RequestParam("minTime") String minTime,
-//                                                             @RequestParam("maxTime") String maxTime,
-//                                                             @RequestParam("idProvince") Long idProvince) throws ParseException {
-//        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//        Date dfMinTime = df.parse(minTime);
-//        Date dfMaxTime = df.parse(maxTime);
-//        return new ResponseEntity<>(apartmentService.findAllByAddressAndOrderStartTimeAndEndTime(idProvince, dfMinTime,dfMaxTime),HttpStatus.OK);
-//    }
-//
-//
-//    @GetMapping("/listApartment")
-//    public ResponseEntity<ServiceResult> listApartmentByDate(@RequestParam("minTime") String minTime,
-//                                                             @RequestParam("maxTime") String maxTime,
-//                                                             @RequestParam("idProvince") Long idProvince,
-//                                                             @RequestParam("bathroom") int bathroom,
-//                                                             @RequestParam("bedroom") int bedroom,
-//                                                             @RequestParam("priceByDate") int priceByDate) throws ParseException {
-//        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//        Date dfMinTime = df.parse(minTime);
-//        Date dfMaxTime = df.parse(maxTime);
-//        return new ResponseEntity<>(apartmentService.findAllCriteria(bathroom,bedroom,priceByDate, idProvince, dfMinTime,dfMaxTime),HttpStatus.OK);
-//    }
-
-
-//
-//    @GetMapping("/listApartmentRanting")
-//    public ResponseEntity<ServiceResult> listApartmentRanting() {
-//        return new ResponseEntity<>(ordersService.findAllApartmentRanting(),HttpStatus.OK);
-//    }
 
 }
