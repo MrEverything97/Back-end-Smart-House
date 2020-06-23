@@ -5,7 +5,6 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Data
@@ -15,7 +14,7 @@ public class Province {
     private Long id;
     private String name;
 
-    @OneToMany(mappedBy = "provinces")
+    @OneToMany(mappedBy = "province")
     @JsonIgnore
-    private Set<Address> addresses;
+    private List<Address> addresses;
 }

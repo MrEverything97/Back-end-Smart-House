@@ -21,11 +21,11 @@ public class User {
     private String phone;
 
     @OneToMany
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "user_id")
     private List<Order> orders;
 
     @OneToMany(mappedBy = "host")
-    private List<Apartment> apartment;
+    private List<Apartment> apartments;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
