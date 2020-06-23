@@ -22,11 +22,5 @@ public interface OrdersRepository extends JpaRepository<Order, Long> {
     @Query(value = "select a from Order a where :minTime <= a.startTime and  a.endTime <= :maxTime")
     List<Order> getAllByStartTimeAndEndTimeNoParam( Date minTime, Date maxTime);
 
-//    @Query(value = "select a from Order a where :minTime <= a.startTime and  a.endTime <= :maxTime and a.apartment")
-//    List<Order> getAllByStartTimeAndEndTimeAndApartment( Date minTime, Date maxTime, Apartment apartment);
-
     List<Order> findAllByStatusOrders(StatusOrders statusOrders);
-
-//    @Query(value = "select  from Order join Apartment b where Order.apartment= Apartment.id  ")
-//    List<Order> getAll();
 }
