@@ -75,18 +75,6 @@ public class OrdersServiceImpl implements OrdersService {
         return serviceResult;
     }
 
-//    @Override
-//    public ServiceResult findAllApartmentRanTing() {
-//        ServiceResult serviceResult = new ServiceResult();
-//        List<Order> apartments = ordersRepository.findAllByStatusOrders(StatusOrders.RENTING);
-//        if (apartments == null) {
-//            serviceResult.setMessage("Not found");
-//        } else {
-//            serviceResult.setData(apartments);
-//        }
-//        return serviceResult;
-//    }
-
     @Override
     public ServiceResult createOrders(Order orders) {
         ServiceResult serviceResult = new ServiceResult();
@@ -138,12 +126,6 @@ public class OrdersServiceImpl implements OrdersService {
         Date startTimeOrders = order.getStartTime();
         Date endTimeOrders = order.getEndTime();
         Date nowDate = new Date();
-
-        Calendar c1 = Calendar.getInstance();
-        Calendar c2 = Calendar.getInstance();
-        c1.setTime(startTimeOrders);
-        c2.setTime(endTimeOrders);
-        long countDayOrders = (c2.getTime().getTime() - c1.getTime().getTime()) / (24 * 3600 * 1000);
         // Set 0 because of blocking
         Long priceApartment = 0L;
 
