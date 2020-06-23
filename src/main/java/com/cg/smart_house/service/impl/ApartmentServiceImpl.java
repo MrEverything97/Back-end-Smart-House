@@ -20,10 +20,6 @@ public class ApartmentServiceImpl implements ApartmentService {
     private ApartmentRepository apartmentRepository;
 
     @Autowired
-
-    private HostRepository hostRepository;
-
-    @Autowired
     AddressRepository addressRepository;
 
     @Autowired
@@ -93,11 +89,11 @@ public class ApartmentServiceImpl implements ApartmentService {
             serviceResult.setMessage("Apartment Not Found");
         }
         //Tim Apartment By Host
-        List<Host> hosts = hostRepository.findAllByApartment(apartment);
-        for (Host host : hosts) {
-            host.setApartment(null);
-            hostRepository.save(host);
-        }
+//        List<Host> hosts = hostRepository.findAllByApartment(apartment);
+//        for (Host host : hosts) {
+//            host.setApartment(null);
+//            hostRepository.save(host);
+//        }
         //Find Apartment By Address
         List<Picture> pictures = pictureRepository.findAllByApartment(apartment);
         for (Picture picture : pictures) {
