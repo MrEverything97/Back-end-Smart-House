@@ -22,7 +22,7 @@ public class CommentServiceImpl implements CommentService {
         ServiceResult serviceResult = new ServiceResult();
         serviceResult.setStatus(ServiceStatus.FAILED);
 
-        List<Order> orderList = ordersRepository.findByUser(user);
+        List<Order> orderList = ordersRepository.findAllByUser(user);
         if (orderList.isEmpty()){
             serviceResult.setMessage("Don't comment");
         }
