@@ -17,7 +17,7 @@ public class Address {
     @ManyToOne
 //    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @JoinColumn(name = "province_id")
-    private Province provinces;
+    private Province province;
 
     @JsonIgnore
     @OneToOne

@@ -25,10 +25,7 @@ public class User {
     private List<Order> orders;
 
     @OneToMany(mappedBy = "user")
-    private List<Apartment> apartment;
-
-    @OneToMany(mappedBy = "user")
-    private List<Comment> comment;
+    private List<Apartment> apartments;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",

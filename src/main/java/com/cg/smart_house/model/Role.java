@@ -16,6 +16,4 @@ public class Role {
     @Enumerated(EnumType.STRING)
     @NaturalId
     private RoleName name;
-
-    public Role() {}
 }

@@ -31,13 +31,6 @@ public class Apartment {
     @OneToOne(mappedBy = "apartment")
     private Address address;
 
-    @OneToMany(mappedBy = "apartment")
-    private List<Comment> comment;
-//    @ManyToOne
-////    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-////    @JoinColumn(name = "host_id")
-////    private Host host;
-
     @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @JoinColumn(name = "user_id")

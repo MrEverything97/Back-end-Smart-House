@@ -28,11 +28,6 @@ public class Order implements Serializable,Comparable<Order> {
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "customer_id")
-    private Customer customers;
-
-    @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "user_id")
     private User user;
 
