@@ -25,9 +25,7 @@ public class Comment {
     private Apartment apartment;
 
     @ManyToOne
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @JoinColumn(name = "user_id")
     private User user;
-
-
 }

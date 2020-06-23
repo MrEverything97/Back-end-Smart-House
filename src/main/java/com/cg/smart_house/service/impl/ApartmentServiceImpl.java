@@ -34,7 +34,8 @@ public class ApartmentServiceImpl implements ApartmentService {
     @Autowired
     private OrdersRepository ordersRepository;
 
-
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public ServiceResult createApartment(Apartment apartment) {
@@ -52,15 +53,12 @@ public class ApartmentServiceImpl implements ApartmentService {
         address.setApartment(apartment);
         addressRepository.save(address);
 
-
         pictureList.forEach(picture -> {
             picture.setApartment(newApartment);
             picture = pictureRepository.save(picture);
-
         });
 
         serviceResult.setMessage("add new apartment success");
-
         return serviceResult;
     }
 
@@ -92,6 +90,11 @@ public class ApartmentServiceImpl implements ApartmentService {
             serviceResult.setMessage("Apartment Not Found");
         }
         //Tim Apartment By Host
+        List<Host> hosts = hostRepository.findAllByApartment(apartment);
+        for (Host host : hosts) {
+            host.setApartment(null);
+            hostRepository.save(host);
+        }
         //Find Apartment By Address
         List<Picture> pictures = pictureRepository.findAllByApartment(apartment);
         for (Picture picture : pictures) {
@@ -103,69 +106,71 @@ public class ApartmentServiceImpl implements ApartmentService {
         addressRepository.save(address);
 
         apartmentRepository.delete(apartment);
-//        serviceResult.setData(apartment);
+        return serviceResult;
+    }
+
+    @Override
+    public ServiceResult findAllByUserId(Long userId) {
+        return null;
+    }
+
+    @Override
+    public ServiceResult findTopByPriceByDate(int price) {
+        ServiceResult serviceResult = new ServiceResult();
+        List<Apartment> apartments = apartmentRepository.findTop2ByPriceByDate(price);
+        if (apartments.isEmpty()) {
+            serviceResult.setMessage("No Apartment Math");
+        }
+        serviceResult.setData(apartmentRepository.findTop2ByPriceByDate(price));
 
         return serviceResult;
     }
 
+    @Override
+    public ServiceResult findAllByPriceByDate(int minPrice, int maxPrice) {
+        ServiceResult serviceResult = new ServiceResult();
+        List<Apartment> apartments = apartmentRepository.findAllByPriceByDateBetween(minPrice, maxPrice);
+        if (apartments.isEmpty()) {
+            serviceResult.setMessage("Not found");
+        }
+        serviceResult.setData(apartmentRepository.findAllByPriceByDateBetween(minPrice, maxPrice));
+        return serviceResult;
+    }
+
+    @Override
+    public ServiceResult findTop5ByPriceByDateAndNameContains(int price, String name) {
+        ServiceResult serviceResult = new ServiceResult();
+        List<Apartment> apartments = apartmentRepository.findTop5ByPriceByDateAndNameContains(price, name);
+        if (apartments.isEmpty()) {
+            serviceResult.setMessage("No Apartment Math");
+        }
+        serviceResult.setData(apartmentRepository.findTop5ByPriceByDateAndNameContains(price, name));
+        return serviceResult;
+    }
+
 //    @Override
-//    public ServiceResult findTopByPriceByDate(int price) {
-//        ServiceResult serviceResult = new ServiceResult();
-//        List<Apartment> apartments = apartmentRepository.findTop2ByPriceByDate(price);
-//        if (apartments.isEmpty()) {
-//            serviceResult.setMessage("No Apartment Math");
-//        }
-//        serviceResult.setData(apartmentRepository.findTop2ByPriceByDate(price));
-//
-//        return serviceResult;
-//    }
-//
-//    @Override
-//    public ServiceResult findAllByPriceByDate(int minPrice, int maxPrice) {
-//        ServiceResult serviceResult = new ServiceResult();
-//        List<Apartment> apartments = apartmentRepository.findAllByPriceByDateBetween(minPrice, maxPrice);
-//        if (apartments.isEmpty()) {
-//            serviceResult.setMessage("Not found");
-//        }
-//        serviceResult.setData(apartmentRepository.findAllByPriceByDateBetween(minPrice, maxPrice));
-//        return serviceResult;
-//    }
-//
-//
-//    @Override
-//    public ServiceResult findTop5ByPriceByDateAndNameContains(int price, String name) {
-//        ServiceResult serviceResult = new ServiceResult();
-//        List<Apartment> apartments = apartmentRepository.findTop5ByPriceByDateAndNameContains(price, name);
-//        if (apartments.isEmpty()) {
-//            serviceResult.setMessage("No Apartment Math");
-//        }
-//        serviceResult.setData(apartmentRepository.findTop5ByPriceByDateAndNameContains(price, name));
-//        return serviceResult;
-//    }
-//
-//    @Override
-//    public ServiceResult findAllByHostId(Long hostId) {
-//        ServiceResult serviceResult = new ServiceResult();
-//        serviceResult.setStatus(ServiceStatus.FAILED);
-//        List<Apartment> apartmentList = apartmentRepository.findAllByHost_Id(hostId);
-//        if(apartmentList.isEmpty()){
-//            serviceResult.setMessage("NOT FOUND");
-//        } else {
-//            serviceResult.setMessage("SUCCESS");
-//            serviceResult.setData(apartmentList);
-//        }
-//        return serviceResult;
-//    }
+    public ServiceResult findAllByHostId(Long hostId) {
+        ServiceResult serviceResult = new ServiceResult();
+        serviceResult.setStatus(ServiceStatus.FAILED);
+        List<Apartment> apartmentList = apartmentRepository.findAllByUser_Id(hostId);
+        if (apartmentList.isEmpty()) {
+            serviceResult.setMessage("NOT FOUND");
+        } else {
+            serviceResult.setMessage("SUCCESS");
+            serviceResult.setData(apartmentList);
+        }
+        return serviceResult;
+    }
 
     @Override
     public ServiceResult searchApartment(int bedroom, int bathroom, Long province_id, int startPrice, int endPrice, Date startTime, Date endTime) {
         ServiceResult serviceResult = new ServiceResult();
         serviceResult.setStatus(ServiceStatus.FAILED);
-        List<Apartment> apartmentList = apartmentRepository.findApartmentByBedroomAndBathroomAndAddress_Provinces_IdAndPriceByDateIsBetween(bedroom, bathroom, province_id, startPrice, endPrice);
+        List<Apartment> apartmentList = apartmentRepository.findApartmentByBedroomAndBathroomAndAddress_Province_IdAndPriceByDateIsBetween(bedroom, bathroom, province_id, startPrice, endPrice);
         int i;
         List<Order> orderList;
         List<Apartment> resultApartmentList = new ArrayList<>();
-        for(i = 0; i < apartmentList.size(); i++) {
+        for (i = 0; i < apartmentList.size(); i++) {
             orderList = apartmentList.get(i).getOrders();
             Date nowDate = new Date();
             Collections.sort(orderList);
@@ -174,15 +179,15 @@ public class ApartmentServiceImpl implements ApartmentService {
             for (int j = 0; j <= sizeList && flag; j++) {
                 if (!((startTime.after(nowDate) && endTime.before(orderList.get(0).getStartTime()))
                         || startTime.after(orderList.get(sizeList).getEndTime())
-                        || (startTime.after(orderList.get(j).getEndTime()) && endTime.before(orderList.get(j + 1).getStartTime())))){
+                        || (startTime.after(orderList.get(j).getEndTime()) && endTime.before(orderList.get(j + 1).getStartTime())))) {
                     flag = false;
                 }
             }
-            if(flag){
-               resultApartmentList.add(apartmentList.get(i));
+            if (flag) {
+                resultApartmentList.add(apartmentList.get(i));
             }
         }
-        if(!resultApartmentList.isEmpty()){
+        if (!resultApartmentList.isEmpty()) {
             serviceResult.setStatus(ServiceStatus.SUCCESS);
             serviceResult.setData(resultApartmentList);
         }
@@ -190,7 +195,7 @@ public class ApartmentServiceImpl implements ApartmentService {
     }
 
     @Override
-    public ServiceResult updateApartment(Long id,Apartment apartment) {
+    public ServiceResult updateApartment(Long id, Apartment apartment) {
         // need new logic
         return null;
     }
@@ -215,8 +220,5 @@ public class ApartmentServiceImpl implements ApartmentService {
         //Find Apartment By Address
         return serviceResult;
     }
-
-
-
 }
 

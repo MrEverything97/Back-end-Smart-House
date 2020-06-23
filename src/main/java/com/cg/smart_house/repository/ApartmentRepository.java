@@ -14,28 +14,14 @@ import java.util.Optional;
 
 @Repository
 public interface ApartmentRepository extends JpaRepository<Apartment, Long> {
-    List<Apartment> findAllByBedroom(int amount);
-    List<Apartment> findAllByBathroom(int amount);
-    List<Apartment> findAllByPictures(Picture picture);
+    List<Apartment> findAllByUser_Id(Long userId);
 
-//    List<Apartment> findAllByStatuses(Status status);
-    Apartment findByName(String name);
+    List<Apartment> findApartmentByBedroomAndBathroomAndAddress_Province_IdAndPriceByDateIsBetween(int bedroom,int bathroom,Long province_id,int startPrice,int endPrice);
 
-    List<Apartment> findAllByCategories(Category category);
+    List<Apartment> findTop2ByPriceByDate(int price);
 
-    List<Apartment> findAllByOrders(Order order);
+    List<Apartment> findTop5ByPriceByDateAndNameContains(int price, String name);
 
-    List<Apartment> findAllByAddress(Address address);
+    List<Apartment> findAllByPriceByDateBetween(int minPrice, int maxPrice);
 
-//    List<Apartment> findAllByHost(Host host);
-//    List<Apartment> findAllByHost_Id(Long hostId);
-    List<Apartment> findAllByRoomTypes(RoomType rooType);
-
-    List<Apartment> findApartmentByBedroomAndBathroomAndAddress_Provinces_IdAndPriceByDateIsBetween(int bedroom,int bathroom,Long province_id,int startPrice,int endPrice);
-
-//    List<Apartment> findTop2ByPriceByDate(int price);
-//
-//    List<Apartment> findTop5ByPriceByDateAndNameContains(int price, String name);
-//
-//    List<Apartment> findAllByPriceByDateBetween(int minPrice, int maxPrice);
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 @Component
@@ -33,6 +34,7 @@ public class JwtProvider {
                 .compact();
     }
 
+
     public String getUserNameFromJwtToken(String token) {
         return Jwts.parser()
                 .setSigningKey(jwtSecret)
@@ -55,7 +57,6 @@ public class JwtProvider {
         } catch (IllegalArgumentException e) {
             logger.error("JWT claims string is empty -> Message: {}", e);
         }
-
         return false;
     }
 }
