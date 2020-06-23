@@ -7,13 +7,13 @@ import com.cg.smart_house.model.Picture;
 import java.util.Date;
 import java.util.List;
 
-public interface ApartmentService {
 
+public interface ApartmentService {
     ServiceResult createApartment(Apartment apartment);
 
-    ServiceResult updateApartment(Long id,Apartment apartment);
+    ServiceResult updateApartment(Long id, Apartment apartment);
 
-    ServiceResult updateApartmentPicture(Long id,List<Picture> pictureList);
+    ServiceResult updateApartmentPicture(Long id, List<Picture> pictureList);
 
     ServiceResult findAll();
 
@@ -21,7 +21,7 @@ public interface ApartmentService {
 
     ServiceResult deleteApartment(Long id);
 
-    ServiceResult findAllByHostId(Long hostId);
+    ServiceResult findAllByUserId(Long userId);
 
     ServiceResult searchApartment(int bedroom, int bathroom, Long province_id, int startPrice, int endPrice, Date startTime, Date endTime);
 

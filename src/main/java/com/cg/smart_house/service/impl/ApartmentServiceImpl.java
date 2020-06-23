@@ -90,7 +90,7 @@ public class ApartmentServiceImpl implements ApartmentService {
         }
         //Tim Apartment By Host
         User host = userRepository.findAllByApartment(apartment);
-            host.setApartment(null);
+            host.setApartments(null);
             userRepository.save(host);
 
         //Find Apartment By Address
@@ -213,26 +213,5 @@ public class ApartmentServiceImpl implements ApartmentService {
         //Find Apartment By Address
         return serviceResult;
     }
-
-
-//    @Override
-//    public ServiceResult searchAllByApartment(int bedroom, int bathroom, int min, int max, String address,
-//                                              Date startTime, Date endTime) {
-//        ServiceResult serviceResult = new ServiceResult();
-//        List<Apartment> apartments = apartmentRepository.findAllByApartment( bedroom, bathroom, min, max, address, startTime, endTime);
-//        if (apartments.isEmpty()) {
-//            serviceResult.setMessage("Not found");
-//        }
-//        serviceResult.setData(apartmentRepository.findAllByApartment(bedroom, bathroom, min, max, address, startTime, endTime));
-//        return serviceResult;
-//    }
-//        ServiceResult serviceResult = new ServiceResult();
-//        if (!apartmentRepository.findById(apartment.getId()).isPresent()){
-//            serviceResult.setMessage("Apartment not found");
-//        } else{
-//            serviceResult.setData(apartmentRepository.save(apartment));
-//        }
-//        return serviceResult;
-//    }
 }
 
