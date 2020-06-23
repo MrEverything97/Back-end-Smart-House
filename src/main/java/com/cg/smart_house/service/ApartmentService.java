@@ -10,24 +10,9 @@ import java.util.List;
 
 public interface ApartmentService {
     ServiceResult createApartment(Apartment apartment);
-
     ServiceResult updateApartment(Long id, Apartment apartment);
-
     ServiceResult updateApartmentPicture(Long id, List<Picture> pictureList);
-
     ServiceResult findAll();
-
     ServiceResult findById(Long id);
-
-    ServiceResult deleteApartment(Long id);
-
-    ServiceResult findAllByUserId(Long userId);
-
     ServiceResult searchApartment(int bedroom, int bathroom, Long province_id, int startPrice, int endPrice, Date startTime, Date endTime);
-
-    ServiceResult findTopByPriceByDate(int price);
-
-    ServiceResult findTop5ByPriceByDateAndNameContains(int price, String name);
-
-    ServiceResult findAllByPriceByDate(int minPrice, int maxPrice);
 }
