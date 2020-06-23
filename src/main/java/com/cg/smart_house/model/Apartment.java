@@ -34,10 +34,11 @@ public class Apartment {
     @OneToOne(mappedBy = "apartment")
     private Address address;
 
+
     @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @JoinColumn(name = "host_id")
-    private Host host;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ManyToMany
     @JoinTable(
@@ -53,5 +54,7 @@ public class Apartment {
             inverseJoinColumns = @JoinColumn(name = "room_type_id"))
     private List<RoomType> roomTypes;
 
+    public Apartment() {
+    }
 
 }

@@ -2,7 +2,7 @@ package com.cg.smart_house.repository;
 
 import com.cg.smart_house.model.Apartment;
 import com.cg.smart_house.model.Order;
-import com.cg.smart_house.model.StatusOrders;
+import com.cg.smart_house.enumm.StatusOrders;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,17 +15,18 @@ import java.util.List;
 public interface OrdersRepository extends JpaRepository<Order, Long> {
     List<Order> findAllByApartment(Apartment apartment);
 
-//    @Query(value = "select * from Orders where startTime > minTime and endTime > maxTime")
-//    List<Orders> findAllByStartTimeAfterAndEndTimeBefore(Date minTime, Date maxTime);
-@Query(value = "select a from Order a where :minTime <= a.startTime and  a.endTime <= :maxTime")
-    List<Order> getAllByStartTimeAndEndTime(
-            @Param("minTime") Date minTime,
-            @Param("maxTime") Date maxTim);
-//    @Query(value = "select a from Order a where :minTime <= a.startTime and  a.endTime <= :maxTime")
-//    List<Order> getAllByStartTimeAndEndTime(@Param("minTime") Date minTime,
-//                                            @Param("maxTime") Date maxTime);
+    @Query(value = "select a from Order a where :minTime <= a.startTime and  a.endTime <= :maxTime")
+    List<Order> getAllByStartTimeAndEndTime(@Param("minTime") Date minTime,
+                                            @Param("maxTime") Date maxTime);
 
-    //Tim kiem nha da cho thue
+    @Query(value = "select a from Order a where :minTime <= a.startTime and  a.endTime <= :maxTime")
+    List<Order> getAllByStartTimeAndEndTimeNoParam( Date minTime, Date maxTime);
+
+//    @Query(value = "select a from Order a where :minTime <= a.startTime and  a.endTime <= :maxTime and a.apartment")
+//    List<Order> getAllByStartTimeAndEndTimeAndApartment( Date minTime, Date maxTime, Apartment apartment);
+
     List<Order> findAllByStatusOrders(StatusOrders statusOrders);
 
+//    @Query(value = "select  from Order join Apartment b where Order.apartment= Apartment.id  ")
+//    List<Order> getAll();
 }
