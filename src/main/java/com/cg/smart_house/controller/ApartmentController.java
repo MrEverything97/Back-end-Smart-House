@@ -30,9 +30,6 @@ public class ApartmentController {
     @Autowired
     private ApartmentService apartmentService;
 
-    @Autowired
-    private OrdersService ordersService;
-
     /* ---------------- CREATE Apartment ------------------------ */
     @PostMapping("/createApartment")
     public ResponseEntity<ServiceResult> createApartment( @RequestBody Apartment apartment){
@@ -43,44 +40,6 @@ public class ApartmentController {
     @PutMapping("/updateApartment/{id}")
     public ResponseEntity<ServiceResult> updateApartment(@PathVariable Long id,@RequestBody Apartment apartment){
         return new ResponseEntity<>(apartmentService.updateApartment(id,apartment),HttpStatus.OK);
-    }
-    /* ---------------- SEARCH Apartment ------------------------ */
-    @GetMapping("/searchApartment")
-    public ResponseEntity<ServiceResult> searchApartment(@RequestParam("price") int price){
-        return new ResponseEntity<>(apartmentService.findTopByPriceByDate(price),HttpStatus.OK);
-    }
-
-    /* ---------------- SEARCH BetweenByPriceDate------------------------ */
-    @GetMapping("/searchPrice")
-    public ResponseEntity<ServiceResult> searchByDate(@RequestParam("min") int minPrice, @RequestParam("max") int maxPrice){
-        return new ResponseEntity<>(apartmentService.findAllByPriceByDate(minPrice, maxPrice),HttpStatus.OK);
-    }
-
-    /* ---------------- SEARCH Apartment By PriceAndName ------------------------ */
-    @GetMapping("/search")
-    public ResponseEntity<ServiceResult> searchApartmentByPriceAndName(@RequestParam("price") int price, @RequestParam("name") String name){
-        return new ResponseEntity<>(apartmentService.findTop5ByPriceByDateAndNameContains(price, name),HttpStatus.OK);
-    }
-
-
-    /* ---------------- SEARCH AllByApartment ------------------------ */
-//    @GetMapping("/searchAll")
-//    public ResponseEntity<ServiceResult> searchAllByApartment(
-//            @RequestParam("bedroom") int bedroom,
-//            @RequestParam("bathroom") int bathroom,
-//            @RequestParam("min") int min,
-//            @RequestParam("max") int max,
-//            @RequestParam("address") String address,
-//            @RequestParam("start") Date startTime,
-//            @RequestParam("end") Date endTime) {
-//        return new ResponseEntity<>(apartmentService.searchAllByApartment(bedroom, bathroom, min, max, address, startTime, endTime),HttpStatus.OK);
-//    }
-
-
-    /* ---------------- DELETE Apartment ------------------------ */
-    @DeleteMapping("/deleteApartment/{id}")
-    public ResponseEntity<ServiceResult> deleteApartment(@PathVariable Long id){
-        return new ResponseEntity<>(apartmentService.deleteApartment(id), HttpStatus.OK);
     }
 
     /* ---------------- VIEWS Apartment ------------------------ */
