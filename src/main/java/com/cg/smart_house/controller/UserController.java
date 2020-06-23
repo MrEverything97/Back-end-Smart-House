@@ -2,7 +2,6 @@ package com.cg.smart_house.controller;
 
 
 import com.cg.smart_house.model.User;
-import com.cg.smart_house.repository.UserRepository;
 import com.cg.smart_house.service.ServiceResult;
 import com.cg.smart_house.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
