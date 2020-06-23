@@ -24,7 +24,7 @@ public class User {
     @JoinColumn(name = "user_id")
     private List<Order> orders;
 
-    @OneToMany(mappedBy = "host")
+    @OneToMany(mappedBy = "user")
     private List<Apartment> apartments;
 
     @ManyToMany(fetch = FetchType.LAZY)
