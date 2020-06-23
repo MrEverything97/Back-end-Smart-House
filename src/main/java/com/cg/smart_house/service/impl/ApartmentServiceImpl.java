@@ -89,7 +89,7 @@ public class ApartmentServiceImpl implements ApartmentService {
             serviceResult.setMessage("Apartment Not Found");
         }
         //Tim Apartment By Host
-        User host = userRepository.findAllByApartment(apartment);
+        User host = userRepository.findAllByApartments(apartment);
             host.setApartments(null);
             userRepository.save(host);
 
@@ -105,6 +105,11 @@ public class ApartmentServiceImpl implements ApartmentService {
 
         apartmentRepository.delete(apartment);
         return serviceResult;
+    }
+
+    @Override
+    public ServiceResult findAllByUserId(Long userId) {
+        return null;
     }
 
     @Override
@@ -141,8 +146,8 @@ public class ApartmentServiceImpl implements ApartmentService {
         return serviceResult;
     }
 
-    @Override
-    public ServiceResult findAllByUserId(Long hostId) {
+//    @Override
+    public ServiceResult findAllByHostId(Long hostId) {
         ServiceResult serviceResult = new ServiceResult();
         serviceResult.setStatus(ServiceStatus.FAILED);
         List<Apartment> apartmentList = apartmentRepository.findAllByUser_Id(hostId);
@@ -159,7 +164,7 @@ public class ApartmentServiceImpl implements ApartmentService {
     public ServiceResult searchApartment(int bedroom, int bathroom, Long province_id, int startPrice, int endPrice, Date startTime, Date endTime) {
         ServiceResult serviceResult = new ServiceResult();
         serviceResult.setStatus(ServiceStatus.FAILED);
-        List<Apartment> apartmentList = apartmentRepository.findApartmentByBedroomAndBathroomAndAddress_Provinces_IdAndPriceByDateIsBetween(bedroom, bathroom, province_id, startPrice, endPrice);
+        List<Apartment> apartmentList = apartmentRepository.findApartmentByBedroomAndBathroomAndAddress_Province_IdAndPriceByDateIsBetween(bedroom, bathroom, province_id, startPrice, endPrice);
         int i;
         List<Order> orderList;
         List<Apartment> resultApartmentList = new ArrayList<>();

@@ -14,27 +14,9 @@ import java.util.Optional;
 
 @Repository
 public interface ApartmentRepository extends JpaRepository<Apartment, Long> {
-    List<Apartment> findAllByBedroom(int amount);
-
-    List<Apartment> findAllByBathroom(int amount);
-
-    List<Apartment> findAllByPictures(Picture picture);
-
-    Apartment findByName(String name);
-
-    List<Apartment> findAllByCategories(Category category);
-
-    List<Apartment> findAllByOrders(Order order);
-
-    List<Apartment> findAllByAddress(Address address);
-
-    List<Apartment> findAllByUser(User user);
-
     List<Apartment> findAllByUser_Id(Long userId);
 
-    List<Apartment> findAllByRoomTypes(RoomType rooType);
-
-    List<Apartment> findApartmentByBedroomAndBathroomAndAddress_Provinces_IdAndPriceByDateIsBetween(int bedroom,int bathroom,Long province_id,int startPrice,int endPrice);
+    List<Apartment> findApartmentByBedroomAndBathroomAndAddress_Province_IdAndPriceByDateIsBetween(int bedroom,int bathroom,Long province_id,int startPrice,int endPrice);
 
     List<Apartment> findTop2ByPriceByDate(int price);
 
@@ -42,17 +24,4 @@ public interface ApartmentRepository extends JpaRepository<Apartment, Long> {
 
     List<Apartment> findAllByPriceByDateBetween(int minPrice, int maxPrice);
 
-    @Query("select ap from Apartment ap left join Order o on ap.id = o.apartment.id " +
-            "left join Address a on a.apartment.id = ap.id where ap.bedroom = :bedroom " +
-            "and ap.bathroom =: bathroom and ap.priceByDate >= :min and ap.priceByDate <= :max " +
-            "and a.name = :address and o.startTime >= :startTime and o.endTime <= :endTime")
-    List<Apartment> findAllByApartment(
-                                       @Param("bedroom") int bedroom,
-                                       @Param("bathroom") int bathroom,
-                                       @Param("min") int min,
-                                       @Param("max") int max,
-                                       @Param("address") String address,
-                                       @Param("start") Date startTime,
-                                       @Param("end") Date endTime
-                                       );
 }
