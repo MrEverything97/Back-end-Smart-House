@@ -142,7 +142,7 @@ public class ApartmentServiceImpl implements ApartmentService {
     }
 
     @Override
-    public ServiceResult findAllByHostId(Long hostId) {
+    public ServiceResult findAllByUserId(Long hostId) {
         ServiceResult serviceResult = new ServiceResult();
         serviceResult.setStatus(ServiceStatus.FAILED);
         List<Apartment> apartmentList = apartmentRepository.findAllByUser_Id(hostId);

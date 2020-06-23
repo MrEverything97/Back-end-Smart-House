@@ -3,9 +3,8 @@ package com.cg.smart_house.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.util.List;
-import java.util.ArrayList;
+
 
 
 @Entity
@@ -14,7 +13,6 @@ public class Apartment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank(message = "Please not null name")
     private String name;
     private int bathroom;
     private int bedroom;
