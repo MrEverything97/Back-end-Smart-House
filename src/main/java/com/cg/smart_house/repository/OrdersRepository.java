@@ -3,6 +3,7 @@ package com.cg.smart_house.repository;
 import com.cg.smart_house.model.Apartment;
 import com.cg.smart_house.model.Order;
 import com.cg.smart_house.enumm.StatusOrders;
+import com.cg.smart_house.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
