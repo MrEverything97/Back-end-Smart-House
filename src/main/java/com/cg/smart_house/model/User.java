@@ -22,12 +22,12 @@ public class User {
     private String email;
     private String phone;
 
-    @OneToMany
-    @JoinColumn(name = "user_id")
+    @OneToMany(mappedBy = "user")
+//    @JoinColumn(name = "user_id")
     private List<Order> orders;
 
     @OneToMany(mappedBy = "user")
-    @JsonIgnore
+//    @JsonIgnore
     private List<Apartment> apartments;
 
     @ManyToOne

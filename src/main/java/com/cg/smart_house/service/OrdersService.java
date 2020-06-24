@@ -1,7 +1,9 @@
 package com.cg.smart_house.service;
 
 import com.cg.smart_house.enumm.StatusOrders;
+import com.cg.smart_house.model.Apartment;
 import com.cg.smart_house.model.Order;
+import com.cg.smart_house.model.User;
 
 import java.util.Date;
 
@@ -18,5 +20,6 @@ public interface OrdersService {
 
     ServiceResult blockOrder(Order order,String hostname);
 
+    ServiceResult findOrderByUserAndApartmentAndStatusPENDING(Long idUser, Long idApartment);
 }
 

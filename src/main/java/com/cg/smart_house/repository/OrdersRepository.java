@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface OrdersRepository extends JpaRepository<Order, Long> {
@@ -25,4 +26,8 @@ public interface OrdersRepository extends JpaRepository<Order, Long> {
 
     Order findByApartmentAndUserAndStatusOrders(Apartment apartment,User user,StatusOrders statusOrders);
     List<Order> findAllByUser(User user);
+
+    List<Order> findAllByApartmentAndStatusOrders(Apartment apartment, StatusOrders statusOrders);
+
+    Order findByUserAndApartmentAndStatusOrders(Optional<User> user, Optional<Apartment> apartment, StatusOrders statusOrders);
 }

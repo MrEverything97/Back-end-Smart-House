@@ -160,6 +160,24 @@ public class OrdersServiceImpl implements OrdersService {
             return saveOrdersWithFullApartment(order, serviceResult, startTimeOrders, endTimeOrders, nowDate, priceApartment, listOrders);
     }
 
+    @Override
+    public ServiceResult findOrderByUserAndApartmentAndStatusPENDING(Long idUser, Long idApartment) {
+        ServiceResult serviceResult = new ServiceResult();
+
+        Optional<User> userOptional = userRepository.findById(idUser);
+        if (!userOptional.isPresent()){
+            serviceResult.setMessage("No found user");
+        }
+        Optional<Apartment> apartmentOptional = apartmentRepository.findById(idApartment);
+        if (!apartmentOptional.isPresent()){
+            serviceResult.setMessage("No found apartment");
+        }
+        Order order = ordersRepository.findByUserAndApartmentAndStatusOrders(userOptional, apartmentOptional, StatusOrders.PENDING);
+        serviceResult.setData(order);
+        return serviceResult;
+    }
+
+
     private ServiceResult saveOrdersWithFullApartment(Order orders, ServiceResult serviceResult, Date startTimeOrders, Date endTimeOrders, Date nowDate, Long priceApartment, List<Order> listOrders) {
         Collections.sort(listOrders);
         int sizeList = listOrders.size() - 1;
@@ -186,7 +204,6 @@ public class OrdersServiceImpl implements OrdersService {
         serviceResult.setStatus(ServiceStatus.SUCCESS);
         return serviceResult;
     }
-
 }
 
 

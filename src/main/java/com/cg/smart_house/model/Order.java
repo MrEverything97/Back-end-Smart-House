@@ -27,7 +27,8 @@ public class Order implements Serializable,Comparable<Order> {
     private Apartment apartment;
 
     @ManyToOne
-    @JsonIgnore
+//    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @JoinColumn(name = "user_id")
     private User user;
 

@@ -1,6 +1,7 @@
 package com.cg.smart_house.service.impl;
 
 
+import com.cg.smart_house.enumm.StatusOrders;
 import com.cg.smart_house.model.*;
 import com.cg.smart_house.repository.*;
 import com.cg.smart_house.service.ApartmentService;
@@ -117,6 +118,48 @@ public class ApartmentServiceImpl implements ApartmentService {
             serviceResult.setData(resultApartmentList);
         }
         return serviceResult;
+    }
+
+    @Override
+    public ServiceResult searchApartmentByStatus(User user, StatusOrders statusOrders) {
+        ServiceResult serviceResult = new ServiceResult();
+        serviceResult.setStatus(ServiceStatus.FAILED);
+
+        List<Apartment> listApartmentByUser = apartmentRepository.findAllByUser(user);
+        if (listApartmentByUser.isEmpty()) {
+            serviceResult.setMessage("No find apartment by user ");
+        } else {
+            List listApartmentByStatus = new ArrayList<>();
+            for (Apartment apartmentByUser : listApartmentByUser) {
+                List<Order> listOrderByApartmentAndStatus = ordersRepository.findAllByApartmentAndStatusOrders(apartmentByUser, statusOrders);
+                for (Order orderByApartment: listOrderByApartmentAndStatus) {
+                    Apartment apartment = findApartmentByIdOrder(orderByApartment.getId());
+                    if (!listApartmentByStatus.contains(apartment)){
+                        listApartmentByStatus.add(apartment);
+                    }
+                }
+            }
+            serviceResult.setData(listApartmentByStatus);
+            serviceResult.setStatus(ServiceStatus.SUCCESS);
+            return serviceResult;
+        }
+        return serviceResult;
+    }
+
+    private Apartment findApartmentByIdOrder(Long idOrder) {
+        ServiceResult serviceResult = new ServiceResult();
+
+        Optional<Order> orderOptional = ordersRepository.findById(idOrder);
+        if (!orderOptional.isPresent()){
+            return null;
+        }
+        Long idApartment = orderOptional.get().getApartment().getId();
+        Apartment apartmentOptional = apartmentRepository.findById(idApartment).orElse(null);
+        if (apartmentOptional == null){
+            return null;
+        } else {
+            return apartmentOptional;
+        }
     }
 
     @Override

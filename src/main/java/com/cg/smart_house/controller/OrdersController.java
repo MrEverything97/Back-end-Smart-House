@@ -1,6 +1,8 @@
 package com.cg.smart_house.controller;
 
+import com.cg.smart_house.model.Apartment;
 import com.cg.smart_house.model.Order;
+import com.cg.smart_house.model.User;
 import com.cg.smart_house.service.OrdersService;
 import com.cg.smart_house.service.ServiceResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,5 +55,12 @@ public class OrdersController {
     public ResponseEntity<ServiceResult> blockOrder(@RequestBody Order order, Principal principal){
         String hostname = principal.getName();
         return new ResponseEntity<>(ordersService.blockOrder(order,hostname),HttpStatus.OK);
+    }
+
+    @GetMapping("viewOrderByUser/{idUser}/{idApartment}")
+    @PreAuthorize("hasRole('HOST')")
+    public ResponseEntity<ServiceResult> viewOrderByUser(@PathVariable Long idUser,
+                                                         @PathVariable  Long idApartment ){
+        return new ResponseEntity<>(ordersService.findOrderByUserAndApartmentAndStatusPENDING(idUser,idApartment),HttpStatus.OK);
     }
 }
