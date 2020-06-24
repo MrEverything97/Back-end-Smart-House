@@ -16,7 +16,7 @@ public interface OrdersService {
 
     ServiceResult findAllOrderByStartTimeAndEndTime(Date minTime, Date maxTime);
 
-    ServiceResult blockOrder(Order order);
+    ServiceResult blockOrder(Order order,String hostname);
 
 }
 

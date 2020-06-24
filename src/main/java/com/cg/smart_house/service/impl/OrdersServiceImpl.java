@@ -3,8 +3,10 @@ package com.cg.smart_house.service.impl;
 import com.cg.smart_house.model.Apartment;
 import com.cg.smart_house.model.Order;
 import com.cg.smart_house.enumm.StatusOrders;
+import com.cg.smart_house.model.User;
 import com.cg.smart_house.repository.ApartmentRepository;
 import com.cg.smart_house.repository.OrdersRepository;
+import com.cg.smart_house.repository.UserRepository;
 import com.cg.smart_house.service.OrdersService;
 import com.cg.smart_house.service.ServiceResult;
 import com.cg.smart_house.enumm.ServiceStatus;
@@ -20,6 +22,9 @@ public class OrdersServiceImpl implements OrdersService {
 
     @Autowired
     private OrdersRepository ordersRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public ServiceResult findALl() {
@@ -109,20 +114,38 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
-    public ServiceResult blockOrder(Order order) {
+    public ServiceResult blockOrder(Order order,String hostname) {
+
         order.setStatusOrders(StatusOrders.BLOCK);
         ServiceResult serviceResult = new ServiceResult();
-        serviceResult.setStatus(ServiceStatus.FAILED);
 
         Long idApartment = order.getApartment().getId();
-        Optional<Apartment> apartment = apartmentRepository.findById(idApartment);
+        Optional<Apartment> apartmentOptional = apartmentRepository.findById(idApartment);
 
         // Không có nhà để cho thuê
-        if (!apartment.isPresent()) {
+        if (!apartmentOptional.isPresent()) {
             serviceResult.setMessage("No apartment have been orders");
             return serviceResult;
         }
-
+        Optional<User> optionalUser = userRepository.findByUsername(hostname);
+        if(!optionalUser.isPresent()) {
+            serviceResult.setStatus(ServiceStatus.FAILED);
+            return serviceResult;
+        }
+        User host = optionalUser.get();
+        List<Apartment> hostApartmentList = apartmentRepository.findAllByUser_Id(host.getId());
+        boolean flag = false;
+        for(int i = 0; i < hostApartmentList.size(); i++){
+            if(hostApartmentList.get(i).getId().equals(idApartment)){
+                flag = true;
+                break;
+            }
+        }
+        if(!flag){
+            serviceResult.setStatus(ServiceStatus.FAILED);
+            serviceResult.setMessage("Forbidden");
+            return serviceResult;
+        }
         Date startTimeOrders = order.getStartTime();
         Date endTimeOrders = order.getEndTime();
         Date nowDate = new Date();
@@ -130,7 +153,7 @@ public class OrdersServiceImpl implements OrdersService {
         Long priceApartment = 0L;
 
 
-        List<Order> listOrders = ordersRepository.findAllByApartment(apartment.get());
+        List<Order> listOrders = ordersRepository.findAllByApartment(apartmentOptional.get());
         if (listOrders.isEmpty()) {
             return saveOrdersWithEmptyApartment(order, serviceResult, priceApartment);
         } else
@@ -148,6 +171,7 @@ public class OrdersServiceImpl implements OrdersService {
                 return saveOrdersWithPrice(orders, serviceResult, priceApartment);
             }
         }
+        serviceResult.setStatus(ServiceStatus.FAILED);
         return serviceResult;
     }
 

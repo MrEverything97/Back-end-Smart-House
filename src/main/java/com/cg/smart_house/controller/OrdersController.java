@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -47,9 +48,10 @@ public class OrdersController {
     }
 
 //    @GetMapping("/listOrders")
+    @PreAuthorize("hasRole('HOST')")
     @PostMapping("/block-order")
-    public ResponseEntity<ServiceResult> blockOrder(@RequestBody Order order){
-        return new ResponseEntity<>(ordersService.blockOrder(order),HttpStatus.OK);
+    public ResponseEntity<ServiceResult> blockOrder(@RequestBody Order order, Principal principal){
+        String hostname = principal.getName();
+        return new ResponseEntity<>(ordersService.blockOrder(order,hostname),HttpStatus.OK);
     }
-
 }
