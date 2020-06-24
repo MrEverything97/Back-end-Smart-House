@@ -126,9 +126,10 @@ public class ApartmentServiceImpl implements ApartmentService {
             for (Apartment apartmentByUser : listApartmentByUser) {
                 List<Order> listOrderByApartmentAndStatus = ordersRepository.findAllByApartmentAndStatusOrders(apartmentByUser, statusOrders);
                 for (Order orderByApartment: listOrderByApartmentAndStatus) {
-                    apartmentByUser.setOrders(null);
-                    orderByApartment.setApartment(apartmentByUser);
-                    listApartmentByStatus.add(orderByApartment);
+                    Apartment apartment = findApartmentByIdOrder(orderByApartment.getId());
+                    if (!listApartmentByStatus.contains(apartment)){
+                        listApartmentByStatus.add(apartment);
+                    }
                 }
             }
             serviceResult.setData(listApartmentByStatus);
@@ -138,6 +139,21 @@ public class ApartmentServiceImpl implements ApartmentService {
         return serviceResult;
     }
 
+    private Apartment findApartmentByIdOrder(Long idOrder) {
+        ServiceResult serviceResult = new ServiceResult();
+
+        Optional<Order> orderOptional = ordersRepository.findById(idOrder);
+        if (!orderOptional.isPresent()){
+            return null;
+        }
+        Long idApartment = orderOptional.get().getApartment().getId();
+        Apartment apartmentOptional = apartmentRepository.findById(idApartment).orElse(null);
+        if (apartmentOptional == null){
+            return null;
+        } else {
+            return apartmentOptional;
+        }
+    }
 
     @Override
     public ServiceResult updateApartment(Long id, Apartment apartment) {

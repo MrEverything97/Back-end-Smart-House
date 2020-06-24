@@ -3,6 +3,7 @@ package com.cg.smart_house.service;
 import com.cg.smart_house.enumm.StatusOrders;
 import com.cg.smart_house.model.Apartment;
 
+import com.cg.smart_house.model.Order;
 import com.cg.smart_house.model.Picture;
 import com.cg.smart_house.model.User;
 
@@ -18,5 +19,6 @@ public interface ApartmentService {
     ServiceResult findById(Long id);
     ServiceResult searchApartment(int bedroom, int bathroom, Long province_id, int startPrice, int endPrice, Date startTime, Date endTime);
     ServiceResult searchApartmentByStatus(User user, StatusOrders statusOrders);
+//    ServiceResult findApartmentByIdOrder(Long idOrder);
 }
 
