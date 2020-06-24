@@ -185,7 +185,6 @@ public class OrdersServiceImpl implements OrdersService {
         serviceResult.setStatus(ServiceStatus.SUCCESS);
         return serviceResult;
     }
-
 }
 
 
