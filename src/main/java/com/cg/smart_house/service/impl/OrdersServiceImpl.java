@@ -13,6 +13,7 @@ import com.cg.smart_house.enumm.ServiceStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -177,21 +178,28 @@ public class OrdersServiceImpl implements OrdersService {
         return serviceResult;
     }
 
-//    @Override
-//    public ServiceResult deleteOrder(Order order) {
-//        ServiceResult serviceResult = new ServiceResult();
-//        serviceResult.setStatus(ServiceStatus.FAILED);
-//
-//        Optional<Order> orderOptional = ordersRepository.findById(order.getId());
-//        if (!orderOptional.isPresent()){
-//            serviceResult.setMessage("No found order");
-//        }
-//        Date nowDate = new Date();
-//        long getDiff = order.getStartTime()- nowDate.getTime();
-//
-//        long getDaysDiff = getDiff / (24 * 60 * 60 * 1000);
-//        return null;
-//    }
+    @Override
+    public ServiceResult deleteOrder(Long idOrder) {
+        ServiceResult serviceResult = new ServiceResult();
+        serviceResult.setStatus(ServiceStatus.FAILED);
+
+        Optional<Order> orderOptional = ordersRepository.findById(idOrder);
+        if (!orderOptional.isPresent()){
+            serviceResult.setMessage("No found order");
+        }
+        Order order = orderOptional.get();
+        Calendar c1 = Calendar.getInstance();
+        Date nowDate = new Date();
+        c1.setTime(order.getStartTime());
+        c1.roll(Calendar.DATE,false);
+        if (nowDate.after(order.getStartTime())){
+            serviceResult.setMessage("Don't delete order");
+        } else {
+            ordersRepository.delete(order);
+            serviceResult.setStatus(ServiceStatus.SUCCESS);
+        }
+        return serviceResult;
+    }
 
 
     private ServiceResult saveOrdersWithFullApartment(Order orders, ServiceResult serviceResult, Date startTimeOrders, Date endTimeOrders, Date nowDate, Long priceApartment, List<Order> listOrders, User user ) {

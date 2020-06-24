@@ -47,6 +47,12 @@ public class OrdersController {
         return new ResponseEntity<>(ordersService.createOrders(orders,user), HttpStatus.OK);
     }
 
+    @DeleteMapping("/deleteOrder/{idOrder}")
+    @PreAuthorize("hasRole('CUSTOMER')")
+    public ResponseEntity<ServiceResult> deleteOrders(@PathVariable Long idOrder) {
+        return new ResponseEntity<>(ordersService.deleteOrder(idOrder), HttpStatus.OK);
+    }
+
     @PutMapping("/updateStatusOrders")
     public ResponseEntity<ServiceResult> updateStatusOrders(@RequestBody Order orders) {
         return new ResponseEntity<>(ordersService.updateStatusOrders(orders), HttpStatus.OK);
