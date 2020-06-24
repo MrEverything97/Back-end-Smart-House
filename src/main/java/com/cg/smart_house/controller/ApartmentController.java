@@ -1,17 +1,24 @@
 package com.cg.smart_house.controller;
 
+import com.cg.smart_house.enumm.StatusOrders;
 import com.cg.smart_house.model.Apartment;
 import com.cg.smart_house.model.Picture;
+import com.cg.smart_house.model.User;
+import com.cg.smart_house.repository.UserRepository;
 import com.cg.smart_house.service.ApartmentService;
 import com.cg.smart_house.service.ServiceResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -19,6 +26,9 @@ import java.util.List;
 public class ApartmentController {
     @Autowired
     private ApartmentService apartmentService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     /* ---------------- CREATE Apartment ------------------------ */
     @PostMapping("/createApartment")
@@ -56,5 +66,16 @@ public class ApartmentController {
         Date startTimeDate = new SimpleDateFormat("yyyy-MM-dd").parse(startTime);
         Date endTimeDate = new SimpleDateFormat("yyyy-MM-dd").parse(endTime);
         return new ResponseEntity<>(apartmentService.searchApartment(bedroom,bathroom,province_id,startPrice,endPrice,startTimeDate,endTimeDate),HttpStatus.OK);
+    }
+
+    @GetMapping("/search-apartment-status")
+    @PreAuthorize("hasRole('CUSTOMER') or hasRole('HOST')")
+    public ResponseEntity<ServiceResult> searchApartmentByStatus(Principal principal,@RequestParam StatusOrders statusOrders){
+        Optional<User> userOptional = userRepository.findByUsername(principal.getName());
+        if (!userOptional.isPresent()){
+            throw new RuntimeException("Not found");
+        }
+        User user = userOptional.get();
+        return new ResponseEntity<>(apartmentService.searchApartmentByStatus(user,statusOrders),HttpStatus.OK);
     }
 }

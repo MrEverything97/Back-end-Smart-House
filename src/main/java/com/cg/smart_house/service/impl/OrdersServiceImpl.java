@@ -137,6 +137,7 @@ public class OrdersServiceImpl implements OrdersService {
             return saveOrdersWithFullApartment(order, serviceResult, startTimeOrders, endTimeOrders, nowDate, priceApartment, listOrders);
     }
 
+
     private ServiceResult saveOrdersWithFullApartment(Order orders, ServiceResult serviceResult, Date startTimeOrders, Date endTimeOrders, Date nowDate, Long priceApartment, List<Order> listOrders) {
         Collections.sort(listOrders);
         int sizeList = listOrders.size() - 1;

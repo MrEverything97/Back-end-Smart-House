@@ -1,6 +1,7 @@
 package com.cg.smart_house.service.impl;
 
 
+import com.cg.smart_house.enumm.StatusOrders;
 import com.cg.smart_house.model.*;
 import com.cg.smart_house.repository.*;
 import com.cg.smart_house.service.ApartmentService;
@@ -111,6 +112,32 @@ public class ApartmentServiceImpl implements ApartmentService {
         }
         return serviceResult;
     }
+
+    @Override
+    public ServiceResult searchApartmentByStatus(User user, StatusOrders statusOrders) {
+        ServiceResult serviceResult = new ServiceResult();
+        serviceResult.setStatus(ServiceStatus.FAILED);
+
+        List<Apartment> listApartmentByUser = apartmentRepository.findAllByUser(user);
+        if (listApartmentByUser.isEmpty()) {
+            serviceResult.setMessage("No find apartment by user ");
+        } else {
+            List listApartmentByStatus = new ArrayList<>();
+            for (Apartment apartmentByUser : listApartmentByUser) {
+                List<Order> listOrderByApartmentAndStatus = ordersRepository.findAllByApartmentAndStatusOrders(apartmentByUser, statusOrders);
+                for (Order orderByApartment: listOrderByApartmentAndStatus) {
+                    apartmentByUser.setOrders(null);
+                    orderByApartment.setApartment(apartmentByUser);
+                    listApartmentByStatus.add(orderByApartment);
+                }
+            }
+            serviceResult.setData(listApartmentByStatus);
+            serviceResult.setStatus(ServiceStatus.SUCCESS);
+            return serviceResult;
+        }
+        return serviceResult;
+    }
+
 
     @Override
     public ServiceResult updateApartment(Long id, Apartment apartment) {

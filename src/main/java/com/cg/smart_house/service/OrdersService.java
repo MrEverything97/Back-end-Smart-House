@@ -1,6 +1,7 @@
 package com.cg.smart_house.service;
 
 import com.cg.smart_house.enumm.StatusOrders;
+import com.cg.smart_house.model.Apartment;
 import com.cg.smart_house.model.Order;
 
 import java.util.Date;
@@ -17,6 +18,7 @@ public interface OrdersService {
     ServiceResult findAllOrderByStartTimeAndEndTime(Date minTime, Date maxTime);
 
     ServiceResult blockOrder(Order order);
+
 
 }
 
