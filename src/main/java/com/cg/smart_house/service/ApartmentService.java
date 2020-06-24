@@ -16,3 +16,4 @@ public interface ApartmentService {
     ServiceResult findById(Long id);
     ServiceResult searchApartment(int bedroom, int bathroom, Long province_id, int startPrice, int endPrice, Date startTime, Date endTime);
 }
+

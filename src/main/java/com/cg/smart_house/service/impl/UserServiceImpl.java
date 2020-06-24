@@ -1,5 +1,6 @@
 package com.cg.smart_house.service.impl;
 
+import com.cg.smart_house.enumm.ServiceStatus;
 import com.cg.smart_house.model.User;
 import com.cg.smart_house.repository.UserRepository;
 import com.cg.smart_house.service.ServiceResult;
@@ -7,6 +8,8 @@ import com.cg.smart_house.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.awt.peer.PanelPeer;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -28,6 +31,24 @@ public class UserServiceImpl implements UserService {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(user);
             serviceResult.setMessage("Update user done");
+        }
+        return serviceResult;
+    }
+
+    @Override
+    public ServiceResult changePassword(User user, String oldPassword, String newPassword) {
+        ServiceResult serviceResult = new ServiceResult();
+        serviceResult.setStatus(ServiceStatus.FAILED);
+
+        String encodeNewPassword = passwordEncoder.encode(newPassword);
+        String encodeOldPassword = passwordEncoder.encode(oldPassword);
+
+        if (!(user.getPassword().equals(encodeOldPassword))){
+            serviceResult.setMessage("Check password fail");
+        } else {
+            user.setPassword(encodeNewPassword);
+            userRepository.save(user);
+            serviceResult.setData(user);
         }
         return serviceResult;
     }
