@@ -3,8 +3,10 @@ package com.cg.smart_house.service.impl;
 import com.cg.smart_house.model.Apartment;
 import com.cg.smart_house.model.Order;
 import com.cg.smart_house.enumm.StatusOrders;
+import com.cg.smart_house.model.User;
 import com.cg.smart_house.repository.ApartmentRepository;
 import com.cg.smart_house.repository.OrdersRepository;
+import com.cg.smart_house.repository.UserRepository;
 import com.cg.smart_house.service.OrdersService;
 import com.cg.smart_house.service.ServiceResult;
 import com.cg.smart_house.enumm.ServiceStatus;
@@ -20,6 +22,9 @@ public class OrdersServiceImpl implements OrdersService {
 
     @Autowired
     private OrdersRepository ordersRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public ServiceResult findALl() {
@@ -135,6 +140,23 @@ public class OrdersServiceImpl implements OrdersService {
             return saveOrdersWithEmptyApartment(order, serviceResult, priceApartment);
         } else
             return saveOrdersWithFullApartment(order, serviceResult, startTimeOrders, endTimeOrders, nowDate, priceApartment, listOrders);
+    }
+
+    @Override
+    public ServiceResult findOrderByUserAndApartmentAndStatusPENDING(Long idUser, Long idApartment) {
+        ServiceResult serviceResult = new ServiceResult();
+
+        Optional<User> userOptional = userRepository.findById(idUser);
+        if (!userOptional.isPresent()){
+            serviceResult.setMessage("No found user");
+        }
+        Optional<Apartment> apartmentOptional = apartmentRepository.findById(idApartment);
+        if (!apartmentOptional.isPresent()){
+            serviceResult.setMessage("No found apartment");
+        }
+        Order order = ordersRepository.findByUserAndApartmentAndStatusOrders(userOptional, apartmentOptional, StatusOrders.PENDING);
+        serviceResult.setData(order);
+        return serviceResult;
     }
 
 
