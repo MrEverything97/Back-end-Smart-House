@@ -81,7 +81,7 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
-    public ServiceResult createOrders(Order orders) {
+    public ServiceResult createOrders(Order orders, User user) {
         ServiceResult serviceResult = new ServiceResult();
         serviceResult.setStatus(ServiceStatus.FAILED);
 
@@ -108,13 +108,13 @@ public class OrdersServiceImpl implements OrdersService {
 
         List<Order> listOrders = ordersRepository.findAllByApartment(apartment.get());
         if (listOrders.isEmpty()) {
-            return saveOrdersWithEmptyApartment(orders, serviceResult, priceApartment);
+            return saveOrdersWithEmptyApartment(orders, serviceResult, priceApartment,user);
         } else
-            return saveOrdersWithFullApartment(orders, serviceResult, startTimeOrders, endTimeOrders, nowDate, priceApartment, listOrders);
+            return saveOrdersWithFullApartment(orders, serviceResult, startTimeOrders, endTimeOrders, nowDate, priceApartment, listOrders,user);
     }
 
     @Override
-    public ServiceResult blockOrder(Order order,String hostname) {
+    public ServiceResult blockOrder(Order order,User host) {
 
         order.setStatusOrders(StatusOrders.BLOCK);
         ServiceResult serviceResult = new ServiceResult();
@@ -127,12 +127,12 @@ public class OrdersServiceImpl implements OrdersService {
             serviceResult.setMessage("No apartment have been orders");
             return serviceResult;
         }
-        Optional<User> optionalUser = userRepository.findByUsername(hostname);
+        Optional<User> optionalUser = userRepository.findByUsername(host.getName());
         if(!optionalUser.isPresent()) {
             serviceResult.setStatus(ServiceStatus.FAILED);
             return serviceResult;
         }
-        User host = optionalUser.get();
+        host = optionalUser.get();
         List<Apartment> hostApartmentList = apartmentRepository.findAllByUser_Id(host.getId());
         boolean flag = false;
         for(int i = 0; i < hostApartmentList.size(); i++){
@@ -155,9 +155,9 @@ public class OrdersServiceImpl implements OrdersService {
 
         List<Order> listOrders = ordersRepository.findAllByApartment(apartmentOptional.get());
         if (listOrders.isEmpty()) {
-            return saveOrdersWithEmptyApartment(order, serviceResult, priceApartment);
+            return saveOrdersWithEmptyApartment(order, serviceResult, priceApartment,host);
         } else
-            return saveOrdersWithFullApartment(order, serviceResult, startTimeOrders, endTimeOrders, nowDate, priceApartment, listOrders);
+            return saveOrdersWithFullApartment(order, serviceResult, startTimeOrders, endTimeOrders, nowDate, priceApartment, listOrders,host);
     }
 
     @Override
@@ -177,8 +177,24 @@ public class OrdersServiceImpl implements OrdersService {
         return serviceResult;
     }
 
+//    @Override
+//    public ServiceResult deleteOrder(Order order) {
+//        ServiceResult serviceResult = new ServiceResult();
+//        serviceResult.setStatus(ServiceStatus.FAILED);
+//
+//        Optional<Order> orderOptional = ordersRepository.findById(order.getId());
+//        if (!orderOptional.isPresent()){
+//            serviceResult.setMessage("No found order");
+//        }
+//        Date nowDate = new Date();
+//        long getDiff = order.getStartTime()- nowDate.getTime();
+//
+//        long getDaysDiff = getDiff / (24 * 60 * 60 * 1000);
+//        return null;
+//    }
 
-    private ServiceResult saveOrdersWithFullApartment(Order orders, ServiceResult serviceResult, Date startTimeOrders, Date endTimeOrders, Date nowDate, Long priceApartment, List<Order> listOrders) {
+
+    private ServiceResult saveOrdersWithFullApartment(Order orders, ServiceResult serviceResult, Date startTimeOrders, Date endTimeOrders, Date nowDate, Long priceApartment, List<Order> listOrders, User user ) {
         Collections.sort(listOrders);
         int sizeList = listOrders.size() - 1;
         for (int i = 0; i <= sizeList; i++) {
@@ -186,20 +202,22 @@ public class OrdersServiceImpl implements OrdersService {
                     || startTimeOrders.after(listOrders.get(sizeList).getEndTime())
                     || (startTimeOrders.after(listOrders.get(i).getEndTime()) && endTimeOrders.before(listOrders.get(i + 1).getStartTime()))) {
                 serviceResult.setMessage("Success orders apartment");
-                return saveOrdersWithPrice(orders, serviceResult, priceApartment);
+                return saveOrdersWithPrice(orders, serviceResult, priceApartment,user);
             }
         }
         serviceResult.setStatus(ServiceStatus.FAILED);
         return serviceResult;
     }
 
-    private ServiceResult saveOrdersWithEmptyApartment(Order orders, ServiceResult serviceResult, Long priceApartment) {
+    private ServiceResult saveOrdersWithEmptyApartment(Order orders, ServiceResult serviceResult, Long priceApartment, User user) {
         serviceResult.setMessage("No apartment orders by customer, order success");
-        return saveOrdersWithPrice(orders, serviceResult, priceApartment);
+        return saveOrdersWithPrice(orders, serviceResult, priceApartment, user);
     }
 
-    private ServiceResult saveOrdersWithPrice(Order orders, ServiceResult serviceResult, Long priceApartment) {
+    private ServiceResult saveOrdersWithPrice(Order orders, ServiceResult serviceResult, Long priceApartment, User user) {
         orders.setTotalMoney(priceApartment);
+        orders.setUser(user);
+        orders.setStatusOrders(StatusOrders.PENDING);
         serviceResult.setData(ordersRepository.save(orders));
         serviceResult.setStatus(ServiceStatus.SUCCESS);
         return serviceResult;

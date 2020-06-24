@@ -48,6 +48,7 @@ public class UserServiceImpl implements UserService {
         } else {
             user.setPassword(encodeNewPassword);
             userRepository.save(user);
+            serviceResult.setStatus(ServiceStatus.SUCCESS);
             serviceResult.setData(user);
         }
         return serviceResult;

@@ -3,6 +3,7 @@ package com.cg.smart_house.controller;
 import com.cg.smart_house.model.Apartment;
 import com.cg.smart_house.model.Order;
 import com.cg.smart_house.model.User;
+import com.cg.smart_house.repository.UserRepository;
 import com.cg.smart_house.service.OrdersService;
 import com.cg.smart_house.service.ServiceResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -24,6 +26,9 @@ public class OrdersController {
     @Autowired
     private OrdersService ordersService;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @GetMapping("/listOrders")
     @PreAuthorize("hasRole('CUSTOMER') or hasRole('HOST')")
     public ResponseEntity<ServiceResult> listOrders() {
@@ -31,8 +36,15 @@ public class OrdersController {
     }
 
     @PostMapping("/createOrders")
-    public ResponseEntity<ServiceResult> createOrders(@RequestBody Order orders) {
-        return new ResponseEntity<>(ordersService.createOrders(orders), HttpStatus.OK);
+    @PreAuthorize("hasRole('CUSTOMER')")
+    public ResponseEntity<ServiceResult> createOrders(@RequestBody Order orders, Principal principal) {
+        String username = principal.getName();
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        if (!userOptional.isPresent()){
+            throw new RuntimeException("Not found");
+        }
+        User user = userOptional.get();
+        return new ResponseEntity<>(ordersService.createOrders(orders,user), HttpStatus.OK);
     }
 
     @PutMapping("/updateStatusOrders")
@@ -54,7 +66,12 @@ public class OrdersController {
     @PostMapping("/block-order")
     public ResponseEntity<ServiceResult> blockOrder(@RequestBody Order order, Principal principal){
         String hostname = principal.getName();
-        return new ResponseEntity<>(ordersService.blockOrder(order,hostname),HttpStatus.OK);
+        Optional<User> hostOptional = userRepository.findByUsername(hostname);
+        if (!hostOptional.isPresent()){
+            throw new RuntimeException("Not found");
+        }
+        User host = hostOptional.get();
+        return new ResponseEntity<>(ordersService.blockOrder(order,host),HttpStatus.OK);
     }
 
     @GetMapping("viewOrderByUser/{idUser}/{idApartment}")

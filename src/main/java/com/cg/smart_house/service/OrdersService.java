@@ -12,14 +12,16 @@ public interface OrdersService {
 
     ServiceResult updateStatusOrders(Order orders);
 
-    ServiceResult createOrders(Order orders);
+    ServiceResult createOrders(Order orders, User user);
 
     ServiceResult findAllOrdersByApartment(Long id);
 
     ServiceResult findAllOrderByStartTimeAndEndTime(Date minTime, Date maxTime);
 
-    ServiceResult blockOrder(Order order,String hostname);
+    ServiceResult blockOrder(Order order,User host);
 
     ServiceResult findOrderByUserAndApartmentAndStatusPENDING(Long idUser, Long idApartment);
+
+//    ServiceResult deleteOrder(Order order);
 }
 
