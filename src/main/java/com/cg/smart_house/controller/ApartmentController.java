@@ -52,8 +52,9 @@ public class ApartmentController {
     // Update pictures only
     @PreAuthorize("hasRole('HOST')")
     @PutMapping("/update-apartment-pictures/{id}")
-    public ResponseEntity<ServiceResult> updateApartmentPictures(@PathVariable Long id,@RequestBody List<Picture> pictureList){
-        return new ResponseEntity<>(apartmentService.updateApartmentPicture(id,pictureList),HttpStatus.OK);
+    public ResponseEntity<ServiceResult> updateApartmentPictures(@PathVariable Long id,@RequestBody List<Picture> pictureList,Principal principal){
+        String username = principal.getName();
+        return new ResponseEntity<>(apartmentService.updateApartmentPicture(id,pictureList,username),HttpStatus.OK);
     }
 
     @GetMapping("/search-apartment")

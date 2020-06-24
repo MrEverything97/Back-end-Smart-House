@@ -126,13 +126,24 @@ public class ApartmentServiceImpl implements ApartmentService {
     }
 
     @Override
-    public ServiceResult updateApartmentPicture(Long id, List<Picture> pictureList) { // only update pictures
+    public ServiceResult updateApartmentPicture(Long id, List<Picture> pictureList,String hostname) { // only update pictures
         ServiceResult serviceResult = new ServiceResult();
+        Optional<User> optionalUser = userRepository.findByUsername(hostname);
+        if(!optionalUser.isPresent()) {
+            serviceResult.setStatus(ServiceStatus.FAILED);
+            return serviceResult;
+        }
+        User host = optionalUser.get();
         Apartment currentApartment = apartmentRepository.findById(id).orElse(null);
         if (currentApartment == null) {
             serviceResult.setStatus(ServiceStatus.FAILED);
             serviceResult.setMessage("Apartment Not Found");
         } else {
+            if(!currentApartment.getUser().getId().equals(host.getId())){
+                serviceResult.setStatus(ServiceStatus.FAILED);
+                serviceResult.setMessage("Forbidden");
+                return serviceResult;
+            };
             List<Picture> oldPictureList = pictureRepository.findAllByApartment(currentApartment);
             pictureRepository.deleteAll(oldPictureList);
             for (Picture picture : pictureList) {
