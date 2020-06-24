@@ -38,8 +38,15 @@ public class ApartmentServiceImpl implements ApartmentService {
     private UserRepository userRepository;
 
     @Override
-    public ServiceResult createApartment(Apartment apartment) {
+    public ServiceResult createApartment(Apartment apartment, String username) {
         ServiceResult serviceResult = new ServiceResult();
+        Optional<User> optionalUser = userRepository.findByUsername(username);
+        if(!optionalUser.isPresent()) {
+            serviceResult.setStatus(ServiceStatus.FAILED);
+            return serviceResult;
+        }
+        User user = optionalUser.get();
+        apartment.setUser(user);
         // get and remove picture list from apartment
         List<Picture> pictureList = apartment.getPictures();
         apartment.setPictures(null);

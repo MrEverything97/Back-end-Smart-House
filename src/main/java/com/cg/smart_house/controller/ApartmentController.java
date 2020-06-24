@@ -7,7 +7,10 @@ import com.cg.smart_house.service.ServiceResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,9 +24,11 @@ public class ApartmentController {
     private ApartmentService apartmentService;
 
     /* ---------------- CREATE Apartment ------------------------ */
+    @PreAuthorize("hasRole('HOST')")
     @PostMapping("/createApartment")
-    public ResponseEntity<ServiceResult> createApartment( @RequestBody Apartment apartment){
-        return new ResponseEntity<>(apartmentService.createApartment(apartment), HttpStatus.OK);
+    public ResponseEntity<ServiceResult> createApartment(@RequestBody Apartment apartment, Principal principal){
+        String username = principal.getName();
+        return new ResponseEntity<>(apartmentService.createApartment(apartment,username), HttpStatus.OK);
     }
 
     /* ---------------- UPDATE Apartment ------------------------ */
@@ -45,6 +50,7 @@ public class ApartmentController {
     }
 
     // Update pictures only
+    @PreAuthorize("hasRole('HOST')")
     @PutMapping("/update-apartment-pictures/{id}")
     public ResponseEntity<ServiceResult> updateApartmentPictures(@PathVariable Long id,@RequestBody List<Picture> pictureList){
         return new ResponseEntity<>(apartmentService.updateApartmentPicture(id,pictureList),HttpStatus.OK);

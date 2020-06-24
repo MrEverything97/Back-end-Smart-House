@@ -9,7 +9,7 @@ import java.util.List;
 
 
 public interface ApartmentService {
-    ServiceResult createApartment(Apartment apartment);
+    ServiceResult createApartment(Apartment apartment, String username);
     ServiceResult updateApartment(Long id, Apartment apartment);
     ServiceResult updateApartmentPicture(Long id, List<Picture> pictureList);
     ServiceResult findAll();
