@@ -5,6 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -22,25 +23,22 @@ public class UserPrinciple implements UserDetails {
     @JsonIgnore
     private String password;
 
-    private Collection<? extends GrantedAuthority> authorities;
+    private  GrantedAuthority authority;
 
     public UserPrinciple(Long id, String name,
                          String username, String email, String phone, String password,
-                         Collection<? extends GrantedAuthority> authorities) {
+                         GrantedAuthority authority) {
         this.id = id;
         this.name = name;
         this.username = username;
         this.email = email;
         this.phone = phone;
         this.password = password;
-        this.authorities = authorities;
+        this.authority = authority;
     }
 
-    public static UserPrinciple build(User user) {
-        List<GrantedAuthority> authorities = user.getRoles().stream().map(role ->
-                new SimpleGrantedAuthority(role.getName().name())
-        ).collect(Collectors.toList());
-
+    public static UserPrinciple build(User user){
+        GrantedAuthority authority = user.getRole();
         return new UserPrinciple(
                 user.getId(),
                 user.getName(),
@@ -48,7 +46,7 @@ public class UserPrinciple implements UserDetails {
                 user.getEmail(),
                 user.getPhone(),
                 user.getPassword(),
-                authorities
+                authority
         );
     }
 
@@ -66,19 +64,25 @@ public class UserPrinciple implements UserDetails {
 
     public String getPhone(){return phone;}
 
+    public GrantedAuthority getAuthority() {
+        return authority;
+    }
+
     @Override
     public String getUsername() {
         return username;
     }
 
     @Override
-    public String getPassword() {
-        return password;
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List list = new ArrayList<>();
+        list.add(this.getAuthority());
+        return list;
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+    public String getPassword() {
+        return password;
     }
 
     @Override
