@@ -96,8 +96,11 @@ public class OrdersServiceImpl implements OrdersService {
 
         Date startTimeOrders = orders.getStartTime();
         Date endTimeOrders = orders.getEndTime();
-        Date nowDate = new Date();
+        if(startTimeOrders.after(endTimeOrders)){
+            return serviceResult;
+        }
 
+        Date nowDate = new Date();
         Calendar c1 = Calendar.getInstance();
         Calendar c2 = Calendar.getInstance();
         c1.setTime(startTimeOrders);
@@ -118,6 +121,7 @@ public class OrdersServiceImpl implements OrdersService {
 
         order.setStatusOrders(StatusOrders.BLOCK);
         ServiceResult serviceResult = new ServiceResult();
+        serviceResult.setStatus(ServiceStatus.FAILED);
 
         Long idApartment = order.getApartment().getId();
         Optional<Apartment> apartmentOptional = apartmentRepository.findById(idApartment);
@@ -129,7 +133,6 @@ public class OrdersServiceImpl implements OrdersService {
         }
         Optional<User> optionalUser = userRepository.findByUsername(host.getName());
         if(!optionalUser.isPresent()) {
-            serviceResult.setStatus(ServiceStatus.FAILED);
             return serviceResult;
         }
         host = optionalUser.get();
@@ -142,12 +145,14 @@ public class OrdersServiceImpl implements OrdersService {
             }
         }
         if(!flag){
-            serviceResult.setStatus(ServiceStatus.FAILED);
             serviceResult.setMessage("Forbidden");
             return serviceResult;
         }
         Date startTimeOrders = order.getStartTime();
         Date endTimeOrders = order.getEndTime();
+        if(startTimeOrders.after(endTimeOrders)){
+            return serviceResult;
+        }
         Date nowDate = new Date();
         // Set 0 because of blocking
         Long priceApartment = 0L;
@@ -155,9 +160,9 @@ public class OrdersServiceImpl implements OrdersService {
 
         List<Order> listOrders = ordersRepository.findAllByApartment(apartmentOptional.get());
         if (listOrders.isEmpty()) {
-            return saveOrdersWithEmptyApartment(order, serviceResult, priceApartment,host);
+            return blockOrdersWithEmptyApartment(order, serviceResult, priceApartment,host);
         } else
-            return saveOrdersWithFullApartment(order, serviceResult, startTimeOrders, endTimeOrders, nowDate, priceApartment, listOrders,host);
+            return blockOrdersWithFullApartment(order, serviceResult, startTimeOrders, endTimeOrders, nowDate, priceApartment, listOrders,host);
     }
 
     @Override
@@ -177,21 +182,111 @@ public class OrdersServiceImpl implements OrdersService {
         return serviceResult;
     }
 
-//    @Override
-//    public ServiceResult deleteOrder(Order order) {
-//        ServiceResult serviceResult = new ServiceResult();
-//        serviceResult.setStatus(ServiceStatus.FAILED);
-//
-//        Optional<Order> orderOptional = ordersRepository.findById(order.getId());
-//        if (!orderOptional.isPresent()){
-//            serviceResult.setMessage("No found order");
-//        }
-//        Date nowDate = new Date();
-//        long getDiff = order.getStartTime()- nowDate.getTime();
-//
-//        long getDaysDiff = getDiff / (24 * 60 * 60 * 1000);
-//        return null;
-//    }
+    @Override
+    public ServiceResult deleteOrder(Long idOrder) {
+        ServiceResult serviceResult = new ServiceResult();
+        serviceResult.setStatus(ServiceStatus.FAILED);
+
+        Optional<Order> orderOptional = ordersRepository.findById(idOrder);
+        if (!orderOptional.isPresent()){
+            serviceResult.setMessage("No found order");
+        } else {
+            Order order = orderOptional.get();
+            Date startTimeOrders = order.getStartTime();
+            Date nowDate = new Date();
+            Calendar c1 = Calendar.getInstance();
+            Calendar c2 = Calendar.getInstance();
+            c1.setTime(startTimeOrders);
+            c2.setTime(nowDate);
+            long countDayOrders = (c1.getTime().getTime() - c2.getTime().getTime()) / (24 * 3600 * 1000);
+            if (countDayOrders < 1) {
+                serviceResult.setMessage("Don't delete order");
+            } else {
+                ordersRepository.delete(order);
+                serviceResult.setStatus(ServiceStatus.SUCCESS);
+                return serviceResult;
+            }
+        }
+        return serviceResult;
+    }
+
+    @Override
+    public ServiceResult confirmOrderApartment(Long idOrder) {
+        ServiceResult serviceResult = new ServiceResult();
+        serviceResult.setStatus(ServiceStatus.FAILED);
+
+        Optional<Order> orderOptional = ordersRepository.findById(idOrder);
+        if (!orderOptional.isPresent()){
+            serviceResult.setMessage("No found order");
+        } else {
+            Order order = orderOptional.get();
+            order.setStatusOrders(StatusOrders.NOT_RENTED);
+            ordersRepository.save(order);
+            serviceResult.setStatus(ServiceStatus.SUCCESS);
+            return serviceResult;
+        }
+        return serviceResult;
+    }
+
+    @Override
+    public ServiceResult checkinOrderApartment(Long idOrder) {
+        ServiceResult serviceResult = new ServiceResult();
+        serviceResult.setStatus(ServiceStatus.FAILED);
+
+        Optional<Order> orderOptional = ordersRepository.findById(idOrder);
+        if (!orderOptional.isPresent()){
+            serviceResult.setMessage("No found order");
+        } else {
+            Order order = orderOptional.get();
+            order.setStatusOrders(StatusOrders.RENTING);
+            ordersRepository.save(order);
+            serviceResult.setStatus(ServiceStatus.SUCCESS);
+            return serviceResult;
+        }
+        return serviceResult;
+    }
+
+    @Override
+    public ServiceResult findAllByCustomer(Long idUser) {
+        ServiceResult serviceResult = new ServiceResult();
+        serviceResult.setStatus(ServiceStatus.FAILED);
+
+        Optional<User> userOptional = userRepository.findById(idUser);
+        if (!userOptional.isPresent()) {
+            serviceResult.setMessage("No found user order");
+        } else {
+
+            List<Order> listOrderByCustomer = ordersRepository.findAllByUser(userOptional.get());
+            if (listOrderByCustomer.isEmpty()) {
+                serviceResult.setMessage("No found order by user");
+            } else {
+                serviceResult.setStatus(ServiceStatus.SUCCESS);
+                serviceResult.setData(listOrderByCustomer);
+            }
+        }
+        return serviceResult;
+    }
+
+    @Override
+    public ServiceResult viewsOrderPendingByCustomer(Long idHost, Long idCustomer) {
+        ServiceResult serviceResult = new ServiceResult();
+        serviceResult.setStatus(ServiceStatus.FAILED);
+
+        Optional<User> userOptional = userRepository.findById(idCustomer);
+        if (!userOptional.isPresent()){
+            serviceResult.setMessage("No find customer");
+        } else {
+            List<Order> listOrderPendingByCustomer = ordersRepository.findAllByUserAndStatusOrders(userOptional.get(), StatusOrders.PENDING);
+            if (listOrderPendingByCustomer.isEmpty()){
+                serviceResult.setMessage("No find order");
+            } else {
+                serviceResult.setStatus(ServiceStatus.SUCCESS);
+                serviceResult.setData(listOrderPendingByCustomer);
+                return serviceResult;
+            }
+        }
+        return serviceResult;
+    }
 
 
     private ServiceResult saveOrdersWithFullApartment(Order orders, ServiceResult serviceResult, Date startTimeOrders, Date endTimeOrders, Date nowDate, Long priceApartment, List<Order> listOrders, User user ) {
@@ -209,15 +304,42 @@ public class OrdersServiceImpl implements OrdersService {
         return serviceResult;
     }
 
+    private ServiceResult blockOrdersWithFullApartment(Order orders, ServiceResult serviceResult, Date startTimeOrders, Date endTimeOrders, Date nowDate, Long priceApartment, List<Order> listOrders, User user ) {
+        Collections.sort(listOrders);
+        int sizeList = listOrders.size() - 1;
+        for (int i = 0; i <= sizeList; i++) {
+            if ((startTimeOrders.after(nowDate) && endTimeOrders.before(listOrders.get(0).getStartTime()))
+                    || startTimeOrders.after(listOrders.get(sizeList).getEndTime())
+                    || (startTimeOrders.after(listOrders.get(i).getEndTime()) && endTimeOrders.before(listOrders.get(i + 1).getStartTime()))) {
+                serviceResult.setMessage("Success orders apartment");
+                return blockOrders(orders, serviceResult,user);
+            }
+        }
+        serviceResult.setStatus(ServiceStatus.FAILED);
+        return serviceResult;
+    }
+
     private ServiceResult saveOrdersWithEmptyApartment(Order orders, ServiceResult serviceResult, Long priceApartment, User user) {
         serviceResult.setMessage("No apartment orders by customer, order success");
         return saveOrdersWithPrice(orders, serviceResult, priceApartment, user);
+    }
+    private ServiceResult blockOrdersWithEmptyApartment(Order orders, ServiceResult serviceResult, Long priceApartment, User user) {
+        serviceResult.setMessage("No apartment orders by customer, order success");
+        return blockOrders(orders, serviceResult, user);
     }
 
     private ServiceResult saveOrdersWithPrice(Order orders, ServiceResult serviceResult, Long priceApartment, User user) {
         orders.setTotalMoney(priceApartment);
         orders.setUser(user);
         orders.setStatusOrders(StatusOrders.PENDING);
+        serviceResult.setData(ordersRepository.save(orders));
+        serviceResult.setStatus(ServiceStatus.SUCCESS);
+        return serviceResult;
+    }
+    private ServiceResult blockOrders(Order orders, ServiceResult serviceResult, User user) {
+        orders.setTotalMoney(0L);
+        orders.setUser(user);
+        orders.setStatusOrders(StatusOrders.BLOCK);
         serviceResult.setData(ordersRepository.save(orders));
         serviceResult.setStatus(ServiceStatus.SUCCESS);
         return serviceResult;

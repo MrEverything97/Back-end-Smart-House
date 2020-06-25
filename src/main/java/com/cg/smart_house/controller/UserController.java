@@ -24,14 +24,16 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
+    @PreAuthorize("hasRole('CUSTOMER') or hasRole('HOST')")
     @PutMapping("/updateUser")
-    public ResponseEntity<ServiceResult> updateUser(@RequestBody User user) {
-        return new ResponseEntity<>(userService.updateUser(user), HttpStatus.OK);
+    public ResponseEntity<ServiceResult> updateUser(@RequestBody User user,Principal principal) {
+        String username = principal.getName();
+        return new ResponseEntity<>(userService.updateUser(user,username), HttpStatus.OK);
     }
 
-    @PutMapping("/changePasswordUser")
+    @PutMapping("/changePassword")
     @PreAuthorize("hasRole('CUSTOMER') or hasRole('HOST')")
-    public ResponseEntity<ServiceResult> updateUser(Principal principal, @RequestParam("oldPassword") String oldPassword,
+    public ResponseEntity<ServiceResult> changePassword(Principal principal, @RequestParam("oldPassword") String oldPassword,
                                                     @RequestParam("newPassWord") String newPassWord) {
         Optional<User> userOptional = userRepository.findByUsername(principal.getName());
         if (!userOptional.isPresent()){

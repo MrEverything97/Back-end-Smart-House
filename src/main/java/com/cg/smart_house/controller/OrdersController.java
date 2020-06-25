@@ -47,6 +47,12 @@ public class OrdersController {
         return new ResponseEntity<>(ordersService.createOrders(orders,user), HttpStatus.OK);
     }
 
+    @DeleteMapping("/deleteOrder/{idOrder}")
+    @PreAuthorize("hasRole('CUSTOMER')")
+    public ResponseEntity<ServiceResult> deleteOrders(@PathVariable Long idOrder) {
+        return new ResponseEntity<>(ordersService.deleteOrder(idOrder), HttpStatus.OK);
+    }
+
     @PutMapping("/updateStatusOrders")
     public ResponseEntity<ServiceResult> updateStatusOrders(@RequestBody Order orders) {
         return new ResponseEntity<>(ordersService.updateStatusOrders(orders), HttpStatus.OK);
@@ -79,5 +85,35 @@ public class OrdersController {
     public ResponseEntity<ServiceResult> viewOrderByUser(@PathVariable Long idUser,
                                                          @PathVariable  Long idApartment ){
         return new ResponseEntity<>(ordersService.findOrderByUserAndApartmentAndStatusPENDING(idUser,idApartment),HttpStatus.OK);
+    }
+
+    @PutMapping("/confirmOrderApartment/{idOrder}")
+    @PreAuthorize("hasRole('HOST')")
+    public ResponseEntity<ServiceResult> confirmOrderApartment(@PathVariable Long idOrder){
+        return new ResponseEntity<>(ordersService.confirmOrderApartment(idOrder),HttpStatus.OK);
+    }
+
+    @PutMapping("/checkinOrderApartment/{idOrder}")
+    @PreAuthorize("hasRole('HOST')")
+    public ResponseEntity<ServiceResult> checkinOrderApartment(@PathVariable Long idOrder){
+        return new ResponseEntity<>(ordersService.checkinOrderApartment(idOrder),HttpStatus.OK);
+    }
+
+    @GetMapping("/findAllByCustomer/{idCustomer}")
+    @PreAuthorize("hasRole('HOST')")
+    public ResponseEntity<ServiceResult> findAllByCustomer(@PathVariable Long idCustomer) {
+        return new ResponseEntity<>(ordersService.findAllByCustomer(idCustomer),HttpStatus.OK);
+    }
+
+    @GetMapping("/viewsOrderPendingByCustomer/{idCustomer}")
+    @PreAuthorize("hasRole('HOST')")
+    public ResponseEntity<ServiceResult> viewsOrderPendingByCustomer(@PathVariable Long idCustomer, Principal principal){
+        String hostname = principal.getName();
+        Optional<User> hostOptional = userRepository.findByUsername(hostname);
+        if (!hostOptional.isPresent()){
+            throw new RuntimeException("Not found");
+        }
+        User host = hostOptional.get();
+        return new ResponseEntity<>(ordersService.viewsOrderPendingByCustomer(host.getId(),idCustomer),HttpStatus.OK);
     }
 }

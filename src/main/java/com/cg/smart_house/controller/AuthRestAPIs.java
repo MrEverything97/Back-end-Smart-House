@@ -64,15 +64,13 @@ public class AuthRestAPIs {
     }
 
     @PostMapping("/signUp")
-    public ResponseEntity<String> registerUser( @RequestBody SignUpForm signUpRequest) {
+    public ResponseEntity<Void> registerUser( @RequestBody SignUpForm signUpRequest) {
         if(userRepository.existsByUsername(signUpRequest.getUsername())) {
-            return new ResponseEntity<String>("Fail -> Username is already taken!",
-                    HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         if(userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return new ResponseEntity<String>("Fail -> Email is already in use!",
-                    HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         // Creating user's account
@@ -80,6 +78,8 @@ public class AuthRestAPIs {
                 signUpRequest.getEmail(),signUpRequest.getPhone(), encoder.encode(signUpRequest.getPassword()));
 
         String roleString = signUpRequest.getRole();
+        if (roleString == null) roleString = "";
+
         Role role ;
             switch(roleString) {
                 case "host":
@@ -87,16 +87,20 @@ public class AuthRestAPIs {
                             .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
                     role = adminRole;
                     break;
-                default:
+                case "customer":
                     Role pmRole = roleRepository.findByName(RoleName.ROLE_CUSTOMER)
                             .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
                     role = pmRole;
                     break;
+                default:
+                    Role defaultRole = roleRepository.findByName(RoleName.ROLE_CUSTOMER)
+                            .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+                    role = defaultRole;
             }
         user.setRole(role);
         userRepository.save(user);
 
-        return ResponseEntity.ok().body("User registered successfully!");
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
