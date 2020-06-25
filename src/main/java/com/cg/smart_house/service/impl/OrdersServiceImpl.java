@@ -122,6 +122,7 @@ public class OrdersServiceImpl implements OrdersService {
 
         order.setStatusOrders(StatusOrders.BLOCK);
         ServiceResult serviceResult = new ServiceResult();
+        serviceResult.setStatus(ServiceStatus.FAILED);
 
         Long idApartment = order.getApartment().getId();
         Optional<Apartment> apartmentOptional = apartmentRepository.findById(idApartment);
@@ -133,7 +134,6 @@ public class OrdersServiceImpl implements OrdersService {
         }
         Optional<User> optionalUser = userRepository.findByUsername(host.getName());
         if(!optionalUser.isPresent()) {
-            serviceResult.setStatus(ServiceStatus.FAILED);
             return serviceResult;
         }
         host = optionalUser.get();
@@ -146,12 +146,14 @@ public class OrdersServiceImpl implements OrdersService {
             }
         }
         if(!flag){
-            serviceResult.setStatus(ServiceStatus.FAILED);
             serviceResult.setMessage("Forbidden");
             return serviceResult;
         }
         Date startTimeOrders = order.getStartTime();
         Date endTimeOrders = order.getEndTime();
+        if(startTimeOrders.after(endTimeOrders)){
+            return serviceResult;
+        }
         Date nowDate = new Date();
         // Set 0 because of blocking
         Long priceApartment = 0L;
@@ -159,9 +161,9 @@ public class OrdersServiceImpl implements OrdersService {
 
         List<Order> listOrders = ordersRepository.findAllByApartment(apartmentOptional.get());
         if (listOrders.isEmpty()) {
-            return saveOrdersWithEmptyApartment(order, serviceResult, priceApartment,host);
+            return blockOrdersWithEmptyApartment(order, serviceResult, priceApartment,host);
         } else
-            return saveOrdersWithFullApartment(order, serviceResult, startTimeOrders, endTimeOrders, nowDate, priceApartment, listOrders,host);
+            return blockOrdersWithFullApartment(order, serviceResult, startTimeOrders, endTimeOrders, nowDate, priceApartment, listOrders,host);
     }
 
     @Override
@@ -285,15 +287,42 @@ public class OrdersServiceImpl implements OrdersService {
         return serviceResult;
     }
 
+    private ServiceResult blockOrdersWithFullApartment(Order orders, ServiceResult serviceResult, Date startTimeOrders, Date endTimeOrders, Date nowDate, Long priceApartment, List<Order> listOrders, User user ) {
+        Collections.sort(listOrders);
+        int sizeList = listOrders.size() - 1;
+        for (int i = 0; i <= sizeList; i++) {
+            if ((startTimeOrders.after(nowDate) && endTimeOrders.before(listOrders.get(0).getStartTime()))
+                    || startTimeOrders.after(listOrders.get(sizeList).getEndTime())
+                    || (startTimeOrders.after(listOrders.get(i).getEndTime()) && endTimeOrders.before(listOrders.get(i + 1).getStartTime()))) {
+                serviceResult.setMessage("Success orders apartment");
+                return blockOrders(orders, serviceResult,user);
+            }
+        }
+        serviceResult.setStatus(ServiceStatus.FAILED);
+        return serviceResult;
+    }
+
     private ServiceResult saveOrdersWithEmptyApartment(Order orders, ServiceResult serviceResult, Long priceApartment, User user) {
         serviceResult.setMessage("No apartment orders by customer, order success");
         return saveOrdersWithPrice(orders, serviceResult, priceApartment, user);
+    }
+    private ServiceResult blockOrdersWithEmptyApartment(Order orders, ServiceResult serviceResult, Long priceApartment, User user) {
+        serviceResult.setMessage("No apartment orders by customer, order success");
+        return blockOrders(orders, serviceResult, user);
     }
 
     private ServiceResult saveOrdersWithPrice(Order orders, ServiceResult serviceResult, Long priceApartment, User user) {
         orders.setTotalMoney(priceApartment);
         orders.setUser(user);
         orders.setStatusOrders(StatusOrders.PENDING);
+        serviceResult.setData(ordersRepository.save(orders));
+        serviceResult.setStatus(ServiceStatus.SUCCESS);
+        return serviceResult;
+    }
+    private ServiceResult blockOrders(Order orders, ServiceResult serviceResult, User user) {
+        orders.setTotalMoney(0L);
+        orders.setUser(user);
+        orders.setStatusOrders(StatusOrders.BLOCK);
         serviceResult.setData(ordersRepository.save(orders));
         serviceResult.setStatus(ServiceStatus.SUCCESS);
         return serviceResult;
