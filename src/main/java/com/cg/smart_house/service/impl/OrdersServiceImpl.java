@@ -185,9 +185,6 @@ public class OrdersServiceImpl implements OrdersService {
         return serviceResult;
     }
 
-
-
-
     @Override
     public ServiceResult deleteOrder(Long idOrder) {
         ServiceResult serviceResult = new ServiceResult();
@@ -243,7 +240,6 @@ public class OrdersServiceImpl implements OrdersService {
         if (!userOptional.isPresent()) {
             serviceResult.setMessage("No found user order");
         } else {
-
             List<Order> listOrderByCustomerAndStatus = ordersRepository.findAllByUserAndStatusOrders(userOptional.get(), statusOrders);
             if (listOrderByCustomerAndStatus.isEmpty()) {
                 serviceResult.setMessage("No found order by user");

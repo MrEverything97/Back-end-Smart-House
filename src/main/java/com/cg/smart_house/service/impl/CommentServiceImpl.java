@@ -51,7 +51,7 @@ public class CommentServiceImpl implements CommentService {
             }
             for (Order order: findAllOrder){
                 Comment findComment = commentRepository.findByUserAndApartmentAndEndTimeRent(userOptional.get(), apartmentOptional.get(),order.getStartTime());
-                if (findComment != null){
+                if (findComment == null){
                     comment.setApartment(apartmentOptional.get());
                     comment.setUser(userOptional.get());
                     comment.setStartTimeRent(order.getStartTime());
