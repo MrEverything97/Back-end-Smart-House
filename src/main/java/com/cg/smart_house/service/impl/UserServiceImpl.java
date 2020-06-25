@@ -40,13 +40,10 @@ public class UserServiceImpl implements UserService {
         ServiceResult serviceResult = new ServiceResult();
         serviceResult.setStatus(ServiceStatus.FAILED);
 
-        String encodeNewPassword = passwordEncoder.encode(newPassword);
-        String encodeOldPassword = passwordEncoder.encode(oldPassword);
-
-        if (!(user.getPassword().equals(encodeOldPassword))){
+        if (!passwordEncoder.matches(oldPassword,user.getPassword())){
             serviceResult.setMessage("Check password fail");
         } else {
-            user.setPassword(encodeNewPassword);
+            user.setPassword(passwordEncoder.encode(newPassword));
             userRepository.save(user);
             serviceResult.setStatus(ServiceStatus.SUCCESS);
             serviceResult.setData(user);
