@@ -191,20 +191,19 @@ public class OrdersServiceImpl implements OrdersService {
             serviceResult.setMessage("No found order");
         } else {
             Order order = orderOptional.get();
-
             Date startTimeOrders = order.getStartTime();
             Date nowDate = new Date();
-
             Calendar c1 = Calendar.getInstance();
             Calendar c2 = Calendar.getInstance();
             c1.setTime(startTimeOrders);
             c2.setTime(nowDate);
             long countDayOrders = (c1.getTime().getTime() - c2.getTime().getTime()) / (24 * 3600 * 1000);
-            if (countDayOrders < 24) {
+            if (countDayOrders < 1) {
                 serviceResult.setMessage("Don't delete order");
             } else {
                 ordersRepository.delete(order);
                 serviceResult.setStatus(ServiceStatus.SUCCESS);
+                return serviceResult;
             }
         }
         return serviceResult;
