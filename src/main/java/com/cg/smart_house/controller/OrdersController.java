@@ -142,4 +142,10 @@ public class OrdersController {
         String customerName = principal.getName();
         return new ResponseEntity<>(ordersService.findAllOrderByCustomer(customerName),HttpStatus.OK);
     }
+
+    @PutMapping("/cancelOrder/{idOrder}")
+    @PreAuthorize("hasRole('CUSTOMER')")
+    public ResponseEntity<ServiceResult> cancelOrder(@PathVariable Long idOrder){
+        return new ResponseEntity<>(ordersService.cancelOrderByUser(idOrder),HttpStatus.OK);
+    }
 }

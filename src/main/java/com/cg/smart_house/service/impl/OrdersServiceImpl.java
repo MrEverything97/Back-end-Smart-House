@@ -379,6 +379,29 @@ public class OrdersServiceImpl implements OrdersService {
         }
         return serviceResult;
     }
+
+    @Override
+    public ServiceResult cancelOrderByUser(Long idOrder) {
+        ServiceResult serviceResult = new ServiceResult();
+        Optional<Order> orderOptional = ordersRepository.findById(idOrder);
+        if(orderOptional.isPresent()){
+            Order order = orderOptional.get();
+            Date nowDate = new Date();
+            Calendar c = Calendar.getInstance();
+            c.setTime(order.getStartTime());
+            boolean moreThanOneDay = (c.getTime().getTime() - nowDate.getTime()) >= (24 * 3600 * 1000);
+            if (moreThanOneDay){
+                order.setStatusOrders(StatusOrders.CANCEL);
+                ordersRepository.save(order);
+                serviceResult.setData(order);
+            } else {
+                serviceResult.setStatus(ServiceStatus.FAILED);
+            }
+        } else {
+            serviceResult.setStatus(ServiceStatus.FAILED);
+        }
+        return serviceResult;
+    }
 }
 
 

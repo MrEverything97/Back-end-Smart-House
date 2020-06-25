@@ -34,5 +34,7 @@ public interface OrdersService {
     ServiceResult cancelOrderApartment(Long idOrder);
 
     ServiceResult findAllOrderByCustomer(String customerName);
+
+    ServiceResult cancelOrderByUser(Long idOrder);
 }
 
