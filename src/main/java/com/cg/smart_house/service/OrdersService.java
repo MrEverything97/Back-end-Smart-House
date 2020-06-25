@@ -20,14 +20,15 @@ public interface OrdersService {
 
     ServiceResult blockOrder(Order order,User host);
 
-    ServiceResult findOrderByUserAndApartmentAndStatusPENDING(Long idUser, Long idApartment);
+    ServiceResult findOrderByApartmentAndStatus(Long idHost, StatusOrders statusOrders);
 
     ServiceResult deleteOrder(Long idOrder);
 
     ServiceResult confirmOrderApartment(Long idOrder);
 
-    ServiceResult findAllByCustomer(Long idUser);
+    ServiceResult findAllByCustomerAndStatus(Long idUser, StatusOrders statusOrders);
 
     ServiceResult viewsOrderPendingByCustomer(Long idHost, Long idCustomer);
+
 }
 

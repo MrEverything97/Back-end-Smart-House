@@ -38,7 +38,7 @@ public class OrdersServiceImpl implements OrdersService {
     public ServiceResult updateStatusOrders(Order orders) {
         ServiceResult serviceResult = new ServiceResult();
         Optional<Order> orders1 = ordersRepository.findById(orders.getId());
-        if (!orders1.isPresent()){
+        if (!orders1.isPresent()) {
             serviceResult.setStatus(ServiceStatus.FAILED);
             serviceResult.setMessage("Orders not found");
             return serviceResult;
@@ -97,7 +97,7 @@ public class OrdersServiceImpl implements OrdersService {
 
         Date startTimeOrders = orders.getStartTime();
         Date endTimeOrders = orders.getEndTime();
-        if(startTimeOrders.after(endTimeOrders)){
+        if (startTimeOrders.after(endTimeOrders)) {
             return serviceResult;
         }
 
@@ -112,13 +112,13 @@ public class OrdersServiceImpl implements OrdersService {
 
         List<Order> listOrders = ordersRepository.findAllByApartment(apartment.get());
         if (listOrders.isEmpty()) {
-            return saveOrdersWithEmptyApartment(orders, serviceResult, priceApartment,user);
+            return saveOrdersWithEmptyApartment(orders, serviceResult, priceApartment, user);
         } else
-            return saveOrdersWithFullApartment(orders, serviceResult, startTimeOrders, endTimeOrders, nowDate, priceApartment, listOrders,user);
+            return saveOrdersWithFullApartment(orders, serviceResult, startTimeOrders, endTimeOrders, nowDate, priceApartment, listOrders, user);
     }
 
     @Override
-    public ServiceResult blockOrder(Order order,User host) {
+    public ServiceResult blockOrder(Order order, User host) {
 
         order.setStatusOrders(StatusOrders.BLOCK);
         ServiceResult serviceResult = new ServiceResult();
@@ -132,20 +132,20 @@ public class OrdersServiceImpl implements OrdersService {
             return serviceResult;
         }
         Optional<User> optionalUser = userRepository.findByUsername(host.getName());
-        if(!optionalUser.isPresent()) {
+        if (!optionalUser.isPresent()) {
             serviceResult.setStatus(ServiceStatus.FAILED);
             return serviceResult;
         }
         host = optionalUser.get();
         List<Apartment> hostApartmentList = apartmentRepository.findAllByUser_Id(host.getId());
         boolean flag = false;
-        for(int i = 0; i < hostApartmentList.size(); i++){
-            if(hostApartmentList.get(i).getId().equals(idApartment)){
+        for (int i = 0; i < hostApartmentList.size(); i++) {
+            if (hostApartmentList.get(i).getId().equals(idApartment)) {
                 flag = true;
                 break;
             }
         }
-        if(!flag){
+        if (!flag) {
             serviceResult.setStatus(ServiceStatus.FAILED);
             serviceResult.setMessage("Forbidden");
             return serviceResult;
@@ -159,27 +159,34 @@ public class OrdersServiceImpl implements OrdersService {
 
         List<Order> listOrders = ordersRepository.findAllByApartment(apartmentOptional.get());
         if (listOrders.isEmpty()) {
-            return saveOrdersWithEmptyApartment(order, serviceResult, priceApartment,host);
+            return saveOrdersWithEmptyApartment(order, serviceResult, priceApartment, host);
         } else
-            return saveOrdersWithFullApartment(order, serviceResult, startTimeOrders, endTimeOrders, nowDate, priceApartment, listOrders,host);
+            return saveOrdersWithFullApartment(order, serviceResult, startTimeOrders, endTimeOrders, nowDate, priceApartment, listOrders, host);
     }
 
     @Override
-    public ServiceResult findOrderByUserAndApartmentAndStatusPENDING(Long idUser, Long idApartment) {
+    public ServiceResult findOrderByApartmentAndStatus(Long idHost, StatusOrders statusOrders) {
         ServiceResult serviceResult = new ServiceResult();
 
-        Optional<User> userOptional = userRepository.findById(idUser);
-        if (!userOptional.isPresent()){
-            serviceResult.setMessage("No found user");
+        Optional<User> hostOptional = userRepository.findById(idHost);
+        List<Apartment> listApartment = apartmentRepository.findAllByUser(hostOptional.get());
+        if (listApartment.isEmpty()) {
+            serviceResult.setMessage("No found order");
+        } else {
+            ArrayList<Order> listOrderByApartmentAndStatus = new ArrayList<>();
+            for (Apartment apartment : listApartment) {
+                List<Order> listOrder = ordersRepository.findAllByApartmentAndStatusOrders(apartment, statusOrders);
+                for (Order findOrder : listOrder) {
+                    listOrderByApartmentAndStatus.add(findOrder);
+                }
+            }
+            serviceResult.setData(listOrderByApartmentAndStatus);
         }
-        Optional<Apartment> apartmentOptional = apartmentRepository.findById(idApartment);
-        if (!apartmentOptional.isPresent()){
-            serviceResult.setMessage("No found apartment");
-        }
-        Order order = ordersRepository.findByUserAndApartmentAndStatusOrders(userOptional, apartmentOptional, StatusOrders.PENDING);
-        serviceResult.setData(order);
         return serviceResult;
     }
+
+
+
 
     @Override
     public ServiceResult deleteOrder(Long idOrder) {
@@ -187,7 +194,7 @@ public class OrdersServiceImpl implements OrdersService {
         serviceResult.setStatus(ServiceStatus.FAILED);
 
         Optional<Order> orderOptional = ordersRepository.findById(idOrder);
-        if (!orderOptional.isPresent()){
+        if (!orderOptional.isPresent()) {
             serviceResult.setMessage("No found order");
         } else {
             Order order = orderOptional.get();
@@ -215,7 +222,7 @@ public class OrdersServiceImpl implements OrdersService {
         serviceResult.setStatus(ServiceStatus.FAILED);
 
         Optional<Order> orderOptional = ordersRepository.findById(idOrder);
-        if (!orderOptional.isPresent()){
+        if (!orderOptional.isPresent()) {
             serviceResult.setMessage("No found order");
         } else {
             Order order = orderOptional.get();
@@ -228,7 +235,7 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
-    public ServiceResult findAllByCustomer(Long idUser) {
+    public ServiceResult findAllByCustomerAndStatus(Long idUser, StatusOrders statusOrders) {
         ServiceResult serviceResult = new ServiceResult();
         serviceResult.setStatus(ServiceStatus.FAILED);
 
@@ -237,12 +244,12 @@ public class OrdersServiceImpl implements OrdersService {
             serviceResult.setMessage("No found user order");
         } else {
 
-            List<Order> listOrderByCustomer = ordersRepository.findAllByUser(userOptional.get());
-            if (listOrderByCustomer.isEmpty()) {
+            List<Order> listOrderByCustomerAndStatus = ordersRepository.findAllByUserAndStatusOrders(userOptional.get(), statusOrders);
+            if (listOrderByCustomerAndStatus.isEmpty()) {
                 serviceResult.setMessage("No found order by user");
             } else {
                 serviceResult.setStatus(ServiceStatus.SUCCESS);
-                serviceResult.setData(listOrderByCustomer);
+                serviceResult.setData(listOrderByCustomerAndStatus);
             }
         }
         return serviceResult;
@@ -254,11 +261,11 @@ public class OrdersServiceImpl implements OrdersService {
         serviceResult.setStatus(ServiceStatus.FAILED);
 
         Optional<User> userOptional = userRepository.findById(idCustomer);
-        if (!userOptional.isPresent()){
+        if (!userOptional.isPresent()) {
             serviceResult.setMessage("No find customer");
         } else {
             List<Order> listOrderPendingByCustomer = ordersRepository.findAllByUserAndStatusOrders(userOptional.get(), StatusOrders.PENDING);
-            if (listOrderPendingByCustomer.isEmpty()){
+            if (listOrderPendingByCustomer.isEmpty()) {
                 serviceResult.setMessage("No find order");
             } else {
                 serviceResult.setStatus(ServiceStatus.SUCCESS);
@@ -270,7 +277,7 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
 
-    private ServiceResult saveOrdersWithFullApartment(Order orders, ServiceResult serviceResult, Date startTimeOrders, Date endTimeOrders, Date nowDate, Long priceApartment, List<Order> listOrders, User user ) {
+    private ServiceResult saveOrdersWithFullApartment(Order orders, ServiceResult serviceResult, Date startTimeOrders, Date endTimeOrders, Date nowDate, Long priceApartment, List<Order> listOrders, User user) {
         Collections.sort(listOrders);
         int sizeList = listOrders.size() - 1;
         for (int i = 0; i <= sizeList; i++) {
@@ -278,7 +285,7 @@ public class OrdersServiceImpl implements OrdersService {
                     || startTimeOrders.after(listOrders.get(sizeList).getEndTime())
                     || (startTimeOrders.after(listOrders.get(i).getEndTime()) && endTimeOrders.before(listOrders.get(i + 1).getStartTime()))) {
                 serviceResult.setMessage("Success orders apartment");
-                return saveOrdersWithPrice(orders, serviceResult, priceApartment,user);
+                return saveOrdersWithPrice(orders, serviceResult, priceApartment, user);
             }
         }
         serviceResult.setStatus(ServiceStatus.FAILED);
