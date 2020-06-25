@@ -1,5 +1,6 @@
 package com.cg.smart_house.service;
 
+import com.cg.smart_house.enumm.StatusOrders;
 import com.cg.smart_house.model.Order;
 import com.cg.smart_house.model.User;
 
@@ -18,16 +19,17 @@ public interface OrdersService {
 
     ServiceResult blockOrder(Order order,User host);
 
-    ServiceResult findOrderByUserAndApartmentAndStatusPENDING(Long idUser, Long idApartment);
+    ServiceResult findOrderByApartmentAndStatus(Long idHost, StatusOrders statusOrders);
 
     ServiceResult deleteOrder(Long idOrder);
 
     ServiceResult confirmOrderApartment(Long idOrder);
 
-    ServiceResult findAllByCustomer(Long idUser);
+    ServiceResult findAllByCustomerAndStatus(Long idUser, StatusOrders statusOrders);
 
     ServiceResult viewsOrderPendingByCustomer(Long idHost, Long idCustomer);
 
     ServiceResult checkinOrderApartment(Long idOrder);
+
 }
 
