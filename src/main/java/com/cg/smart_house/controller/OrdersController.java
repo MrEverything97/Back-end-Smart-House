@@ -118,12 +118,6 @@ public class OrdersController {
         return new ResponseEntity<>(ordersService.checkinOrderApartment(idOrder),HttpStatus.OK);
     }
 
-    @GetMapping("/findAllByCustomer/{idCustomer}")
-    @PreAuthorize("hasRole('HOST')")
-    public ResponseEntity<ServiceResult> findAllByCustomer(@PathVariable Long idCustomer) {
-        return new ResponseEntity<>(ordersService.findAllByCustomer(idCustomer),HttpStatus.OK);
-    }
-
     @GetMapping("/viewsOrderPendingByCustomer/{idCustomer}")
     @PreAuthorize("hasRole('HOST')")
     public ResponseEntity<ServiceResult> viewsOrderPendingByCustomer(@PathVariable Long idCustomer, Principal principal){
