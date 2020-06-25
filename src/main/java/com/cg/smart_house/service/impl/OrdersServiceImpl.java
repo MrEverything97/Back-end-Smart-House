@@ -13,7 +13,6 @@ import com.cg.smart_house.enumm.ServiceStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -213,6 +212,24 @@ public class OrdersServiceImpl implements OrdersService {
 
     @Override
     public ServiceResult confirmOrderApartment(Long idOrder) {
+        ServiceResult serviceResult = new ServiceResult();
+        serviceResult.setStatus(ServiceStatus.FAILED);
+
+        Optional<Order> orderOptional = ordersRepository.findById(idOrder);
+        if (!orderOptional.isPresent()){
+            serviceResult.setMessage("No found order");
+        } else {
+            Order order = orderOptional.get();
+            order.setStatusOrders(StatusOrders.NOT_RENTED);
+            ordersRepository.save(order);
+            serviceResult.setStatus(ServiceStatus.SUCCESS);
+            return serviceResult;
+        }
+        return serviceResult;
+    }
+
+    @Override
+    public ServiceResult checkinOrderApartment(Long idOrder) {
         ServiceResult serviceResult = new ServiceResult();
         serviceResult.setStatus(ServiceStatus.FAILED);
 

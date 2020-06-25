@@ -1,7 +1,5 @@
 package com.cg.smart_house.service;
 
-import com.cg.smart_house.enumm.StatusOrders;
-import com.cg.smart_house.model.Apartment;
 import com.cg.smart_house.model.Order;
 import com.cg.smart_house.model.User;
 
@@ -29,5 +27,7 @@ public interface OrdersService {
     ServiceResult findAllByCustomer(Long idUser);
 
     ServiceResult viewsOrderPendingByCustomer(Long idHost, Long idCustomer);
+
+    ServiceResult checkinOrderApartment(Long idOrder);
 }
 

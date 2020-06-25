@@ -93,6 +93,12 @@ public class OrdersController {
         return new ResponseEntity<>(ordersService.confirmOrderApartment(idOrder),HttpStatus.OK);
     }
 
+    @PutMapping("/checkinOrderApartment/{idOrder}")
+    @PreAuthorize("hasRole('HOST')")
+    public ResponseEntity<ServiceResult> checkinOrderApartment(@PathVariable Long idOrder){
+        return new ResponseEntity<>(ordersService.checkinOrderApartment(idOrder),HttpStatus.OK);
+    }
+
     @GetMapping("/findAllByCustomer/{idCustomer}")
     @PreAuthorize("hasRole('HOST')")
     public ResponseEntity<ServiceResult> findAllByCustomer(@PathVariable Long idCustomer) {
