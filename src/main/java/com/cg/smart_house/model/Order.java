@@ -1,5 +1,6 @@
 package com.cg.smart_house.model;
 
+import com.cg.smart_house.enumm.StatusOrders;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -13,7 +14,7 @@ import java.util.Date;
 @Table(name = "`order`")
 public class Order implements Serializable,Comparable<Order> {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Date startTime;
     private Date endTime;
@@ -27,8 +28,8 @@ public class Order implements Serializable,Comparable<Order> {
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "customer_id")
-    private Customer customers;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Override
     public int compareTo(Order order) {

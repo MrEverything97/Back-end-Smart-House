@@ -1,6 +1,7 @@
 package com.cg.smart_house.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -9,12 +10,14 @@ import javax.persistence.*;
 @Data
 public class Address {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
 
     @ManyToOne
-    private Province provinces;
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JoinColumn(name = "province_id")
+    private Province province;
 
     @JsonIgnore
     @OneToOne

@@ -3,7 +3,6 @@ package com.cg.smart_house.service;
 import com.cg.smart_house.model.Category;
 
 public interface CategoryService {
-
     ServiceResult createCategory(Category category);
 
     ServiceResult findAll();

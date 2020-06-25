@@ -4,7 +4,7 @@ import com.cg.smart_house.model.Category;
 import com.cg.smart_house.repository.CategoryRepository;
 import com.cg.smart_house.service.CategoryService;
 import com.cg.smart_house.service.ServiceResult;
-import com.cg.smart_house.service.ServiceStatus;
+import com.cg.smart_house.enumm.ServiceStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
