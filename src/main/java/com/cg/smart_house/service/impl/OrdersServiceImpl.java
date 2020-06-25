@@ -348,6 +348,37 @@ public class OrdersServiceImpl implements OrdersService {
         serviceResult.setStatus(ServiceStatus.SUCCESS);
         return serviceResult;
     }
+
+    @Override
+    public ServiceResult cancelOrderApartment(Long idOrder) {
+        ServiceResult serviceResult = new ServiceResult();
+        Optional<Order> orderOptional = ordersRepository.findById(idOrder);
+        if(orderOptional.isPresent()){
+            Order order = orderOptional.get();
+            order.setStatusOrders(StatusOrders.CANCEL);
+            ordersRepository.save(order);
+            serviceResult.setData(order);
+        } else {
+            serviceResult.setStatus(ServiceStatus.FAILED);
+        }
+        return serviceResult;
+    }
+
+    @Override
+    public ServiceResult findAllOrderByCustomer(String customerName) {
+        ServiceResult serviceResult = new ServiceResult();
+        Optional<User> userOptional = userRepository.findByUsername(customerName);
+        if(!userOptional.isPresent()){
+            serviceResult.setStatus(ServiceStatus.FAILED);
+        } else {
+            User customer = userOptional.get();
+            List<Order> orderList = ordersRepository.findAllByUser(customer);
+            serviceResult.setStatus(ServiceStatus.SUCCESS);
+            serviceResult.setData(orderList);
+
+        }
+        return serviceResult;
+    }
 }
 
 

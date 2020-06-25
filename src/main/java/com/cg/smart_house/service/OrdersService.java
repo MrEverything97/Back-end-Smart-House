@@ -31,5 +31,8 @@ public interface OrdersService {
 
     ServiceResult checkinOrderApartment(Long idOrder);
 
+    ServiceResult cancelOrderApartment(Long idOrder);
+
+    ServiceResult findAllOrderByCustomer(String customerName);
 }
 

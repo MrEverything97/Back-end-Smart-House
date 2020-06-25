@@ -129,4 +129,17 @@ public class OrdersController {
         User host = hostOptional.get();
         return new ResponseEntity<>(ordersService.viewsOrderPendingByCustomer(host.getId(),idCustomer),HttpStatus.OK);
     }
+
+    @PutMapping("/cancelOrderApartment/{idOrder}")
+    @PreAuthorize("hasRole('HOST')")
+    public ResponseEntity<ServiceResult> cancelOrderApartment(@PathVariable Long idOrder){
+        return new ResponseEntity<>(ordersService.cancelOrderApartment(idOrder),HttpStatus.OK);
+    }
+
+    @GetMapping("/findAllOrderOfCustomer")
+    @PreAuthorize("hasRole('CUSTOMER')")
+    public ResponseEntity<ServiceResult> findAllOrderOfCustomer(Principal principal){
+        String customerName = principal.getName();
+        return new ResponseEntity<>(ordersService.findAllOrderByCustomer(customerName),HttpStatus.OK);
+    }
 }
