@@ -294,8 +294,21 @@ public class OrdersServiceImpl implements OrdersService {
 
 
     private ServiceResult saveOrdersWithFullApartment(Order orders, ServiceResult serviceResult, Date startTimeOrders, Date endTimeOrders, Date nowDate, Long priceApartment, List<Order> listOrders, User user) {
+        List<Order> listToRemove = new ArrayList<>();
+        listOrders.forEach(order -> {
+            StatusOrders status = order.getStatusOrders();
+            if(status == StatusOrders.PENDING || status == StatusOrders.CANCEL ){
+                listToRemove.add(order);
+            }
+        });
+        if(!listToRemove.isEmpty()) {
+            listOrders.removeAll(listToRemove);
+        }
         Collections.sort(listOrders);
         int sizeList = listOrders.size() - 1;
+        if(listOrders.isEmpty()){
+            return saveOrdersWithPrice(orders, serviceResult, priceApartment, user);
+        }
         for (int i = 0; i <= sizeList; i++) {
             if ((startTimeOrders.after(nowDate) && endTimeOrders.before(listOrders.get(0).getStartTime()))
                     || startTimeOrders.after(listOrders.get(sizeList).getEndTime())
