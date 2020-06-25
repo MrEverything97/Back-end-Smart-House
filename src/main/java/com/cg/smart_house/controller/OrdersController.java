@@ -1,5 +1,7 @@
 package com.cg.smart_house.controller;
 
+import com.cg.smart_house.enumm.ServiceStatus;
+import com.cg.smart_house.enumm.StatusOrders;
 import com.cg.smart_house.model.Apartment;
 import com.cg.smart_house.model.Order;
 import com.cg.smart_house.model.User;
@@ -80,11 +82,28 @@ public class OrdersController {
         return new ResponseEntity<>(ordersService.blockOrder(order,host),HttpStatus.OK);
     }
 
-    @GetMapping("viewOrderByUser/{idUser}/{idApartment}")
+    @GetMapping("findOrderByApartmentAndStatus")
     @PreAuthorize("hasRole('HOST')")
-    public ResponseEntity<ServiceResult> viewOrderByUser(@PathVariable Long idUser,
-                                                         @PathVariable  Long idApartment ){
-        return new ResponseEntity<>(ordersService.findOrderByUserAndApartmentAndStatusPENDING(idUser,idApartment),HttpStatus.OK);
+    public ResponseEntity<ServiceResult> viewOrderByUser(@RequestParam StatusOrders statusOrders, Principal principal){
+        String hostname = principal.getName();
+        Optional<User> hostOptional = userRepository.findByUsername(hostname);
+        if (!hostOptional.isPresent()){
+            throw new RuntimeException("Not found");
+        }
+        User host = hostOptional.get();
+        return new ResponseEntity<>(ordersService.findOrderByApartmentAndStatus(host.getId(),statusOrders),HttpStatus.OK);
+    }
+
+    @GetMapping("/findAllByCustomerAndStatus")
+    @PreAuthorize("hasRole('CUSTOMER')")
+    public ResponseEntity<ServiceResult> findAllByCustomer(@RequestParam StatusOrders statusOrders, Principal principal) {
+        String username = principal.getName();
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        if (!userOptional.isPresent()){
+            throw new RuntimeException("Not found");
+        }
+        User user = userOptional.get();
+        return new ResponseEntity<>(ordersService.findAllByCustomerAndStatus(user.getId(),statusOrders),HttpStatus.OK);
     }
 
     @PutMapping("/confirmOrderApartment/{idOrder}")

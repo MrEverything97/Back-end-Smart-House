@@ -6,7 +6,13 @@ import com.cg.smart_house.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
+import java.util.List;
+
+
 @Repository
 public interface CommentRepository extends JpaRepository<Comment,Long> {
-    Comment findByUserAndApartment(User user, Apartment apartment);
+    Comment findByUserAndApartmentAndEndTimeRent(User user, Apartment apartment, Date startTimeRent);
+
+    List<Comment> findAllByApartment(Apartment apartment);
 }

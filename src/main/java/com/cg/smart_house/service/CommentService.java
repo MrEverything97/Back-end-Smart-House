@@ -5,5 +5,7 @@ import com.cg.smart_house.model.Comment;
 import com.cg.smart_house.model.User;
 
 public interface CommentService {
-    ServiceResult createComment(Comment comment);
+    ServiceResult createComment(Comment comment, Long idApartment, Long idUser);
+
+    ServiceResult findAllCommentByApartment(Long idApartment);
 }
