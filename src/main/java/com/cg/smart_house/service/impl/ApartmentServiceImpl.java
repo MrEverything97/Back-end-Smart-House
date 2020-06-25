@@ -146,6 +146,22 @@ public class ApartmentServiceImpl implements ApartmentService {
         return serviceResult;
     }
 
+    @Override
+    public ServiceResult findAllByHost(String hostname) {
+        ServiceResult serviceResult = new ServiceResult();
+        Optional<User> optionalHost = userRepository.findByUsername(hostname);
+        if(!optionalHost.isPresent()){
+            serviceResult.setStatus(ServiceStatus.FAILED);
+            return serviceResult;
+        }
+        User host = optionalHost.get();
+        List<Apartment> apartmentList = apartmentRepository.findAllByUser(host);
+        serviceResult.setData(apartmentList);
+        serviceResult.setMessage("success");
+        serviceResult.setStatus(ServiceStatus.SUCCESS);
+        return serviceResult;
+    }
+
     private Apartment findApartmentByIdOrder(Long idOrder) {
         ServiceResult serviceResult = new ServiceResult();
 

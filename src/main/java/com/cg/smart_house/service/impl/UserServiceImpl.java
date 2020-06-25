@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.awt.peer.PanelPeer;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -20,18 +21,28 @@ public class UserServiceImpl implements UserService {
     PasswordEncoder passwordEncoder;
 
     @Override
-    public ServiceResult updateUser(User user) {
+    public ServiceResult updateUser(User user,String username) {
         ServiceResult serviceResult = new ServiceResult();
 
-        User user1 = userRepository.findById(user.getId()).orElse(null);
-        if (user1 == null){
+        Optional<User> optionalUser = userRepository.findByUsername(username);
+        if(!optionalUser.isPresent()) {
             serviceResult.setMessage("No found user");
+            serviceResult.setStatus(ServiceStatus.FAILED);
             return serviceResult;
-        } else {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            userRepository.save(user);
-            serviceResult.setMessage("Update user done");
         }
+        User currentUser = optionalUser.get();
+        if(user.getEmail() != null){
+            currentUser.setEmail(user.getEmail());
+        }
+        if(user.getName() != null){
+            currentUser.setName(user.getName());
+        }
+        if(user.getPhone() != null){
+            currentUser.setPhone(user.getPhone());
+        }
+        userRepository.save(currentUser);
+        serviceResult.setStatus(ServiceStatus.SUCCESS);
+        serviceResult.setMessage("Update success");
         return serviceResult;
     }
 

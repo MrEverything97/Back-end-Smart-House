@@ -56,6 +56,11 @@ public class ApartmentController {
         return new ResponseEntity<>(apartmentService.findAll(),HttpStatus.OK);
     }
 
+    @GetMapping("/listApartmentByHost")
+    public ResponseEntity<ServiceResult> listApartmentByHost(Principal principal){
+        String username = principal.getName();
+        return new ResponseEntity<>(apartmentService.findAllByHost(username),HttpStatus.OK);
+    }
     // Update pictures only
     @PreAuthorize("hasRole('HOST')")
     @PutMapping("/update-apartment-pictures/{id}")

@@ -25,9 +25,11 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
+    @PreAuthorize("hasRole('CUSTOMER') or hasRole('HOST')")
     @PutMapping("/updateUser")
-    public ResponseEntity<ServiceResult> updateUser(@RequestBody User user) {
-        return new ResponseEntity<>(userService.updateUser(user), HttpStatus.OK);
+    public ResponseEntity<ServiceResult> updateUser(@RequestBody User user,Principal principal) {
+        String username = principal.getName();
+        return new ResponseEntity<>(userService.updateUser(user,username), HttpStatus.OK);
     }
 
     @PutMapping("/changePassword")
