@@ -29,4 +29,15 @@ public class Comment {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    public Comment() {
+    }
+
+    public Comment(String comment, Date startTimeRent, Date endTimeRent, Apartment apartment, User user){
+        this.comment = comment;
+        this.startTimeRent = startTimeRent;
+        this.endTimeRent = endTimeRent;
+        this.apartment = apartment;
+        this.user = user;
+    }
 }

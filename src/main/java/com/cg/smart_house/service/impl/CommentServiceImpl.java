@@ -12,6 +12,7 @@ import com.cg.smart_house.repository.OrdersRepository;
 import com.cg.smart_house.repository.UserRepository;
 import com.cg.smart_house.service.CommentService;
 import com.cg.smart_house.service.ServiceResult;
+import jdk.nashorn.internal.runtime.regexp.joni.constants.OPCode;
 import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,32 +36,24 @@ public class CommentServiceImpl implements CommentService {
     private ApartmentRepository apartmentRepository;
 
     @Override
-    public ServiceResult createComment(Comment comment, Long idApartment, Long idUser) {
+    public ServiceResult createComment(String comment, Long idOrder, Long idUser) {
         ServiceResult serviceResult = new ServiceResult();
         serviceResult.setStatus(ServiceStatus.FAILED);
 
-        Optional<Apartment> apartmentOptional = apartmentRepository.findById(idApartment);
+        Optional<Order> orderOptional = ordersRepository.findById(idOrder);
+        Optional<Apartment> apartmentOptional = apartmentRepository.findById(orderOptional.get().getApartment().getId());
         Optional<User> userOptional = userRepository.findById(idUser);
-        if (!userOptional.isPresent() || !apartmentOptional.isPresent())
-        {
+        if (!userOptional.isPresent() || !apartmentOptional.isPresent()) {
             serviceResult.setMessage("Don't comment");
         } else {
-            List<Order> findAllOrder = ordersRepository.findAllByUserAndApartmentAndStatusOrders(userOptional, apartmentOptional, StatusOrders.RENTED);
-            if (findAllOrder.isEmpty()){
-                serviceResult.setMessage("Don't comment");
-            }
-            for (Order order: findAllOrder){
-                Comment findComment = commentRepository.findByUserAndApartmentAndEndTimeRent(userOptional.get(), apartmentOptional.get(),order.getStartTime());
-                if (findComment == null){
-                    comment.setApartment(apartmentOptional.get());
-                    comment.setUser(userOptional.get());
-                    comment.setStartTimeRent(order.getStartTime());
-                    commentRepository.save(comment);
-                    serviceResult.setData(comment);
-                    serviceResult.setMessage("Comment success");
-                    serviceResult.setStatus(ServiceStatus.SUCCESS);
-                    return serviceResult;
-                }
+            Comment findComment = commentRepository.findByUserAndApartmentAndStartTimeRent(userOptional.get(), apartmentOptional.get(), orderOptional.get().getStartTime());
+            if (findComment == null) {
+                Comment newComment = new Comment(comment, orderOptional.get().getStartTime(), orderOptional.get().getEndTime(), apartmentOptional.get(), userOptional.get());
+                commentRepository.save(newComment);
+                serviceResult.setData(newComment);
+                serviceResult.setMessage("Comment success");
+                serviceResult.setStatus(ServiceStatus.SUCCESS);
+                return serviceResult;
             }
         }
         return serviceResult;
@@ -74,7 +67,7 @@ public class CommentServiceImpl implements CommentService {
         Optional<Apartment> apartmentOptional = apartmentRepository.findById(idApartment);
 
         List<Comment> listComment = commentRepository.findAllByApartment(apartmentOptional.get());
-        if (listComment.isEmpty()){
+        if (listComment.isEmpty()) {
             serviceResult.setMessage("No comment apartment");
         } else {
             serviceResult.setStatus(ServiceStatus.SUCCESS);
