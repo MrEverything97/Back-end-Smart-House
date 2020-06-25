@@ -97,8 +97,11 @@ public class OrdersServiceImpl implements OrdersService {
 
         Date startTimeOrders = orders.getStartTime();
         Date endTimeOrders = orders.getEndTime();
-        Date nowDate = new Date();
+        if(startTimeOrders.after(endTimeOrders)){
+            return serviceResult;
+        }
 
+        Date nowDate = new Date();
         Calendar c1 = Calendar.getInstance();
         Calendar c2 = Calendar.getInstance();
         c1.setTime(startTimeOrders);
@@ -186,17 +189,62 @@ public class OrdersServiceImpl implements OrdersService {
         Optional<Order> orderOptional = ordersRepository.findById(idOrder);
         if (!orderOptional.isPresent()){
             serviceResult.setMessage("No found order");
-        }
-        Order order = orderOptional.get();
-        Calendar c1 = Calendar.getInstance();
-        Date nowDate = new Date();
-        c1.setTime(order.getStartTime());
-        c1.roll(Calendar.DATE,false);
-        if (nowDate.after(order.getStartTime())){
-            serviceResult.setMessage("Don't delete order");
         } else {
-            ordersRepository.delete(order);
+            Order order = orderOptional.get();
+
+            Date startTimeOrders = order.getStartTime();
+            Date nowDate = new Date();
+
+            Calendar c1 = Calendar.getInstance();
+            Calendar c2 = Calendar.getInstance();
+            c1.setTime(startTimeOrders);
+            c2.setTime(nowDate);
+            long countDayOrders = (c1.getTime().getTime() - c2.getTime().getTime()) / (24 * 3600 * 1000);
+            if (countDayOrders < 24) {
+                serviceResult.setMessage("Don't delete order");
+            } else {
+                ordersRepository.delete(order);
+                serviceResult.setStatus(ServiceStatus.SUCCESS);
+            }
+        }
+        return serviceResult;
+    }
+
+    @Override
+    public ServiceResult confirmOrderApartment(Long idOrder) {
+        ServiceResult serviceResult = new ServiceResult();
+        serviceResult.setStatus(ServiceStatus.FAILED);
+
+        Optional<Order> orderOptional = ordersRepository.findById(idOrder);
+        if (!orderOptional.isPresent()){
+            serviceResult.setMessage("No found order");
+        } else {
+            Order order = orderOptional.get();
+            order.setStatusOrders(StatusOrders.RENTING);
+            ordersRepository.save(order);
             serviceResult.setStatus(ServiceStatus.SUCCESS);
+            return serviceResult;
+        }
+        return serviceResult;
+    }
+
+    @Override
+    public ServiceResult findAllByCustomer(Long idUser) {
+        ServiceResult serviceResult = new ServiceResult();
+        serviceResult.setStatus(ServiceStatus.FAILED);
+
+        Optional<User> userOptional = userRepository.findById(idUser);
+        if (!userOptional.isPresent()) {
+            serviceResult.setMessage("No found user order");
+        } else {
+
+            List<Order> listOrderByCustomer = ordersRepository.findAllByUser(userOptional.get());
+            if (listOrderByCustomer.isEmpty()) {
+                serviceResult.setMessage("No found order by user");
+            } else {
+                serviceResult.setStatus(ServiceStatus.SUCCESS);
+                serviceResult.setData(listOrderByCustomer);
+            }
         }
         return serviceResult;
     }

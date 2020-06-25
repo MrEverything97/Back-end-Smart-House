@@ -86,4 +86,16 @@ public class OrdersController {
                                                          @PathVariable  Long idApartment ){
         return new ResponseEntity<>(ordersService.findOrderByUserAndApartmentAndStatusPENDING(idUser,idApartment),HttpStatus.OK);
     }
+
+    @PutMapping("/confirmOrderApartment/{idOrder}")
+    @PreAuthorize("hasRole('HOST')")
+    public ResponseEntity<ServiceResult> confirmOrderApartment(@PathVariable Long idOrder){
+        return new ResponseEntity<>(ordersService.confirmOrderApartment(idOrder),HttpStatus.OK);
+    }
+
+    @GetMapping("/findAllByCustomer/{idCustomer}")
+    @PreAuthorize("hasRole('HOST')")
+    public ResponseEntity<ServiceResult> findAllByCustomer(@PathVariable Long idCustomer) {
+        return new ResponseEntity<>(ordersService.findAllByCustomer(idCustomer),HttpStatus.OK);
+    }
 }

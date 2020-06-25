@@ -23,5 +23,10 @@ public interface OrdersService {
     ServiceResult findOrderByUserAndApartmentAndStatusPENDING(Long idUser, Long idApartment);
 
     ServiceResult deleteOrder(Long idOrder);
+
+    ServiceResult confirmOrderApartment(Long idOrder);
+
+    ServiceResult findAllByCustomer(Long idUser);
+
 }
 

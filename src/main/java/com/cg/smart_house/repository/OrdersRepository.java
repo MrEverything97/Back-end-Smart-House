@@ -25,6 +25,7 @@ public interface OrdersRepository extends JpaRepository<Order, Long> {
     List<Order> getAllByStartTimeAndEndTimeNoParam( Date minTime, Date maxTime);
 
     Order findByApartmentAndUserAndStatusOrders(Apartment apartment,User user,StatusOrders statusOrders);
+
     List<Order> findAllByUser(User user);
 
     List<Order> findAllByApartmentAndStatusOrders(Apartment apartment, StatusOrders statusOrders);
