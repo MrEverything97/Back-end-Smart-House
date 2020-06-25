@@ -28,5 +28,6 @@ public interface OrdersService {
 
     ServiceResult findAllByCustomer(Long idUser);
 
+    ServiceResult viewsOrderPendingByCustomer(Long idHost, Long idCustomer);
 }
 

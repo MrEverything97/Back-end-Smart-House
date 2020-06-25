@@ -98,4 +98,16 @@ public class OrdersController {
     public ResponseEntity<ServiceResult> findAllByCustomer(@PathVariable Long idCustomer) {
         return new ResponseEntity<>(ordersService.findAllByCustomer(idCustomer),HttpStatus.OK);
     }
+
+    @GetMapping("/viewsOrderPendingByCustomer/{idCustomer}")
+    @PreAuthorize("hasRole('HOST')")
+    public ResponseEntity<ServiceResult> viewsOrderPendingByCustomer(@PathVariable Long idCustomer, Principal principal){
+        String hostname = principal.getName();
+        Optional<User> hostOptional = userRepository.findByUsername(hostname);
+        if (!hostOptional.isPresent()){
+            throw new RuntimeException("Not found");
+        }
+        User host = hostOptional.get();
+        return new ResponseEntity<>(ordersService.viewsOrderPendingByCustomer(host.getId(),idCustomer),HttpStatus.OK);
+    }
 }

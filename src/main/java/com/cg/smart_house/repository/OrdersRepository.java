@@ -31,4 +31,6 @@ public interface OrdersRepository extends JpaRepository<Order, Long> {
     List<Order> findAllByApartmentAndStatusOrders(Apartment apartment, StatusOrders statusOrders);
 
     Order findByUserAndApartmentAndStatusOrders(Optional<User> user, Optional<Apartment> apartment, StatusOrders statusOrders);
+
+    List<Order> findAllByUserAndStatusOrders(User user, StatusOrders statusOrders);
 }

@@ -249,6 +249,27 @@ public class OrdersServiceImpl implements OrdersService {
         return serviceResult;
     }
 
+    @Override
+    public ServiceResult viewsOrderPendingByCustomer(Long idHost, Long idCustomer) {
+        ServiceResult serviceResult = new ServiceResult();
+        serviceResult.setStatus(ServiceStatus.FAILED);
+
+        Optional<User> userOptional = userRepository.findById(idCustomer);
+        if (!userOptional.isPresent()){
+            serviceResult.setMessage("No find customer");
+        } else {
+            List<Order> listOrderPendingByCustomer = ordersRepository.findAllByUserAndStatusOrders(userOptional.get(), StatusOrders.PENDING);
+            if (listOrderPendingByCustomer.isEmpty()){
+                serviceResult.setMessage("No find order");
+            } else {
+                serviceResult.setStatus(ServiceStatus.SUCCESS);
+                serviceResult.setData(listOrderPendingByCustomer);
+                return serviceResult;
+            }
+        }
+        return serviceResult;
+    }
+
 
     private ServiceResult saveOrdersWithFullApartment(Order orders, ServiceResult serviceResult, Date startTimeOrders, Date endTimeOrders, Date nowDate, Long priceApartment, List<Order> listOrders, User user ) {
         Collections.sort(listOrders);
