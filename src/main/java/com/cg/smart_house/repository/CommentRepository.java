@@ -12,7 +12,7 @@ import java.util.List;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment,Long> {
-    Comment findByUserAndApartmentAndEndTimeRent(User user, Apartment apartment, Date startTimeRent);
+    Comment findByUserAndApartmentAndStartTimeRent(User user, Apartment apartment, Date startTimeRent);
 
     List<Comment> findAllByApartment(Apartment apartment);
 }
