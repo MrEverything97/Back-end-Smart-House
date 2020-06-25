@@ -30,9 +30,9 @@ public class UserController {
         return new ResponseEntity<>(userService.updateUser(user), HttpStatus.OK);
     }
 
-    @PutMapping("/changePasswordUser")
+    @PutMapping("/changePassword")
     @PreAuthorize("hasRole('CUSTOMER') or hasRole('HOST')")
-    public ResponseEntity<ServiceResult> updateUser(Principal principal, @RequestParam("oldPassword") String oldPassword,
+    public ResponseEntity<ServiceResult> changePassword(Principal principal, @RequestParam("oldPassword") String oldPassword,
                                                     @RequestParam("newPassWord") String newPassWord) {
         Optional<User> userOptional = userRepository.findByUsername(principal.getName());
         if (!userOptional.isPresent()){
