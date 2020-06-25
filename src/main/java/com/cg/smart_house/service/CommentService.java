@@ -9,4 +9,6 @@ public interface CommentService {
     ServiceResult createComment(String comment, Long idOrder, Long idUser);
 
     ServiceResult findAllCommentByApartment(Long idApartment);
+
+    ServiceResult addComment(String comment, Long apartmentId, String username);
 }

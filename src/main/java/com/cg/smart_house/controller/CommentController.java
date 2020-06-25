@@ -43,8 +43,14 @@ public class CommentController {
     }
 
     @GetMapping("/listComment/{idApartment}")
-    @PreAuthorize("hasRole('CUSTOMER') or hasRole('HOST')")
     public ResponseEntity<ServiceResult> listComment(@PathVariable Long idApartment){
         return new ResponseEntity<>(commentService.findAllCommentByApartment(idApartment),HttpStatus.OK);
+    }
+
+    @PostMapping("/addComment/{apartmentId}")
+    @PreAuthorize("hasRole('CUSTOMER')")
+    public ResponseEntity<ServiceResult> addComment(@RequestParam String comment,@PathVariable Long apartmentId,Principal principal){
+        String username = principal.getName();
+        return new ResponseEntity<>(commentService.addComment(comment,apartmentId,username),HttpStatus.OK);
     }
 }

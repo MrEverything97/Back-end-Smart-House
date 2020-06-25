@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Optional;
 
 @Service
@@ -72,6 +73,37 @@ public class CommentServiceImpl implements CommentService {
         } else {
             serviceResult.setStatus(ServiceStatus.SUCCESS);
             serviceResult.setData(listComment);
+        }
+        return serviceResult;
+    }
+
+    @Override
+    public ServiceResult addComment(String comment, Long apartmentId, String username) {
+        ServiceResult serviceResult = new ServiceResult();
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        Optional<Apartment> apartmentOptional = apartmentRepository.findById(apartmentId);
+        if(!apartmentOptional.isPresent() || !userOptional.isPresent()){
+            serviceResult.setStatus(ServiceStatus.FAILED);
+            return serviceResult;
+        }
+        User user = userOptional.get();
+        Apartment apartment = apartmentOptional.get();
+        List<Comment> apartmentCommentList = apartment.getComments();
+        int countByApartment = (int) apartmentCommentList.stream().filter(comment1 -> comment1.getUser().getId().equals(user.getId())).count();
+        int countByOrder;
+        List<Order> userOrderList = ordersRepository.findAllByUser(user);
+        countByOrder = (int) userOrderList.stream().filter(order -> order.getApartment().getId().equals(apartment.getId()) && order.getStatusOrders().equals(StatusOrders.RENTED)).count();
+        if(countByOrder > countByApartment){
+            Comment newComment = new Comment();
+            newComment.setComment(comment);
+            newComment.setApartment(apartment);
+            newComment.setUser(user);
+            commentRepository.save(newComment);
+            serviceResult.setStatus(ServiceStatus.SUCCESS);
+            serviceResult.setData(newComment);
+            serviceResult.setMessage("Comment success");
+        } else {
+            serviceResult.setStatus(ServiceStatus.FAILED);
         }
         return serviceResult;
     }

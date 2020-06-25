@@ -48,6 +48,9 @@ public class Apartment {
             inverseJoinColumns = @JoinColumn(name = "room_type_id"))
     private List<RoomType> roomTypes;
 
+    @OneToMany(mappedBy = "apartment")
+    List<Comment> comments;
+
     public Apartment() {
     }
 

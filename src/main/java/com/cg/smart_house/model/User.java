@@ -35,6 +35,8 @@ public class User {
     @JoinColumn(name = "role_id")
     private Role role;
 
+    @OneToMany(mappedBy = "user")
+    private List<Comment> comments;
 
     public User(){};
     public User(String name, String username, String email, String phone, String password) {
@@ -44,6 +46,8 @@ public class User {
         this.phone = phone;
         this.password = password;
     }
+
+
 
 
 }
