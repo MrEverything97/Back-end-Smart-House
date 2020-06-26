@@ -6,4 +6,5 @@ public interface UserService  {
     ServiceResult updateUser(User user,String username);
 
     ServiceResult changePassword(User user, String checkPassword, String newPassword);
+    ServiceResult getByUserName(String username);
 }

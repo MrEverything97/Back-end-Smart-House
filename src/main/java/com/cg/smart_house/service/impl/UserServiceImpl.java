@@ -61,4 +61,16 @@ public class UserServiceImpl implements UserService {
         }
         return serviceResult;
     }
+
+    @Override
+    public ServiceResult getByUserName( String username) {
+        ServiceResult serviceResult = new ServiceResult();
+        Optional<User> optionalUser = userRepository.findByUsername(username);
+        if(!optionalUser.isPresent()) {
+            serviceResult.setMessage("No found user");
+            serviceResult.setStatus(ServiceStatus.FAILED);
+            return serviceResult;
+        }else serviceResult.setData(optionalUser);
+        return serviceResult;
+    }
 }

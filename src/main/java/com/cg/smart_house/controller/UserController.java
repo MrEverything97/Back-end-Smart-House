@@ -2,6 +2,7 @@ package com.cg.smart_house.controller;
 
 
 import com.cg.smart_house.model.User;
+import com.cg.smart_house.repository.UserRepository;
 import com.cg.smart_house.service.ServiceResult;
 import com.cg.smart_house.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,13 +34,23 @@ public class UserController {
 
     @PutMapping("/changePassword")
     @PreAuthorize("hasRole('CUSTOMER') or hasRole('HOST')")
-    public ResponseEntity<ServiceResult> changePassword(Principal principal, @RequestParam("oldPassword") String oldPassword,
-                                                    @RequestParam("newPassWord") String newPassWord) {
+    public ResponseEntity<ServiceResult> changePassword(Principal principal, @RequestParam(value = "oldPassword") String oldPassword,
+                                                    @RequestParam(value = "newPassWord") String newPassWord) {
         Optional<User> userOptional = userRepository.findByUsername(principal.getName());
         if (!userOptional.isPresent()){
             throw new RuntimeException("Not found");
         }
         User user = userOptional.get();
         return new ResponseEntity<>(userService.changePassword(user, oldPassword, newPassWord), HttpStatus.OK);
+    }
+
+    @GetMapping("/getUser")
+    @PreAuthorize("hasRole('CUSTOMER') or hasRole('HOST')")
+    public ResponseEntity<User> getUserByUsername(Principal principal){
+        Optional<User> user = userRepository.findByUsername(principal.getName());
+        if (!user.isPresent()){
+            throw  new RuntimeException("Not found");
+        }
+        return new ResponseEntity<>(user.get(),HttpStatus.OK);
     }
 }
