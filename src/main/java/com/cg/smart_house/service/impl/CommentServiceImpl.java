@@ -1,5 +1,6 @@
 package com.cg.smart_house.service.impl;
 
+import com.cg.smart_house.dto.CommentDto;
 import com.cg.smart_house.enumm.ServiceStatus;
 import com.cg.smart_house.enumm.StatusOrders;
 import com.cg.smart_house.model.Apartment;
@@ -17,6 +18,7 @@ import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Optional;
@@ -66,13 +68,17 @@ public class CommentServiceImpl implements CommentService {
         serviceResult.setStatus(ServiceStatus.FAILED);
 
         Optional<Apartment> apartmentOptional = apartmentRepository.findById(idApartment);
+        if(!apartmentOptional.isPresent()){
+            return serviceResult;
+        }
 
         List<Comment> listComment = commentRepository.findAllByApartment(apartmentOptional.get());
+        List<CommentDto> commentDtoList = convertToCommentDtoList(listComment);
         if (listComment.isEmpty()) {
             serviceResult.setMessage("No comment apartment");
         } else {
             serviceResult.setStatus(ServiceStatus.SUCCESS);
-            serviceResult.setData(listComment);
+            serviceResult.setData(commentDtoList);
         }
         return serviceResult;
     }
@@ -100,11 +106,27 @@ public class CommentServiceImpl implements CommentService {
             newComment.setUser(user);
             commentRepository.save(newComment);
             serviceResult.setStatus(ServiceStatus.SUCCESS);
-            serviceResult.setData(newComment);
+            serviceResult.setData(convertToCommentDto(newComment));
             serviceResult.setMessage("Comment success");
         } else {
             serviceResult.setStatus(ServiceStatus.FAILED);
         }
         return serviceResult;
+    }
+
+    private CommentDto convertToCommentDto(Comment comment){
+        CommentDto commentDto = new CommentDto();
+        commentDto.setComment(comment.getComment());
+        commentDto.setUsername(comment.getUser().getUsername());
+        commentDto.setRate(comment.getRate());
+        return commentDto;
+    }
+
+    private List<CommentDto> convertToCommentDtoList(List<Comment> commentList){
+        List<CommentDto> commentDtoList = new ArrayList<>();
+        commentList.forEach(comment -> {
+            commentDtoList.add(convertToCommentDto(comment));
+        });
+        return commentDtoList;
     }
 }

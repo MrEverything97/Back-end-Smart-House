@@ -20,6 +20,8 @@ public class Comment {
 
     private Date endTimeRent;
 
+    private Long rate;
+
     @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @JoinColumn(name = "apartment_id")
