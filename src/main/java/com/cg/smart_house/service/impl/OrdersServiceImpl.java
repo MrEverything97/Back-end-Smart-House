@@ -103,8 +103,8 @@ public class OrdersServiceImpl implements OrdersService {
         Date nowDate = new Date();
         Calendar c1 = Calendar.getInstance();
         Calendar c2 = Calendar.getInstance();
-        c1.setTime(startTimeOrders);
-        c2.setTime(endTimeOrders);
+        c1.setTimeInMillis(startTimeOrders.getTime() + 1);
+        c2.setTimeInMillis(endTimeOrders.getTime() - 1);
         long countDayOrders = (c2.getTime().getTime() - c1.getTime().getTime()) / (24 * 3600 * 1000);
         Long priceApartment = apartment.get().getPriceByDate() * countDayOrders;
 
@@ -113,7 +113,7 @@ public class OrdersServiceImpl implements OrdersService {
         if (listOrders.isEmpty()) {
             return saveOrdersWithEmptyApartment(orders, serviceResult, priceApartment, user);
         } else
-            return saveOrdersWithFullApartment(orders, serviceResult, startTimeOrders, endTimeOrders, nowDate, priceApartment, listOrders, user);
+            return saveOrdersWithFullApartment(orders, serviceResult, c1.getTime(), c2.getTime(), nowDate, priceApartment, listOrders, user);
     }
 
     @Override
