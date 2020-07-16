@@ -17,6 +17,7 @@ public class Apartment {
     private int bathroom;
     private int bedroom;
     private int priceByDate;
+    @Column(columnDefinition = "text",length = 50000)
     private String description;
 
     @OneToMany(mappedBy = "apartment")
